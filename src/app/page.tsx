@@ -1,11 +1,33 @@
 'use client';
 
+import { LoadingSkeleton } from '@/components/layout/skeleton';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <h1>Welcome to Hansung Admin</h1>
-      </main>
-    </div>
-  );
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    // console.log("🔄 Home page useEffect");
+    // console.log("📊 Session status:", status);
+    // console.log("📊 Session data:", session);
+
+    if (status === 'loading') {
+      console.log('⏳ Session is loading...');
+      return;
+    }
+
+    if (session) {
+      // console.log('✅ Redirecting to /user');
+      router.push('/');
+      return;
+    }
+
+    // console.log("❌ Redirecting to /login");
+    router.push('/login');
+  }, [session, status, router]);
+
+  return <LoadingSkeleton />;
 }
