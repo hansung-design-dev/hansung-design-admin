@@ -1,31 +1,22 @@
-import { Metadata, Viewport } from 'next';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
-import React from 'react';
-//import ClientProviders from '@/components/providers/client-providers';
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1.0,
-};
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'hansung-admin',
-  description: 'hansung design admin service',
-  icons: {
-    icon: '/image/logo.svg',
-  },
+  title: 'Hansung Admin',
+  description: 'Hansung Design Admin Service',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className="scrollbar-hide">
-      <body className="font-pretendard">
-        <div>{children}</div>
-      </body>
+    <html lang="ko">
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
