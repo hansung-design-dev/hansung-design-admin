@@ -1,7 +1,7 @@
 import { Metadata, Viewport } from 'next';
 import './globals.css';
 import React from 'react';
-import ClientProviders from '@/components/providers/client-providers';
+//import ClientProviders from '@/components/providers/client-providers';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -22,9 +22,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scrollbar-hide" suppressHydrationWarning>
+    <html lang="en" className="scrollbar-hide">
       <body className="font-pretendard">
-        <ClientProviders>{children}</ClientProviders>
+        <div>{children}</div>
       </body>
     </html>
   );
