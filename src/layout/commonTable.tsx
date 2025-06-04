@@ -41,7 +41,7 @@ export function CommonTable<T>({
             {columns.map((col) => (
               <th
                 key={col.key}
-                className={`text-left px-4 py-2 font-semibold bg-white ${headerClassName} ${
+                className={`text-center align-middle px-4 py-2 text-0-75-500 text-gray-1 bg-white ${headerClassName} ${
                   col.className ?? ''
                 }`}
               >
@@ -54,7 +54,7 @@ export function CommonTable<T>({
           {data.map((row, rowIndex) => (
             <tr
               key={rowIndex}
-              className={` divide-y-[0.1rem] divide-gray-2 w-full hover:bg-gray-3 ${
+              className={`hover:bg-gray-3 text-0-875-500 ${
                 typeof rowClassName === 'function'
                   ? rowClassName(row, rowIndex)
                   : rowClassName
@@ -63,7 +63,9 @@ export function CommonTable<T>({
               {columns.map((col) => (
                 <td
                   key={col.key}
-                  className={`px-4 py-2  ${col.className ?? ''}`}
+                  className={`text-center align-middle px-4 py-[0.87rem] border-b border-gray-2 ${
+                    col.className ?? ''
+                  }`}
                 >
                   {col.render ? (
                     col.render(row, rowIndex)

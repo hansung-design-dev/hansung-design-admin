@@ -80,7 +80,7 @@ const columns: TableColumn<RowType>[] = [
   { key: 'location', header: '위치' },
   {
     key: 'firstPeriod',
-    header: '전반기 기간',
+    header: '전반기',
     render: (row) =>
       `${formatDate(row.firstPeriodFrom)} ~ ${formatDate(row.firstPeriodTo)}`,
   },
@@ -91,7 +91,7 @@ const columns: TableColumn<RowType>[] = [
   },
   {
     key: 'secondPeriod',
-    header: '후반기 기간',
+    header: '후반기',
     render: (row) =>
       `${formatDate(row.secondPeriodFrom)} ~ ${formatDate(row.secondPeriodTo)}`,
   },
