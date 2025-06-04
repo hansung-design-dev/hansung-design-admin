@@ -11,6 +11,9 @@
   --color-black: #131313;
   --color-red: #dd204e;
   --color-white: #ffffff;
+  --color-gray-1: #52504c;
+  --color-gray-2: #d9d9d9;
+  --color-gray-3: #f8f8f8;
 
   --font-pretendard: 'Pretendard', sans-serif;
 }
@@ -22,10 +25,7 @@ html {
 :root {
   --background: white;
   --foreground: #181c32;
-  --pretendard: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui,
-    Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR',
-    'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-    sans-serif;
+  --pretendard: 'Pretendard', sans-serif;
 
   /* Font Sizes */
   --text-0-5: 0.5rem;

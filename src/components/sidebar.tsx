@@ -3,28 +3,33 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useMenu } from '@/components/providers/menu-provider';
 
-const menuItems = [
-  { name: '현수막게시대', href: '/banner' },
-  { name: 'LED전자게시대', href: '/led' },
-  { name: '디지털사이니지', href: '/digital-signage' },
-  { name: '공공디자인', href: '/public-design' },
-  { name: '신청현황', href: '/applications' },
-  { name: '온라인회원관리', href: '/members' },
-  { name: '홈페이지관리', href: '/website' },
-  { name: '상담관리', href: '/counseling' },
+const menuItems: { id: number; name: string; href: string }[] = [
+  { id: 1, name: '현수막게시대', href: '/banner-display' },
+  { id: 2, name: 'LED전자게시대', href: '/led-display' },
+  { id: 3, name: '디지털사이니지', href: '/digital-signage' },
+  { id: 4, name: '공공디자인', href: '/public-design' },
+  { id: 5, name: '신청현황', href: '/application-status' },
+  { id: 6, name: '온라인회원관리', href: '/manage-members' },
+  { id: 7, name: '홈페이지관리', href: '/manage-hompage' },
+  { id: 8, name: '상담관리', href: '/customer-service' },
 ];
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedMenu, setSelectedMenu] = useState('');
+  const pathname = usePathname();
+  const router = useRouter();
+  const { setSelectedMenu } = useMenu();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    <div className="fixed left-0 top-0 h-screen">
+    <div className="fixed left-0 top-0 h-screen z-10">
       {/* Collapsed Sidebar */}
       <div
         className={`h-full bg-black transition-all duration-300 ${
@@ -35,21 +40,25 @@ export default function Sidebar() {
           {/* Logo */}
           <div className="mb-8">
             {isOpen ? (
-              <Image
-                src="/image/hansung-logo.png"
-                alt="Hansung Logo"
-                width={200}
-                height={87}
-                className="w-auto h-auto"
-              />
+              <button onClick={() => router.push('/')}>
+                <Image
+                  src="/image/hansung-logo.png"
+                  alt="Hansung Logo"
+                  width={200}
+                  height={87}
+                  className="w-auto h-auto"
+                />{' '}
+              </button>
             ) : (
-              <Image
-                src="/svg/hansung-logo-w.svg"
-                alt="Hansung Logo"
-                width={43.82}
-                height={19}
-                className="w-[2.73856rem] h-[1.1875rem]"
-              />
+              <button onClick={() => router.push('/')}>
+                <Image
+                  src="/svg/hansung-logo-w.svg"
+                  alt="Hansung Logo"
+                  width={43.82}
+                  height={19}
+                  className="w-[2.73856rem] h-[1.1875rem]"
+                />
+              </button>
             )}
           </div>
 
@@ -142,12 +151,12 @@ export default function Sidebar() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={() => setSelectedMenu(item.name)}
                   className={`block py-4 text-1-500 hover:text-1-700 ${
-                    selectedMenu === item.href
-                      ? 'text-1-700 border-b border-b-[1rem]'
+                    pathname === item.href
+                      ? 'text-1-700 border-b border-b-[0.1rem]'
                       : ''
                   }`}
-                  onClick={() => setSelectedMenu(item.href)}
                 >
                   {item.name}
                 </Link>

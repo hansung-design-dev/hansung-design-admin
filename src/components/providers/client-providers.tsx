@@ -4,6 +4,7 @@ import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
+import { MenuProvider } from '@/components/providers/menu-provider';
 
 export default function ClientProviders({
   children,
@@ -28,7 +29,7 @@ export default function ClientProviders({
     <QueryClientProvider client={queryClient}>
       <SessionProvider>
         <ThemeProvider enableSystem={true} attribute="class">
-          {children}
+          <MenuProvider>{children}</MenuProvider>
         </ThemeProvider>
       </SessionProvider>
     </QueryClientProvider>
