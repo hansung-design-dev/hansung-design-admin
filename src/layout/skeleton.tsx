@@ -9,7 +9,7 @@ interface SkeletonProps {
 export const Skeleton = ({ className }: SkeletonProps) => {
   return (
     <div
-      className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded ${className}`}
+      className={`animate-pulse bg-gray-200 :bg-gray-700 rounded ${className}`}
     />
   );
 };
@@ -18,7 +18,7 @@ export const DietTableSkeleton = () => {
   return (
     <div className="space-y-4">
       {/* 테이블 헤더 스켈레톤 */}
-      <div className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-lg">
+      <div className="flex items-center gap-4 p-4 bg-whit rounded-lg">
         <Skeleton className="h-8 w-32" />
         <Skeleton className="h-8 w-32" />
         <Skeleton className="h-8 w-32" />
@@ -26,10 +26,7 @@ export const DietTableSkeleton = () => {
 
       {/* 테이블 로우 스켈레톤 */}
       {[...Array(5)].map((_, i) => (
-        <div
-          key={i}
-          className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-lg"
-        >
+        <div key={i} className="flex items-center gap-4 p-4 bg-whit rounded-lg">
           <Skeleton className="h-6 w-24" />
           <Skeleton className="h-6 w-32" />
           <Skeleton className="h-6 w-40" />
@@ -59,16 +56,14 @@ export const LoadingSkeleton = () => {
       </div>
 
       {/* 로딩 텍스트 */}
-      <div className="text-gray-600 dark:text-gray-300">
-        잠시만 기다려주세요...
-      </div>
+      <div className="text-gray-600 ">잠시만 기다려주세요...</div>
     </div>
   );
 };
 
 export const ChallengeDashboardSkeleton = () => {
   return (
-    <div className="bg-white-1 dark:bg-blue-4 flex flex-col h-screen overflow-hidden sm:px-[1rem] md:px-[0.4rem]">
+    <div className="bg-white-1 flex flex-col h-screen overflow-hidden sm:px-[1rem] md:px-[0.4rem]">
       {/* 헤더 스켈레톤 */}
       <div className="flex justify-end pr-[2rem] py-4">
         <Skeleton className="h-6 w-32" />
@@ -76,7 +71,7 @@ export const ChallengeDashboardSkeleton = () => {
 
       <div className="flex gap-[1rem] flex-1 sm:flex-col md:flex-col">
         {/* 사이드바 스켈레톤 */}
-        <div className="w-[15rem] sm:w-full md:w-full p-4 bg-white dark:bg-gray-800 rounded-lg">
+        <div className="w-[15rem] sm:w-full md:w-full p-4 bg-white  rounded-lg">
           <Skeleton className="h-8 w-full mb-4" />
           {[...Array(5)].map((_, i) => (
             <Skeleton key={i} className="h-6 w-full mt-2" />
@@ -91,7 +86,7 @@ export const ChallengeDashboardSkeleton = () => {
           {/* 통계 카드 스켈레톤 */}
           <div className="grid grid-cols-3 gap-4 mb-6 sm:grid-cols-1">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="bg-white dark:bg-gray-800 p-4 rounded-lg">
+              <div key={i} className="bg-white  p-4 rounded-lg">
                 <Skeleton className="h-6 w-32 mb-2" />
                 <Skeleton className="h-8 w-24" />
               </div>
@@ -103,7 +98,7 @@ export const ChallengeDashboardSkeleton = () => {
             {[...Array(3)].map((_, i) => (
               <div
                 key={i}
-                className="col-span-2 bg-white dark:bg-gray-800 p-4 rounded-lg h-[300px]"
+                className="col-span-2 bg-white  p-4 rounded-lg h-[300px]"
               >
                 <Skeleton className="h-full w-full" />
               </div>
@@ -111,7 +106,7 @@ export const ChallengeDashboardSkeleton = () => {
           </div>
 
           {/* 테이블 스켈레톤 */}
-          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
+          <div className="bg-white  p-4 rounded-lg">
             <DietTableSkeleton />
           </div>
         </div>
@@ -124,7 +119,7 @@ export const DietPageSkeleton = () => {
   return (
     <div className="flex">
       {/* 사이드바 스켈레톤 */}
-      <div className="w-[15rem] sm:w-full md:w-full p-4 bg-white dark:bg-gray-800 rounded-lg">
+      <div className="w-[15rem] sm:w-full md:w-full p-4 bg-white rounded-lg">
         <Skeleton className="h-8 w-full mb-4" />
         {[...Array(5)].map((_, i) => (
           <Skeleton key={i} className="h-6 w-full mt-2" />
@@ -136,7 +131,7 @@ export const DietPageSkeleton = () => {
         {/* 통계 섹션 스켈레톤 */}
         <div className="grid grid-cols-4 gap-4 mb-6 sm:grid-cols-2">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white dark:bg-gray-800 p-4 rounded-lg">
+            <div key={i} className="bg-white p-4 rounded-lg">
               <Skeleton className="h-6 w-24 mb-2" />
               <Skeleton className="h-8 w-16" />
             </div>
@@ -144,7 +139,7 @@ export const DietPageSkeleton = () => {
         </div>
 
         {/* 캘린더 섹션 스켈레톤 */}
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg mb-6">
+        <div className="bg-white p-4 rounded-lg mb-6">
           <Skeleton className="h-8 w-48 mb-4" />
           <div className="grid grid-cols-7 gap-2">
             {[...Array(7)].map((_, i) => (
@@ -154,16 +149,13 @@ export const DietPageSkeleton = () => {
         </div>
 
         {/* 식단 컨텐츠 스켈레톤 */}
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
+        <div className="bg-white p-4 rounded-lg">
           {[...Array(3)].map((_, i) => (
             <div key={i} className="mb-6">
               <Skeleton className="h-8 w-32 mb-4" />
               <div className="grid grid-cols-3 gap-4 sm:grid-cols-1">
                 {[...Array(3)].map((_, j) => (
-                  <div
-                    key={j}
-                    className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"
-                  >
+                  <div key={j} className="bg-gray-50 p-4 rounded-lg">
                     <Skeleton className="h-6 w-24 mb-2" />
                     <Skeleton className="h-32 w-full mb-2" />
                     <Skeleton className="h-4 w-full" />
