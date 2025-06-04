@@ -56,10 +56,10 @@ body {
   box-sizing: border-box;
 }
 
-[data-theme='dark'] {
+/* [data-theme='dark'] {
   --background: #181c32;
   --foreground: white;
-}
+} */
 
 @layer utilities {
   .text-balance {
