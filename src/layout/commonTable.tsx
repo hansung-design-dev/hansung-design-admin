@@ -35,7 +35,7 @@ export function CommonTable<T>({
 }: CommonTableProps<T>) {
   return (
     <div className={`overflow-x-auto ${className}`} style={style}>
-      <table className="min-w-full border-separate border-spacing-0">
+      <table className="border-separate border-spacing-0 w-full table-fixed">
         <thead style={theadStyle}>
           <tr>
             {columns.map((col) => (
