@@ -1,107 +1,149 @@
-import Image from 'next/image';
+'use client';
+
+//import React, { useState } from 'react';
 import Sidebar from '@/components/sidebar';
+// import { BoxedTableWrapper } from '@/layout/BoxedTableWrapper';
+// import { CommonTable, TableColumn } from '@/layout/CommonTable';
+// import { Checkbox } from '@/components/ui/Checkbox';
+
+// 1. 데이터 타입 정의
+// interface RowType {
+//   id: number;
+//   locationName: string;
+//   photo: boolean;
+//   location: boolean;
+//   map: boolean;
+//   admin: string;
+//   postDays: string;
+//   amount: number;
+//   size: string;
+//   count: number;
+//   close: number;
+//   isAdmin: boolean;
+//   note: string;
+//   isBatchClose: boolean;
+// }
 
 export default function Home() {
+  // const datadata: RowType[] = [
+  //   {
+  //     id: 1,
+  //     locationName: '(상업용) 흥운초교(홍제동286-12)',
+  //     photo: true,
+  //     location: true,
+  //     map: true,
+  //     admin: '연희동',
+  //     postDays: '15일',
+  //     amount: 0,
+  //     size: '480*70cm',
+  //     count: 6,
+  //     close: 2,
+  //     isAdmin: true,
+  //     note: '업로드됨',
+  //     isBatchClose: false,
+  //   },
+  //   {
+  //     id: 2,
+  //     locationName: '(행정용) 대림아파트앞(연희동 산66-2)',
+  //     photo: false,
+  //     location: false,
+  //     map: false,
+  //     admin: '연희동',
+  //     postDays: '15일',
+  //     amount: 0,
+  //     size: '480*70cm',
+  //     count: 6,
+  //     close: 2,
+  //     isAdmin: false,
+  //     note: '-',
+  //     isBatchClose: true,
+  //   },
+  //   {
+  //     id: 3,
+  //     locationName: '(행정용) 대림아파트앞(연희동 산66-2)',
+  //     photo: true,
+  //     location: false,
+  //     map: true,
+  //     admin: '연희동',
+  //     postDays: '15일',
+  //     amount: 0,
+  //     size: '480*70cm',
+  //     count: 6,
+  //     close: 2,
+  //     isAdmin: false,
+  //     note: '-',
+  //     isBatchClose: false,
+  //   },
+  // ];
+  // const [data, setData] = useState<RowType[]>(datadata);
+
+  // const columns: TableColumn<RowType>[] = [
+  //   { key: 'id', header: '고유번호' },
+  //   { key: 'locationName', header: '위치명' },
+  //   {
+  //     key: 'photo',
+  //     header: '사진',
+  //     render: (row) =>
+  //       row.photo ? <span className="">업로드됨</span> : <span>-</span>,
+  //   },
+  //   {
+  //     key: 'location',
+  //     header: '위치',
+  //     render: (row) =>
+  //       row.location ? (
+  //         <span className="">업로드됨</span>
+  //       ) : (
+  //         <span className="text-gray-400">-</span>
+  //       ),
+  //   },
+  //   {
+  //     key: 'map',
+  //     header: '지도',
+  //     render: (row) =>
+  //       row.map ? (
+  //         <span className="">업로드됨</span>
+  //       ) : (
+  //         <span className="text-gray-400">-</span>
+  //       ),
+  //   },
+  //   { key: 'admin', header: '행정동' },
+  //   { key: 'postDays', header: '게시일수' },
+  //   { key: 'amount', header: '금액' },
+  //   { key: 'size', header: '규격' },
+  //   { key: 'count', header: '면수' },
+  //   { key: 'close', header: '마감' },
+  //   {
+  //     key: 'isAdmin',
+  //     header: '행정용',
+  //     render: (row, rowIndex) => (
+  //       <Checkbox
+  //         checked={row.isAdmin}
+  //         onChange={() => {
+  //           setData((prev) =>
+  //             prev.map((item, idx) =>
+  //               idx === rowIndex ? { ...item, isAdmin: !item.isAdmin } : item
+  //             )
+  //           );
+  //         }}
+  //       />
+  //     ),
+  //   },
+  //   { key: 'note', header: '비고' },
+  //   {
+  //     key: 'isBatchClose',
+  //     header: '일괄마감',
+  //     render: (row) => (
+  //       <Checkbox checked={row.isBatchClose} onChange={() => {}} readOnly />
+  //     ),
+  //   },
+  // ];
+
   return (
     <>
       <Sidebar />
-      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-        <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-          <Image
-            className="dark:invert"
-            src="/next.svg"
-            alt="Next.js logo"
-            width={180}
-            height={38}
-            priority
-          />
-          <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-            <li className="mb-2 tracking-[-.01em] lg:text-red-500 sm:text-black text-1-5-500">
-              Get started by editing{' '}
-              <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-                src/app/page.tsx
-              </code>
-              .
-            </li>
-            <li className="tracking-[-.01em]">
-              Save and see your changes instantly.
-            </li>
-          </ol>
 
-          <div className="flex gap-4 items-center flex-col sm:flex-row">
-            <a
-              className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                className="dark:invert"
-                src="/vercel.svg"
-                alt="Vercel logomark"
-                width={20}
-                height={20}
-              />
-              Deploy now
-            </a>
-            <a
-              className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Read our docs
-            </a>
-          </div>
-        </main>
-        <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-          <a
-            className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              aria-hidden
-              src="/file.svg"
-              alt="File icon"
-              width={16}
-              height={16}
-            />
-            Learn
-          </a>
-          <a
-            className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              aria-hidden
-              src="/window.svg"
-              alt="Window icon"
-              width={16}
-              height={16}
-            />
-            Examples
-          </a>
-          <a
-            className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-            href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              aria-hidden
-              src="/globe.svg"
-              alt="Globe icon"
-              width={16}
-              height={16}
-            />
-            Go to nextjs.org →
-          </a>
-        </footer>
-      </div>
+      {/* <BoxedTableWrapper />
+      <CommonTable columns={columns} data={data} /> */}
     </>
   );
 }
