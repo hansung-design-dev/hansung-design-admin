@@ -18,10 +18,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Fitculator-admin',
-  description: 'fitculator io',
+  title: 'Hansung-admin',
+  description: 'Handung-design admin',
   icons: {
-    icon: '/image/logo-icon.png',
+    icon: '/image/hansung-logo.png',
   },
 };
 

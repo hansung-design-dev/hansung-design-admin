@@ -1,27 +1,6 @@
-'use client';
-import { CommonTable, TableColumn } from '@/layout/commonTable';
-import Header from '@/components/layout/header';
-import Button from '@/components/ui/button';
-import Image from 'next/image';
-import Checkbox from '@/components/ui/checkbox';
-import { useRouter } from 'next/navigation';
+import { TableColumn } from '@/layout/commonTable';
 
-// 1. 구 코드-이름 매핑 (실제 DB에서는 code만 저장, name은 프론트에서 매핑)
-// const districts = [
-//   { code: 'seodaemun', name: '서대문구' },
-//   { code: 'yongsan', name: '용산구' },
-//   { code: 'gwanak', name: '관악구' },
-//   { code: 'songpa', name: '송파구' },
-//   { code: 'mapo', name: '마포구' },
-// ];
-
-// const getDistrictCode = (name: string) =>
-//   districts.find((d) => d.name === name)?.code || name;
-//const getDistrictName = (code: string) =>
-//  districts.find((d) => d.code === code)?.name || code;
-
-// 2. board_schedule 테이블 구조에 맞춘 타입 및 목데이터
-interface BoardSchedule {
+export interface BoardSchedule {
   id: string;
   district_name: string; // ex. 서대문구
   category: string; // 'banner' | 'led'
@@ -41,7 +20,7 @@ interface BoardSchedule {
   updated_at: Date;
 }
 
-const mockData: BoardSchedule[] = [
+export const mockData: BoardSchedule[] = [
   {
     id: '1',
     district_name: '서대문구',
@@ -139,30 +118,30 @@ const mockData: BoardSchedule[] = [
   },
 ];
 
-function formatDate(date: Date) {
+export function formatDate(date: Date) {
   return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(
     2,
     '0'
   )}/${String(date.getDate()).padStart(2, '0')}`;
 }
 
-const columns: TableColumn<BoardSchedule>[] = [
+export const columns: TableColumn<BoardSchedule>[] = [
   { key: 'district_name', header: '위치' },
   {
     key: 'first_half_period',
     header: '전반기',
-    render: (row) =>
+    render: (row: BoardSchedule) =>
       `${formatDate(row.first_half_start)} ~ ${formatDate(row.first_half_end)}`,
   },
   {
     key: 'first_half_deadline_count',
     header: '마감수',
-    render: (row) => row.first_half_deadline_count,
+    render: (row: BoardSchedule) => row.first_half_deadline_count,
   },
   {
     key: 'second_half_period',
     header: '후반기',
-    render: (row) =>
+    render: (row: BoardSchedule) =>
       `${formatDate(row.second_half_start)} ~ ${formatDate(
         row.second_half_end
       )}`,
@@ -170,38 +149,6 @@ const columns: TableColumn<BoardSchedule>[] = [
   {
     key: 'second_half_deadline_count',
     header: '마감수',
-    render: (row) => row.second_half_deadline_count,
+    render: (row: BoardSchedule) => row.second_half_deadline_count,
   },
 ];
-
-export default function LedDisplay() {
-  const router = useRouter();
-
-  return (
-    <div className="pt-16 px-8 ml-[5rem]">
-      <Header />
-      <div className=" flex items-center gap-4 justify-between py-4">
-        <div className="text-0-75-500 text-gray-1 flex items-center gap-2">
-          <Checkbox
-            checked={true}
-            onChange={() => {}}
-            className="w-[1.25rem] h-[1.25rem]"
-          />
-          사용 안하는 게시대 제외
-        </div>
-        <Button size="M">
-          <Image src="/svg/plus.svg" alt="logo" width={20} height={20} />
-          추가
-        </Button>
-      </div>
-
-      <CommonTable
-        columns={columns}
-        data={mockData}
-        tableClick={(row) => {
-          router.push(`/banner-display/${row.id}`);
-        }}
-      />
-    </div>
-  );
-}
