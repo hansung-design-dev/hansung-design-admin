@@ -17,6 +17,7 @@ export interface CommonTableProps<T> {
   style?: React.CSSProperties;
   theadStyle?: React.CSSProperties;
   tbodyStyle?: React.CSSProperties;
+  tableClick?: (row: T, rowIndex: number) => void;
 }
 
 function getValue<T>(row: T, key: string): unknown {
@@ -32,6 +33,7 @@ export function CommonTable<T>({
   style = {},
   theadStyle = {},
   tbodyStyle = {},
+  tableClick,
 }: CommonTableProps<T>) {
   return (
     <div className={`overflow-x-auto ${className}`} style={style}>
@@ -59,6 +61,7 @@ export function CommonTable<T>({
                   ? rowClassName(row, rowIndex)
                   : rowClassName
               }`}
+              onClick={() => tableClick?.(row, rowIndex)}
             >
               {columns.map((col) => (
                 <td
