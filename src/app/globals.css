@@ -95,6 +95,10 @@ body {
     font-size: var(--text-0-75);
     font-weight: 500;
   }
+  .text-0-75-400 {
+    font-size: var(--text-0-75);
+    font-weight: 400;
+  }
   .text-0-875-400 {
     font-size: var(--text-0-875);
     font-weight: 400;
