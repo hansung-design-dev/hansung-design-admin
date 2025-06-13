@@ -1,5 +1,7 @@
 import React from 'react';
 import Checkbox from '@/components/ui/checkbox';
+import AddItem from '@/layout/addItem';
+import SearchInput from '@/layout/searchInput';
 
 export interface TableColumn<T> {
   key: string;
@@ -10,14 +12,16 @@ export interface TableColumn<T> {
 
 export interface CommonTableProps<T> {
   columns: TableColumn<T>[];
-  data: T[];
+  data?: T[];
   className?: string;
   headerClassName?: string;
   rowClassName?: string | ((row: T, rowIndex: number) => string);
   style?: React.CSSProperties;
   theadStyle?: React.CSSProperties;
   tbodyStyle?: React.CSSProperties;
-  tableClick?: (row: T, rowIndex: number) => void;
+  tableRowClick?: (row: T, rowIndex: number) => void;
+  onAddItem?: () => void;
+  searchInput?: boolean;
 }
 
 function getValue<T>(row: T, key: string): unknown {
@@ -33,17 +37,20 @@ export function CommonTable<T>({
   style = {},
   theadStyle = {},
   tbodyStyle = {},
-  tableClick,
+  tableRowClick,
+  onAddItem,
+  searchInput,
 }: CommonTableProps<T>) {
   return (
-    <div className={`overflow-x-auto ${className}`} style={style}>
+    <div className={` ${className}`} style={style}>
+      {searchInput && <SearchInput title="위치조회" className="pb-4" />}
       <table className="border-separate border-spacing-0 w-full table-fixed">
         <thead style={theadStyle}>
           <tr>
             {columns.map((col) => (
               <th
                 key={col.key}
-                className={`text-center align-middle px-2 md:px-4 py-2 text-0-75-500 text-gray-1 bg-white ${headerClassName} ${
+                className={`text-center align-middle px-2 md:px-4 py-2 text-0-75-500 text-gray-1 bg-white  ${headerClassName} ${
                   col.className ?? ''
                 }`}
               >
@@ -53,39 +60,47 @@ export function CommonTable<T>({
           </tr>
         </thead>
         <tbody style={tbodyStyle}>
-          {data.map((row, rowIndex) => (
-            <tr
-              key={rowIndex}
-              className={`hover:bg-gray-3 text-0-75-500 md:text-0-875-500 ${
-                typeof rowClassName === 'function'
-                  ? rowClassName(row, rowIndex)
-                  : rowClassName
-              }`}
-              onClick={() => tableClick?.(row, rowIndex)}
-            >
-              {columns.map((col) => (
-                <td
-                  key={col.key}
-                  className={`text-center align-middle px-2 md:px-4 py-[0.75rem] md:py-[0.87rem] border-b border-gray-2 ${
-                    col.className ?? ''
-                  }`}
-                >
-                  {col.render ? (
-                    col.render(row, rowIndex)
-                  ) : typeof getValue(row, col.key) === 'boolean' ? (
-                    <Checkbox
-                      checked={getValue(row, col.key) as boolean}
-                      onChange={() => {
-                        /* handle change */
-                      }}
-                    />
-                  ) : (
-                    (getValue(row, col.key) as React.ReactNode)
-                  )}
-                </td>
-              ))}
+          {data && data.length > 0 ? (
+            data.map((row, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className={`hover:bg-gray-3 text-0-75-500 md:text-0-875-500 ${
+                  typeof rowClassName === 'function'
+                    ? rowClassName(row, rowIndex)
+                    : rowClassName
+                }`}
+                onClick={() => tableRowClick?.(row, rowIndex)}
+              >
+                {columns.map((col) => (
+                  <td
+                    key={col.key}
+                    className={`text-center align-middle px-2 md:px-4 py-[0.75rem] md:py-[0.87rem] border-b border-gray-2 ${
+                      col.className ?? ''
+                    }`}
+                  >
+                    {col.render ? (
+                      col.render(row, rowIndex)
+                    ) : typeof getValue(row, col.key) === 'boolean' ? (
+                      <Checkbox
+                        checked={getValue(row, col.key) as boolean}
+                        onChange={() => {
+                          /* handle change */
+                        }}
+                      />
+                    ) : (
+                      (getValue(row, col.key) as React.ReactNode)
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={columns.length} className="p-0">
+                <AddItem onClick={onAddItem} />
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

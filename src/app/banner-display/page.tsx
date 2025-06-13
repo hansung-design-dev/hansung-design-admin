@@ -22,7 +22,7 @@ export default function BannerDisplay() {
           />
           사용 안하는 게시대 제외
         </div>
-        <Button size="M">
+        <Button size="S" className="text-0-75-500">
           <Image src="/svg/plus.svg" alt="logo" width={20} height={20} />
           추가
         </Button>
@@ -31,7 +31,7 @@ export default function BannerDisplay() {
       <CommonTable
         columns={columns}
         data={mockData}
-        tableClick={(row) => {
+        tableRowClick={(row) => {
           router.push(`/banner-display/${row.id}`);
         }}
       />

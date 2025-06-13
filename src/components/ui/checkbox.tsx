@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   checked: boolean;
@@ -12,15 +13,29 @@ const Checkbox: React.FC<CheckboxProps> = ({
   ...props
 }) => {
   return (
-    <input
-      type="checkbox"
-      checked={checked}
-      onChange={onChange}
-      className={` rounded border-[1rem] ${
-        checked ? 'accent-black ' : 'accent-gray-2 '
-      } ${className}`}
-      {...props}
-    />
+    <div className={`inline-flex items-center cursor-pointer ${className}`}>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        className="sr-only"
+        {...props}
+      />
+      <span
+        className={`w-[1.1rem] h-[1.1rem] border border-gray-400 rounded flex items-center justify-center bg-white`}
+      >
+        {checked && (
+          <Image
+            src="/svg/checked.svg"
+            alt="check"
+            className="w-full h-full p-0"
+            width={14}
+            height={14}
+          />
+        )}
+      </span>
+    </div>
   );
 };
+
 export default Checkbox;
