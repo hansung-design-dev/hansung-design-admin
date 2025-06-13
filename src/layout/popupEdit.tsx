@@ -3,7 +3,14 @@ import Button from '@/components/ui/button';
 import { useState } from 'react';
 import Checkbox from '@/components/ui/checkbox';
 
-const mockRows = [
+interface PopupRow {
+  id: number;
+  use: string;
+  title: string;
+  period: string;
+}
+
+const mockRows: PopupRow[] = [
   { id: 1, use: '사용', title: '이전 안내', period: '25/06/16 ~ 25/06/30' },
   { id: 2, use: '-', title: '공지사항 안내', period: '25/06/16 ~ 25/06/30' },
   {
@@ -16,11 +23,13 @@ const mockRows = [
   { id: 5, use: '-', title: '5번째 안내', period: '25/06/16 ~ 25/06/30' },
 ];
 
-export default function PopupEdit({
+interface PopupEditProps<T> {
+  handleListRowClick: (row: T) => void;
+}
+
+export default function PopupEdit<T>({
   handleListRowClick,
-}: {
-  handleListRowClick?: (row: any) => void;
-}) {
+}: PopupEditProps<T>) {
   const [rows] = useState(mockRows);
   const [isPosted, setIsPosted] = useState(true);
 
@@ -48,12 +57,7 @@ export default function PopupEdit({
             삭제
           </Button>
         </div>
-        <Button
-          size="S"
-          colorStyles="gray"
-          className="text-0-75-500"
-          text-0-75-500
-        >
+        <Button size="S" colorStyles="gray" className="text-0-75-500">
           수정
         </Button>
       </div>
@@ -70,7 +74,7 @@ export default function PopupEdit({
               key={row.id}
               className={`grid grid-cols-3 text-center text-0-75-500 md:text-0-875-500 border-b border-gray-100 cursor-pointer hover:bg-gray-50 `}
               style={{ minHeight: '2.5rem' }}
-              onClick={handleListRowClick}
+              onClick={() => handleListRowClick(row as unknown as T)}
             >
               <div className="flex items-center justify-center py-2 px-1 md:px-2">
                 {row.use}

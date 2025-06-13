@@ -6,10 +6,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const sizeStyles: Record<string, string> = {
-  XL: 'w-[15rem] h-[1rem] ',
-  L: 'w-[26rem] h-[3.2rem] ',
+  XL: 'w-[15rem] h-[1rem]',
+  L: 'w-[26rem] h-[3.2rem]',
   M: 'w-[7rem] h-[1.5rem]',
-  S: 'w-[4rem] h-[1.7rem] px-[0.375rem] py-[0.625rem] ',
+  S: 'w-[4rem] h-[1.7rem] px-[0.375rem] py-[0.625rem]',
   XS: 'w-[2rem] h-[1rem] px-[0.375rem] py-[0.625rem] text-0-75-500',
 };
 
@@ -27,12 +27,10 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const colorClass = colorStylesObj[colorStyles] || '';
+  const buttonClassName = `border border-[#D9D9D9] rounded-md flex items-center justify-center ${sizeStyles[size]} ${colorClass} ${className}`;
 
   return (
-    <button
-      className={`border border-[#D9D9D9] rounded-md flex items-center justify-center ${sizeStyles[size]} ${colorClass} ${className}`}
-      {...props}
-    >
+    <button className={buttonClassName} {...props}>
       {children}
     </button>
   );

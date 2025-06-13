@@ -3,12 +3,31 @@ import Button from '@/components/ui/button';
 import Checkbox from '@/components/ui/checkbox';
 import LabelInput from '@/layout/LabelInput';
 
-const ApplicationEditForm: React.FC = () => {
-  const [input1, setInput1] = useState('');
-  const [input2, setInput2] = useState('');
-  const [input3, setInput3] = useState('');
-  const [input4, setInput4] = useState('');
-  const [checked, setChecked] = useState(false);
+interface ApplicationEditFormProps {
+  row: {
+    id: string;
+    location: string;
+    isPhoto: string;
+    isLocation: string;
+    isMap: string;
+    disrtict_name: string;
+    display: string;
+    amount: string;
+    size: string;
+    announcement: string;
+    CountArea: string;
+    done: number;
+    isForAdmin: string;
+    note: string;
+  };
+}
+
+const ApplicationEditForm: React.FC<ApplicationEditFormProps> = ({ row }) => {
+  const [input1, setInput1] = useState(row.location);
+  const [input2, setInput2] = useState(row.isPhoto);
+  const [input3, setInput3] = useState(row.isMap);
+  const [input4, setInput4] = useState(row.note);
+  const [checked, setChecked] = useState(row.isForAdmin === '업로드 됨');
 
   return (
     <>

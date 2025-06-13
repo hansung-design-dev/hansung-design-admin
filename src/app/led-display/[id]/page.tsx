@@ -17,6 +17,23 @@ import ApplicationEditForm from '@/components/modal-contents/applicationEditForm
 import CodeEditForm from '@/components/modal-contents/codeEditForm';
 import Button from '@/components/ui/button';
 
+interface DistrictRow {
+  id: string;
+  location: string;
+  isPhoto: string;
+  isLocation: string;
+  isMap: string;
+  disrtict_name: string;
+  display: string;
+  amount: string;
+  size: string;
+  announcement: string;
+  CountArea: string;
+  done: number;
+  isForAdmin: string;
+  note: string;
+}
+
 const districtColumns = [
   {
     key: 'id',
@@ -77,7 +94,6 @@ const districtColumns = [
   },
 ];
 const Y = '업로드 됨';
-const N = '-';
 
 const districtData = [
   {
@@ -85,7 +101,7 @@ const districtData = [
     location: '서울',
     isPhoto: Y,
     isLocation: Y,
-    isMap: Y,
+    isMap: '-',
     disrtict_name: '서울',
     display: '15일',
     amount: '100000',
@@ -93,7 +109,7 @@ const districtData = [
     announcement: '안내사항',
     CountArea: '6',
     done: 2,
-    NumberofDisplay: 1,
+    isForAdmin: Y,
     note: '비고',
   },
 ];
@@ -107,7 +123,7 @@ export default function LedDisplayDetail() {
   const [modalType, setModalType] = useState<'popup' | 'application' | 'code'>(
     'popup'
   );
-  const [selectedRow, setSelectedRow] = useState<any>(null);
+  const [selectedRow, setSelectedRow] = useState<DistrictRow | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -118,7 +134,7 @@ export default function LedDisplayDetail() {
     setIsModalOpen(true);
   };
 
-  const handleListRowClick = (row: any) => {
+  const handleListRowClick = (row: DistrictRow) => {
     setSelectedRow(row);
     setModalType('popup');
     setIsModalOpen(true);
@@ -262,7 +278,7 @@ export default function LedDisplayDetail() {
           }
         >
           {modalType === 'popup' && <PopupAddForm />}
-          {modalType === 'application' && (
+          {modalType === 'application' && selectedRow && (
             <ApplicationEditForm row={selectedRow} />
           )}
           {modalType === 'code' && <CodeEditForm />}

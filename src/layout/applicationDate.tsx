@@ -12,7 +12,6 @@ export default function ApplicationDate({
   showFirstHalfCheckbox = true,
   showSecondHalfCheckbox = true,
   isThisMonth = true,
-  ...props
 }: {
   className?: string;
   location?: string;

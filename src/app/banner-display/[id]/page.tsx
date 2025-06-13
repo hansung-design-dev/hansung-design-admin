@@ -17,6 +17,23 @@ import ApplicationEditForm from '@/components/modal-contents/applicationEditForm
 import CodeEditForm from '@/components/modal-contents/codeEditForm';
 import Button from '@/components/ui/button';
 
+interface DistrictRow {
+  id: string;
+  location: string;
+  isPhoto: string;
+  isLocation: string;
+  isMap: string;
+  disrtict_name: string;
+  display: string;
+  amount: string;
+  size: string;
+  announcement: string;
+  CountArea: string;
+  done: number;
+  isForAdmin: string;
+  note: string;
+}
+
 const districtColumns = [
   {
     key: 'id',
@@ -107,7 +124,7 @@ export default function BannerDisplayDetail() {
   const [modalType, setModalType] = useState<'popup' | 'application' | 'code'>(
     'popup'
   );
-  const [selectedRow, setSelectedRow] = useState<any>(null);
+  const [selectedRow, setSelectedRow] = useState<DistrictRow | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -118,7 +135,7 @@ export default function BannerDisplayDetail() {
     setIsModalOpen(true);
   };
 
-  const handleListRowClick = (row: any) => {
+  const handleListRowClick = (row: DistrictRow) => {
     setSelectedRow(row);
     setModalType('popup');
     setIsModalOpen(true);
@@ -262,7 +279,7 @@ export default function BannerDisplayDetail() {
           }
         >
           {modalType === 'popup' && <PopupAddForm />}
-          {modalType === 'application' && (
+          {modalType === 'application' && selectedRow && (
             <ApplicationEditForm row={selectedRow} />
           )}
           {modalType === 'code' && <CodeEditForm />}
