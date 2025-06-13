@@ -232,7 +232,9 @@ export default function OrderStatus() {
               ]}
             />
           )}
-          {modalType === 'code' && <CodeEditForm />}
+          {modalType === 'code' && (
+            <CodeEditForm columns={statusColumns} data={statusData} />
+          )}
         </Modal>
       )}
     </div>

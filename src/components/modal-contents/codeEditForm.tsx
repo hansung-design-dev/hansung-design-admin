@@ -3,8 +3,14 @@ import Button from '@/components/ui/button';
 import Checkbox from '@/components/ui/checkbox';
 import LabelInput from '@/components/layout/LabelInput';
 import { BoxedTableWrapper } from '../layout/boxedTableWrapper';
+import { TableColumn } from '../layout/commonTable';
 
-const CodeEditForm: React.FC = () => {
+interface CodeEditFormProps<T> {
+  columns: TableColumn<T>[];
+  data: T[];
+}
+
+const CodeEditForm = <T,>({ columns, data }: CodeEditFormProps<T>) => {
   const [input1, setInput1] = useState('');
   const [input2, setInput2] = useState('');
   const [input3, setInput3] = useState('');
@@ -48,7 +54,7 @@ const CodeEditForm: React.FC = () => {
       </div>
       {/* 테이블 mockup */}
 
-      <BoxedTableWrapper />
+      <BoxedTableWrapper columns={columns} data={data} />
     </>
   );
 };

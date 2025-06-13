@@ -305,7 +305,9 @@ export default function BannerDisplayDetail() {
               ]}
             />
           )}
-          {modalType === 'code' && <CodeEditForm />}
+          {modalType === 'code' && (
+            <CodeEditForm columns={districtColumns} data={districtData} />
+          )}
         </Modal>
       )}
     </div>

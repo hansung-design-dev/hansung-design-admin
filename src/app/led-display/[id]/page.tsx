@@ -314,7 +314,9 @@ export default function LedDisplayDetail() {
               ]}
             />
           )}
-          {modalType === 'code' && <CodeEditForm />}
+          {modalType === 'code' && (
+            <CodeEditForm columns={districtColumns} data={districtData} />
+          )}
         </Modal>
       )}
     </div>
