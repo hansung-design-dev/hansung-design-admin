@@ -1,5 +1,5 @@
 'use client';
-import { CommonTable, TableColumn } from '@/layout/commonTable';
+import { CommonTable, TableColumn } from '@/components/layout/commonTable';
 import Header from '@/components/layout/header';
 import Button from '@/components/ui/button';
 import Image from 'next/image';

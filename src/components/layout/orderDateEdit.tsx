@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import ApplicationDate from './applicationDate';
+import OrderDate from './orderDate';
 import Checkbox from '@/components/ui/checkbox';
 import Button from '@/components/ui/button';
 
 const days = Array.from({ length: 31 }, (_, i) => `${i + 1}일`);
 const lastDayOptions = ['말일'];
 
-export default function ApplicationDateEdit({
+export default function OrderDateEdit({
   location = '',
 }: {
   location?: string;
@@ -141,7 +141,7 @@ export default function ApplicationDateEdit({
       </div>
       {/* 표: 이번달, 다음달 */}
       <div className="flex flex-col md:flex-row gap-2 md:gap-4 w-full">
-        <ApplicationDate
+        <OrderDate
           location={location}
           month="5월"
           firstHalf={tableFirstHalf}
@@ -153,7 +153,7 @@ export default function ApplicationDateEdit({
           onToggleSecondHalf={(e) => setSecondHalfClosed(e.target.checked)}
           className="w-1/2"
         />
-        <ApplicationDate
+        <OrderDate
           location={location}
           month="6월"
           firstHalf={nextFirstHalf}

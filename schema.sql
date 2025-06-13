@@ -84,7 +84,7 @@ CREATE TABLE board_guidelines (
 );
 
 -- 6. applications – 신청 현황 메인 테이블
-CREATE TABLE applications (
+CREATE TABLE orders (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   application_number TEXT NOT NULL,
   applicant_name TEXT,
