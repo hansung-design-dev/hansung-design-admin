@@ -1,38 +1,43 @@
+import React from 'react';
 import Image from 'next/image';
 import Button from '@/components/ui/button';
 import { useState } from 'react';
 import Checkbox from '@/components/ui/checkbox';
+import { BoxedTableWrapper } from './boxedTableWrapper';
+import { TableColumn } from './commonTable';
 
-interface PopupRow {
-  id: number;
-  use: string;
-  title: string;
-  period: string;
-}
+// interface PopupRow {
+//   id: number;
+//   use: string;
+//   title: string;
+//   period: string;
+// }
 
-const mockRows: PopupRow[] = [
-  { id: 1, use: '사용', title: '이전 안내', period: '25/06/16 ~ 25/06/30' },
-  { id: 2, use: '-', title: '공지사항 안내', period: '25/06/16 ~ 25/06/30' },
-  {
-    id: 3,
-    use: '-',
-    title: '내용이 길어질 경우 최대 두줄까지 가능합니다.',
-    period: '25/06/16 ~ 25/06/30',
-  },
-  { id: 4, use: '-', title: '추가 안내', period: '25/06/16 ~ 25/06/30' },
-  { id: 5, use: '-', title: '5번째 안내', period: '25/06/16 ~ 25/06/30' },
-];
+// const mockRows: PopupRow[] = [
+//   { id: 1, use: '사용', title: '이전 안내', period: '25/06/16 ~ 25/06/30' },
+//   { id: 2, use: '-', title: '공지사항 안내', period: '25/06/16 ~ 25/06/30' },
+//   {
+//     id: 3,
+//     use: '-',
+//     title: '내용이 길어질 경우 최대 두줄까지 가능합니다.',
+//     period: '25/06/16 ~ 25/06/30',
+//   },
+//   { id: 4, use: '-', title: '추가 안내', period: '25/06/16 ~ 25/06/30' },
+//   { id: 5, use: '-', title: '5번째 안내', period: '25/06/16 ~ 25/06/30' },
+// ];
 
 interface PopupEditProps<T> {
   handleListRowClick: (row: T) => void;
+  columns: TableColumn<T>[];
+  data: T[];
 }
 
 export default function PopupEdit<T>({
   handleListRowClick,
+  columns,
+  data,
 }: PopupEditProps<T>) {
-  const [rows] = useState(mockRows);
   const [isPosted, setIsPosted] = useState(true);
-
   return (
     <div className="w-full md:w-1/2 p-2 md:p-4">
       {/* 제목 */}
@@ -62,7 +67,7 @@ export default function PopupEdit<T>({
         </Button>
       </div>
       {/* 표 */}
-      <div className="rounded-[0.375rem] border-[0.07rem] border-gray-2 overflow-hidden text-gray-1">
+      {/* <div className="rounded-[0.375rem] border-[0.07rem] border-gray-2 overflow-hidden text-gray-1">
         <div className="grid grid-cols-3  text-center text-0-75-500 md:text-0-875-500  border-b-[0.07rem] border-gray-2">
           <div className="py-2 px-1 md:px-2">사용여부</div>
           <div className="py-2 px-1 md:px-2">타이틀</div>
@@ -88,7 +93,13 @@ export default function PopupEdit<T>({
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
+      <BoxedTableWrapper
+        columns={columns}
+        data={data}
+        onRowClick={handleListRowClick}
+        title="현수막 게시대 목록"
+      />
       {/* 하단 안내 */}
       <div className="mt-8">
         <div className="text-1-700 mb-4">하단 안내</div>

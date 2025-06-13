@@ -1,6 +1,6 @@
 import Checkbox from '@/components/ui/checkbox';
 
-export default function ApplicationDate({
+export default function OrderDate({
   className = '',
   month = '5월',
   firstHalf = '25/06/01 ~ 25/06/15',

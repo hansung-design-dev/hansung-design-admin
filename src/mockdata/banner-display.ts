@@ -1,4 +1,4 @@
-import { TableColumn } from '@/layout/commonTable';
+import { TableColumn } from '@/components/layout/commonTable';
 
 export interface BoardSchedule {
   id: string;
