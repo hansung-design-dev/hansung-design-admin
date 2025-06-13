@@ -47,21 +47,27 @@ export default function ApplicationDateEdit({
   };
 
   return (
-    <div className="flex flex-col gap-4 items-start w-full pl-[8rem]">
+    <div className="flex flex-col gap-4 items-start w-full md:w-1/2 px-4 md:px-8">
       {/* 제목 */}
-      <div className="mb-8 w-full">
-        <span className="text-xl font-semibold">{location} 신청일 수정</span>
+      <div className="mb-4 md:mb-8 w-full">
+        <span className="text-lg md:text-xl font-semibold">
+          {location} 신청일 수정
+        </span>
+      </div>
+      <div className="flex gap-2 items-center">
+        <Checkbox checked={true} onChange={() => {}} />
+        <span className="text-0-75-500 text-gray-1">상시접수</span>
       </div>
       {/* 인풋/체크박스/버튼 */}
-      <div className="flex flex-col gap-4 mb-12 w-full items-start">
+      <div className="flex flex-col gap-4 mb-6 md:mb-12 w-full items-start">
         {/* 전반기 */}
-        <div className="flex items-center w-full gap-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center w-full gap-2 md:gap-4">
           <span className="mb-1 text-sm">전반기</span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full md:w-auto">
             <select
               value={firstHalfStart}
               onChange={(e) => setFirstHalfStart(e.target.value)}
-              className="border rounded-[0.375rem] w-[10rem] py-2 text-center"
+              className="border rounded-[0.375rem] w-[6rem] h-[2rem] text-center text-0-75-500"
             >
               {days.map((day) => (
                 <option key={day} value={day}>
@@ -73,7 +79,7 @@ export default function ApplicationDateEdit({
             <select
               value={firstHalfEnd}
               onChange={(e) => setFirstHalfEnd(e.target.value)}
-              className="border rounded-[0.375rem] w-[10rem] py-2 text-center "
+              className="border rounded-[0.375rem] w-[6rem] h-[2rem] text-center text-0-75-500"
             >
               {days.map((day) => (
                 <option key={day} value={day}>
@@ -84,13 +90,13 @@ export default function ApplicationDateEdit({
           </div>
         </div>
         {/* 하반기 */}
-        <div className="flex  items-center w-full gap-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center w-full gap-2 md:gap-4">
           <span className="mb-1 text-sm">하반기</span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full md:w-auto">
             <select
               value={secondHalfStart}
               onChange={(e) => setSecondHalfStart(e.target.value)}
-              className="border rounded-[0.375rem] w-[10rem] py-2 text-center "
+              className="border rounded-[0.375rem] w-[6rem] h-[2rem] text-center text-0-75-500"
             >
               {days.map((day) => (
                 <option key={day} value={day}>
@@ -102,7 +108,7 @@ export default function ApplicationDateEdit({
             <select
               value={secondHalfEnd}
               onChange={(e) => setSecondHalfEnd(e.target.value)}
-              className="border rounded-[0.375rem] w-[10rem] py-2 text-center "
+              className="border rounded-[0.375rem] w-[6rem] h-[2rem] text-center text-0-75-500"
             >
               {[...days, ...lastDayOptions].map((day) => (
                 <option key={day} value={day}>
@@ -113,25 +119,28 @@ export default function ApplicationDateEdit({
           </div>
         </div>
         {/* 체크박스+버튼 */}
-        <div className="flex items-center justify-between gap-4 mt-2 w-[25rem]">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mt-2 w-full">
           <div className="flex items-center gap-2">
             <Checkbox
               checked={applyThisMonth}
               onChange={(e) => setApplyThisMonth(e.target.checked)}
               id="applyThisMonth"
-              className="w-5 h-5 accent-black border-gray-400 "
+              className="w-5 h-5 accent-black border-gray-400"
             />
-            <label htmlFor="applyThisMonth" className="text-base">
+            <label
+              htmlFor="applyThisMonth"
+              className="text-0-75-500 text-gray-1"
+            >
               이번달부터
             </label>
           </div>
-          <Button size="M" onClick={handleChange}>
+          <Button size="S" onClick={handleChange} className="text-0-75-500">
             변경하기
           </Button>
         </div>
       </div>
       {/* 표: 이번달, 다음달 */}
-      <div className="flex gap-8">
+      <div className="flex flex-col md:flex-row gap-2 md:gap-4 w-full">
         <ApplicationDate
           location={location}
           month="5월"
@@ -142,6 +151,7 @@ export default function ApplicationDateEdit({
           secondHalfClosed={secondHalfClosed}
           onToggleFirstHalf={(e) => setFirstHalfClosed(e.target.checked)}
           onToggleSecondHalf={(e) => setSecondHalfClosed(e.target.checked)}
+          className="w-1/2"
         />
         <ApplicationDate
           location={location}
@@ -151,6 +161,7 @@ export default function ApplicationDateEdit({
           showFirstHalfCheckbox={false}
           showSecondHalfCheckbox={false}
           isThisMonth={false}
+          className="w-1/2"
         />
       </div>
     </div>

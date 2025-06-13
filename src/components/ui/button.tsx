@@ -2,34 +2,35 @@ import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'xL' | 'L' | 'M' | 'S' | 'XS';
-  color?: 'black' | 'gray-1';
+  colorStyles?: string;
 }
 
 const sizeStyles: Record<string, string> = {
-  XL: 'w-[15rem] h-[1rem] ',
-  L: 'w-[8.5rem] h-[1rem] ',
+  XL: 'w-[15rem] h-[1rem]',
+  L: 'w-[26rem] h-[3.2rem]',
   M: 'w-[7rem] h-[1.5rem]',
-  S: 'w-[3rem] h-[1rem] ',
-  XS: 'w-[2rem] h-[1rem]',
+  S: 'w-[4rem] h-[1.7rem] px-[0.375rem] py-[0.625rem]',
+  XS: 'w-[2rem] h-[1rem] px-[0.375rem] py-[0.625rem] text-0-75-500',
 };
 
-const colorStyles: Record<string, string> = {
-  black: 'text-black',
-  'gray-1': 'text-gray-400', // Tailwind gray-400이 gray-1에 해당한다고 가정
+const colorStylesObj: Record<string, string> = {
+  black: 'text-white bg-black',
+  gray: 'text-gray-1',
+  white: 'text-black bg-white',
 };
 
 const Button: React.FC<ButtonProps> = ({
-  size = 'M',
-  color = 'black',
+  size = 'S',
   className = '',
   children,
+  colorStyles = '',
   ...props
 }) => {
+  const colorClass = colorStylesObj[colorStyles] || '';
+  const buttonClassName = `border border-[#D9D9D9] rounded-md flex items-center justify-center ${sizeStyles[size]} ${colorClass} ${className}`;
+
   return (
-    <button
-      className={`border border-[#D9D9D9] bg-white rounded-md flex items-center justify-center ${sizeStyles[size]} ${colorStyles[color]} ${className}`}
-      {...props}
-    >
+    <button className={buttonClassName} {...props}>
       {children}
     </button>
   );
