@@ -4,7 +4,6 @@ import { CommonTable } from '@/components/layout/commonTable';
 import { useState } from 'react';
 import Image from 'next/image';
 import Modal from '@/components/layout/modal';
-import LabelInput from '@/components/layout/LabelInput';
 import Button from '@/components/ui/button';
 
 // 컬럼 정의
@@ -102,7 +101,7 @@ const 상담데이터 = [
 const 공지데이터 = [
   {
     id: '01',
-    title: '공지사항 제목',
+    title: '공지사항',
     contents: '공지사항 내용입니다.',
     status: '활성화',
     created_at: '2025-05-30',
@@ -161,11 +160,13 @@ export default function CustomerService() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<RowType | null>(null);
   const [answerValue, setAnswerValue] = useState('');
+  const [isAnswered, setIsAnswered] = useState(false);
 
   // row click handler
   const handleRowClick = (row: RowType) => {
     setSelectedRow(row);
     setAnswerValue((row as FAQRow).answer || '');
+    setIsAnswered(false);
     setModalOpen(true);
   };
 
@@ -176,27 +177,72 @@ export default function CustomerService() {
     const isFAQ = (row: RowType): row is FAQRow => 'question' in row;
     if (isFAQ(selectedRow)) {
       return (
-        <div className="flex flex-col gap-6 w-[28rem]">
-          <LabelInput
-            label="질문"
-            value={selectedRow.question}
-            readOnly
-            className="text-0-875-500"
-            labelClassName="text-0-875-500"
-          />
-          <div>
-            <label className="block mb-1 text-0-75-500 text-gray-1">답변</label>
-            <textarea
-              className="w-full border border-gray-2 rounded px-2 py-1 resize-none text-0-75-500"
-              placeholder="답변을 입력해주세요."
-              value={answerValue}
-              onChange={(e) => setAnswerValue(e.target.value)}
-              rows={5}
-            />
+        <div className="flex flex-col gap-6 w-full items-end">
+          <div className="flex flex-col gap-6 w-full items-start">
+            <div className="text-1-700 mb-8 border-b-[#E1E1E1] border-b-1 pb-4 w-full">
+              {selectedRow.question}
+            </div>
+            <div className="w-full">
+              <textarea
+                className="w-full h-[15rem] border border-gray-2 rounded px-2 py-1 resize-none text-0-75-500"
+                placeholder="내용을 입력해주세요."
+                value={selectedRow.answer}
+                readOnly
+                rows={5}
+              />
+            </div>
+            {/* 답변 입력/완료 UI */}
+            {!isAnswered ? (
+              <div className="w-full">
+                <textarea
+                  className="w-full h-[15rem] border border-gray-2 rounded px-2 py-1 resize-none text-0-75-500"
+                  placeholder="내용을 입력해주세요."
+                  value={answerValue}
+                  onChange={(e) => setAnswerValue(e.target.value)}
+                  rows={5}
+                />
+              </div>
+            ) : (
+              <div className="w-full bg-[#F9F9F9] rounded p-4">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex gap-4 items-center">
+                    <span className="text-0-75-500 text-gray-2">답변완료</span>
+                    <span className="text-0-75-500 text-gray-2">
+                      {selectedRow.created_at}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      size="S"
+                      className="text-0-75-500"
+                      onClick={() => setIsAnswered(false)}
+                    >
+                      수정
+                    </Button>
+                    <Button size="S" className="text-0-75-500">
+                      삭제
+                    </Button>
+                  </div>
+                </div>
+                <textarea
+                  className="w-full h-[10rem] border border-gray-2 rounded px-2 py-1 resize-none text-0-75-500 bg-[#F9F9F9]"
+                  value={answerValue}
+                  readOnly
+                  rows={5}
+                />
+              </div>
+            )}
           </div>
-          <Button size="S" colorStyles="black" className="w-full">
-            답변하기
-          </Button>
+          {!isAnswered && (
+            <Button
+              size="S"
+              colorStyles="black"
+              className="text-1-700 w-[5rem] h-[2.5rem]"
+              onClick={() => setIsAnswered(true)}
+            >
+              답변하기
+            </Button>
+          )}
         </div>
       );
     } else {
@@ -215,23 +261,58 @@ export default function CustomerService() {
                 rows={5}
               />
             </div>
-            <div className="w-full">
-              <textarea
-                className="w-full h-[15rem] border border-gray-2 rounded px-2 py-1 resize-none text-0-75-500"
-                placeholder="내용을 입력해주세요."
-                value=""
-                readOnly
-                rows={5}
-              />
-            </div>
+            {/* 답변 입력/완료 UI */}
+            {!isAnswered ? (
+              <div className="w-full">
+                <textarea
+                  className="w-full h-[15rem] border border-gray-2 rounded px-2 py-1 resize-none text-0-75-500"
+                  placeholder="내용을 입력해주세요."
+                  value={answerValue}
+                  onChange={(e) => setAnswerValue(e.target.value)}
+                  rows={5}
+                />
+              </div>
+            ) : (
+              <div className="w-full bg-[#F9F9F9] rounded p-4">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex gap-4 items-center">
+                    <span className="text-0-75-500 text-gray-2">답변완료</span>
+                    <span className="text-0-75-500 text-gray-2">
+                      {selectedRow.created_at}
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      size="S"
+                      className="text-0-75-500"
+                      onClick={() => setIsAnswered(false)}
+                    >
+                      수정
+                    </Button>
+                    <Button size="S" className="text-0-75-500">
+                      삭제
+                    </Button>
+                  </div>
+                </div>
+                <textarea
+                  className="w-full h-[10rem] border border-gray-2 rounded px-2 py-1 resize-none text-0-75-500 bg-[#F9F9F9]"
+                  value={answerValue}
+                  readOnly
+                  rows={5}
+                />
+              </div>
+            )}
           </div>
-          <Button
-            size="S"
-            colorStyles="black"
-            className="text-1-700 w-[5rem] h-[2.5rem]"
-          >
-            답변하기
-          </Button>
+          {!isAnswered && (
+            <Button
+              size="S"
+              colorStyles="black"
+              className="text-1-700 w-[5rem] h-[2.5rem]"
+              onClick={() => setIsAnswered(true)}
+            >
+              답변하기
+            </Button>
+          )}
         </div>
       );
     }
