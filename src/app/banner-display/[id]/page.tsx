@@ -18,100 +18,54 @@ import CodeEditForm from '@/components/modal-contents/codeEditForm';
 import Button from '@/components/ui/button';
 
 interface DistrictRow {
-  id: string;
-  location: string;
-  isPhoto: string;
-  isLocation: string;
-  isMap: string;
-  disrtict_name: string;
-  display: string;
-  amount: string;
-  size: string;
-  announcement: string;
-  CountArea: string;
-  done: number;
-  isForAdmin: string;
-  note: string;
+  isUsing: string;
+  title: string;
+  period: string;
 }
 
 const districtColumns = [
   {
-    key: 'id',
-    header: 'NO',
+    key: 'isUsing',
+    header: '사용여부',
   },
   {
-    key: 'location',
-    header: '위치',
+    key: 'title',
+    header: '타이틀',
   },
   {
-    key: 'isPhoto',
-    header: '사진',
-  },
-  {
-    key: 'isLocation',
-    header: '위치',
-  },
-  {
-    key: 'isMap',
-    header: '지도',
-  },
-  {
-    key: 'disrtict-name',
-    header: '행정동',
-  },
-  {
-    key: 'display',
-    header: '게시',
-  },
-
-  {
-    key: 'amount',
-    header: '금액',
-  },
-  {
-    key: 'size',
-    header: '크기',
-  },
-  {
-    key: 'announcement',
-    header: '안내사항',
-  },
-  {
-    key: 'CountArea',
-    header: '면수',
-  },
-  {
-    key: 'done',
-    header: '마감',
-  },
-  {
-    key: 'isForAdmin',
-    header: '행정용',
-  },
-  {
-    key: 'note',
-    header: '비고',
+    key: 'period',
+    header: '팝업기간',
   },
 ];
 const Y = '업로드 됨';
 const N = '-';
 
-const districtData = [
+interface DistrictRow {
+  isUsing: string;
+  title: string;
+  period: string;
+}
+
+const districtData: DistrictRow[] = [
   {
-    id: '1',
-    location: '서울',
-    isPhoto: Y,
-    isLocation: Y,
-    isMap: N,
-    disrtict_name: '서울',
-    display: '15일',
-    amount: '100000',
-    size: '100000',
-    announcement: '안내사항',
-    CountArea: '6',
-    done: 2,
-    isForAdmin: Y,
-    note: '비고',
+    isUsing: Y,
+    title: '이전안내',
+    period: '2025/01/01 ~ 2025/01/01',
+  },
+  {
+    isUsing: N,
+    title: '공지사항 안내',
+    period: '2025/01/01 ~ 2025/01/01',
+  },
+  {
+    isUsing: N,
+    title: '내용이 길어질 경우 최대 두 줄까지 가능합니다.',
+    period: '2025/01/01 ~ 2025/01/01',
+  },
+  {
+    isUsing: N,
+    title: '공지사항 안내',
+    period: '2025/01/01 ~ 2025/01/01',
   },
 ];
 
@@ -190,6 +144,7 @@ export default function BannerDisplayDetail() {
             handleListRowClick={handleListRowClick}
             columns={districtColumns}
             data={districtData}
+            title="안내팝업"
           />
         </div>
         <div className="px-4 md:px-8">
@@ -286,7 +241,6 @@ export default function BannerDisplayDetail() {
           {modalType === 'popup' && <PopupAddForm />}
           {modalType === 'order' && selectedRow && (
             <OrderEditForm
-              row={selectedRow}
               fields={[
                 { key: 'id', label: 'NO' },
                 { key: 'location', label: '위치' },

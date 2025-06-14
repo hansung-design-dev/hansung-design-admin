@@ -10,7 +10,7 @@ const sizeStyles: Record<string, string> = {
   L: 'w-[26rem] h-[3.2rem]',
   M: 'w-[7rem] h-[1.5rem]',
   S: 'w-[4rem] h-[1.7rem] px-[0.375rem] py-[0.625rem]',
-  XS: 'w-[2rem] h-[1rem] px-[0.375rem] py-[0.625rem] text-0-75-500',
+  XS: 'w-[3.5rem] h-[1.3rem] py-[0.8rem] px-[0.375rem]',
 };
 
 const colorStylesObj: Record<string, string> = {

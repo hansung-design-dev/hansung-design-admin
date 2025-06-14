@@ -50,7 +50,7 @@ export function CommonTable<T>({
             {(columns || []).map((col) => (
               <th
                 key={col.key}
-                className={`text-center align-middle px-2 md:px-4 py-2 text-0-75-500 text-gray-1 bg-white  ${headerClassName} ${
+                className={`text-center align-middle px-2  py-2 text-0-75-500 text-gray-1 bg-white  ${headerClassName} ${
                   col.className ?? ''
                 }`}
               >
