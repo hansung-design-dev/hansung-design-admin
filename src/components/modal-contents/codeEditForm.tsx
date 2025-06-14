@@ -3,6 +3,7 @@ import Button from '@/components/ui/button';
 import Checkbox from '@/components/ui/checkbox';
 import LabelInput from '@/components/layout/LabelInput';
 import { BoxedTableWrapper } from '../layout/boxedTableWrapper';
+import { TableColumn } from '../layout/commonTable';
 
 // 왼쪽 필드+버튼 정의
 interface FieldButton {
@@ -347,7 +348,12 @@ function FlexibleForm({
   );
 }
 
-function CodeEditForm() {
+interface CodeEditFormProps<T> {
+  columns: TableColumn<T>[];
+  data: T[];
+}
+
+function CodeEditForm<T>({ columns, data }: CodeEditFormProps<T>) {
   const [formState, setFormState] = useState<Record<string, unknown>>({});
   return (
     <>
@@ -360,6 +366,7 @@ function CodeEditForm() {
         formState={formState}
         setFormState={setFormState}
       />
+      <BoxedTableWrapper columns={columns} data={data} />
     </>
   );
 }

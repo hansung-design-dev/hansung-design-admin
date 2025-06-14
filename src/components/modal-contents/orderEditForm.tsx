@@ -5,16 +5,9 @@ import LabelInput from '@/components/layout/LabelInput';
 import { BoxedTableWrapper } from '../layout/boxedTableWrapper';
 import { TableColumn } from '../layout/commonTable';
 
-// 폼 필드 정의
-const formFields = [
-  { key: 'location', label: '위치명' },
-  { key: 'photo', label: '사진' },
-  { key: 'address', label: '위치' },
-  { key: 'map', label: '지도' },
-  { key: 'note', label: '비고' },
-] as const;
-
-type FormFieldKey = (typeof formFields)[number]['key'];
+interface OrderEditFormProps {
+  fields: { key: string; label: string }[];
+}
 
 // 테이블 row 타입 정의
 interface TableRow {
@@ -94,27 +87,19 @@ const tableData: TableRow[] = [
   },
 ];
 
-function OrderEditForm() {
-  // 폼 상태 관리
-  const [formState, setFormState] = useState<Record<FormFieldKey, string>>({
-    location: '',
-    photo: '',
-    address: '',
-    map: '',
-    note: '',
-  });
+function OrderEditForm({ fields }: OrderEditFormProps) {
+  const [formState, setFormState] = useState<Record<string, string>>({});
   const [checked, setChecked] = useState(false);
 
   return (
     <>
-      {/* 위쪽 폼 필드 */}
       <div className="flex flex-col gap-4 mb-6">
-        {formFields.map(({ key, label }) => (
+        {fields.map(({ key, label }) => (
           <LabelInput
             key={key}
             label={label}
             placeholder={label + '를 입력해주세요.'}
-            value={formState[key]}
+            value={formState[key] || ''}
             onChange={(e) =>
               setFormState({ ...formState, [key]: e.target.value })
             }
@@ -128,7 +113,6 @@ function OrderEditForm() {
           <span>행정용</span>
         </div>
       </div>
-      {/* 아래쪽 테이블 */}
       <div className="mt-8">
         <div className="flex gap-2 mb-4">
           <Button size="S">+ 추가</Button>

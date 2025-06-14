@@ -18,20 +18,9 @@ import CodeEditForm from '@/components/modal-contents/codeEditForm';
 import Button from '@/components/ui/button';
 
 interface DistrictRow {
-  id: string;
-  location: string;
-  isPhoto: string;
-  isLocation: string;
-  isMap: string;
-  disrtict_name: string;
-  display: string;
-  amount: string;
-  size: string;
-  announcement: string;
-  CountArea: string;
-  done: number;
-  isForAdmin: string;
-  note: string;
+  isUsing: string;
+  title: string;
+  period: string;
 }
 
 const districtColumns = [
@@ -51,7 +40,13 @@ const districtColumns = [
 const Y = '업로드 됨';
 const N = '-';
 
-const districtData = [
+interface DistrictRow {
+  isUsing: string;
+  title: string;
+  period: string;
+}
+
+const districtData: DistrictRow[] = [
   {
     isUsing: Y,
     title: '이전안내',
@@ -246,7 +241,6 @@ export default function BannerDisplayDetail() {
           {modalType === 'popup' && <PopupAddForm />}
           {modalType === 'order' && selectedRow && (
             <OrderEditForm
-              row={selectedRow}
               fields={[
                 { key: 'id', label: 'NO' },
                 { key: 'location', label: '위치' },

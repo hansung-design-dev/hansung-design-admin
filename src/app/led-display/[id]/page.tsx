@@ -295,7 +295,6 @@ export default function LedDisplayDetail() {
           )}
           {modalType === 'order' && selectedRow && (
             <OrderEditForm
-              row={selectedRow}
               fields={[
                 { key: 'id', label: 'NO' },
                 { key: 'location', label: '위치' },

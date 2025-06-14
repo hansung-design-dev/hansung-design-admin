@@ -213,7 +213,6 @@ export default function OrderStatus() {
           {modalType === 'popup' && <PopupAddForm />}
           {modalType === 'order' && selectedRow && (
             <OrderEditForm
-              row={selectedRow}
               fields={[
                 { key: 'id', label: 'NO' },
                 { key: 'order_number', label: '신청번호' },
