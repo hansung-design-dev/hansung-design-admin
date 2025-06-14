@@ -60,7 +60,7 @@ CREATE TABLE popup_notice (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   is_active BOOLEAN DEFAULT TRUE,
   title TEXT,
-  show_once BOOLEAN DEFAULT FALSE,
+  is_hide_oneday BOOLEAN DEFAULT FALSE,
   content TEXT,
   image_url TEXT,
   start_date DATE,
