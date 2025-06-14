@@ -32,6 +32,7 @@ interface PopupEditProps<T> {
   data: T[];
   boxedTableTitle?: string;
   title?: string;
+  additionalContent?: boolean;
 }
 
 export default function PopupEdit<T>({
@@ -40,6 +41,7 @@ export default function PopupEdit<T>({
   data,
   boxedTableTitle,
   title,
+  additionalContent,
 }: PopupEditProps<T>) {
   const [isPosted, setIsPosted] = useState(true);
   return (
@@ -105,41 +107,46 @@ export default function PopupEdit<T>({
         title={boxedTableTitle}
       />
       {/* 하단 안내 */}
-      <div className="mt-8">
-        <div className="text-1-700 mb-4">하단 안내</div>
+      {additionalContent && (
+        <div className="mt-8">
+          <div className="text-1-700 mb-4">하단 안내</div>
 
-        <div className="flex flex-col gap-4 text-0-75-500 text-gray-1">
-          <div className="flex gap-16">
-            <span className="w-16">카피</span>
-            <input
-              type="text"
-              placeholder="  내용을 입력하세요"
-              className="border-b-[0.05rem] border-gray-2 w-full placeholder:text-gray-1"
-            />
-          </div>
-          <div className="flex gap-16 items-center">
-            <span className="w-16">게시여부</span>
-            <div className="flex gap-2 justify-between w-full">
-              <div className="flex flex-col gap-2 items-start ">
-                <Checkbox
-                  className="w-[1.5rem] h-[1.5rem]"
-                  checked={isPosted}
-                  onChange={(e) => {
-                    console.log('체크박스 값:', setIsPosted(e.target.checked));
-                    return setIsPosted(!isPosted);
-                  }}
-                />
-                <span className="text-gray-1 text-0-75-400">
-                  *현재 홈페이지에 안내 중입니다
-                </span>
+          <div className="flex flex-col gap-4 text-0-75-500 text-gray-1">
+            <div className="flex gap-16">
+              <span className="w-16">카피</span>
+              <input
+                type="text"
+                placeholder="  내용을 입력하세요"
+                className="border-b-[0.05rem] border-gray-2 w-full placeholder:text-gray-1"
+              />
+            </div>
+            <div className="flex gap-16 items-center">
+              <span className="w-16">게시여부</span>
+              <div className="flex gap-2 justify-between w-full">
+                <div className="flex flex-col gap-2 items-start ">
+                  <Checkbox
+                    className="w-[1.5rem] h-[1.5rem]"
+                    checked={isPosted}
+                    onChange={(e) => {
+                      console.log(
+                        '체크박스 값:',
+                        setIsPosted(e.target.checked)
+                      );
+                      return setIsPosted(!isPosted);
+                    }}
+                  />
+                  <span className="text-gray-1 text-0-75-400">
+                    *현재 홈페이지에 안내 중입니다
+                  </span>
+                </div>
+                <Button size="S" colorStyles="gray" className="text-0-75-500">
+                  수정
+                </Button>
               </div>
-              <Button size="S" colorStyles="gray" className="text-0-75-500">
-                수정
-              </Button>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

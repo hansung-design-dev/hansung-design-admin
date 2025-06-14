@@ -145,6 +145,7 @@ export default function BannerDisplayDetail() {
             columns={districtColumns}
             data={districtData}
             title="안내팝업"
+            additionalContent
           />
         </div>
         <div className="px-4 md:px-8">

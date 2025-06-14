@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 import OrderDate from './orderDate';
 import Checkbox from '@/components/ui/checkbox';

@@ -193,6 +193,7 @@ export default function LedDisplayDetail() {
             handleListRowClick={handleListRowClick}
             columns={selectedColumns || districtColumns}
             data={selectedRow ? [selectedRow] : []}
+            additionalContent
           />
         </div>
         <div className="px-4 md:px-8">

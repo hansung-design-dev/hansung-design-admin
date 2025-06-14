@@ -126,17 +126,19 @@ export function formatDate(date: Date) {
 }
 
 export const columns: TableColumn<BoardSchedule>[] = [
-  { key: 'district_name', header: '위치' },
+  { key: 'district_name', header: '위치', minWidth: '10rem' },
   {
     key: 'first_half_period',
     header: '전반기',
     render: (row: BoardSchedule) =>
       `${formatDate(row.first_half_start)} ~ ${formatDate(row.first_half_end)}`,
+    minWidth: '20rem',
   },
   {
     key: 'first_half_deadline_count',
     header: '마감수',
     render: (row: BoardSchedule) => row.first_half_deadline_count,
+    minWidth: '20rem',
   },
   {
     key: 'second_half_period',
@@ -145,10 +147,12 @@ export const columns: TableColumn<BoardSchedule>[] = [
       `${formatDate(row.second_half_start)} ~ ${formatDate(
         row.second_half_end
       )}`,
+    minWidth: '20rem',
   },
   {
     key: 'second_half_deadline_count',
     header: '마감수',
     render: (row: BoardSchedule) => row.second_half_deadline_count,
+    minWidth: '20rem',
   },
 ];
