@@ -14,16 +14,16 @@ const Modal: React.FC<ModalProps> = ({
   children,
   onClose,
   footer,
-  className = '',
+  className = 'w-full',
 }) => (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
     <div
-      className={`bg-white rounded-lg shadow-lg w-full max-w-3xl p-8 relative ${className}`}
+      className={`bg-white rounded-lg shadow-lg max-w-3xl p-8 relative ${className}`}
     >
       {/* 닫기 버튼 (Button 컴포넌트로 고정) */}
       <Button
         size="S"
-        className="absolute top-4 right-4"
+        className="absolute top-6 right-10"
         onClick={onClose}
         aria-label="닫기"
       >

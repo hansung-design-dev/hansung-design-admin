@@ -3,6 +3,9 @@ import Header from '@/components/layout/header';
 import { CommonTable } from '@/components/layout/commonTable';
 import { useState } from 'react';
 import Image from 'next/image';
+import Modal from '@/components/layout/modal';
+import LabelInput from '@/components/layout/LabelInput';
+import Button from '@/components/ui/button';
 
 // 컬럼 정의
 const columnsByTab = {
@@ -144,11 +147,95 @@ const faqData = {
   ],
 };
 
+// 타입 정의
+
+type 상담Row = (typeof 상담데이터)[number];
+type 공지Row = (typeof 공지데이터)[number];
+type FAQRow = (typeof faqData)['공공디자인'][number];
+type RowType = 상담Row | 공지Row | FAQRow;
+
 export default function CustomerService() {
   const [tab, setTab] = useState<'상담' | '자주묻는질문' | '공지사항'>(
     '자주묻는질문'
   );
-  // 자주묻는질문 서브카테고리 필요시 state 추가 가능
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<RowType | null>(null);
+  const [answerValue, setAnswerValue] = useState('');
+
+  // row click handler
+  const handleRowClick = (row: RowType) => {
+    setSelectedRow(row);
+    setAnswerValue((row as FAQRow).answer || '');
+    setModalOpen(true);
+  };
+
+  // 팝업 내용 렌더링
+  const renderPopupContent = () => {
+    if (!selectedRow) return null;
+    // FAQRow: question/answer, 상담/공지: title/contents
+    const isFAQ = (row: RowType): row is FAQRow => 'question' in row;
+    if (isFAQ(selectedRow)) {
+      return (
+        <div className="flex flex-col gap-6 w-[28rem]">
+          <LabelInput
+            label="질문"
+            value={selectedRow.question}
+            readOnly
+            className="text-0-875-500"
+            labelClassName="text-0-875-500"
+          />
+          <div>
+            <label className="block mb-1 text-0-75-500 text-gray-1">답변</label>
+            <textarea
+              className="w-full border border-gray-2 rounded px-2 py-1 resize-none text-0-75-500"
+              placeholder="답변을 입력해주세요."
+              value={answerValue}
+              onChange={(e) => setAnswerValue(e.target.value)}
+              rows={5}
+            />
+          </div>
+          <Button size="S" colorStyles="black" className="w-full">
+            답변하기
+          </Button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="flex flex-col gap-6 w-full items-end">
+          <div className="flex flex-col gap-6 w-full items-start">
+            <div className="text-1-700 mb-8 border-b-[#E1E1E1] border-b-1 pb-4 w-full">
+              {selectedRow.title}
+            </div>
+            <div className="w-full">
+              <textarea
+                className="w-full h-[15rem] border border-gray-2 rounded px-2 py-1 resize-none text-0-75-500"
+                placeholder="내용을 입력해주세요."
+                value={selectedRow.contents}
+                readOnly
+                rows={5}
+              />
+            </div>
+            <div className="w-full">
+              <textarea
+                className="w-full h-[15rem] border border-gray-2 rounded px-2 py-1 resize-none text-0-75-500"
+                placeholder="내용을 입력해주세요."
+                value=""
+                readOnly
+                rows={5}
+              />
+            </div>
+          </div>
+          <Button
+            size="S"
+            colorStyles="black"
+            className="text-1-700 w-[5rem] h-[2.5rem]"
+          >
+            답변하기
+          </Button>
+        </div>
+      );
+    }
+  };
 
   return (
     <div className="pt-16">
@@ -194,6 +281,7 @@ export default function CustomerService() {
               <CommonTable
                 columns={columnsByTab['자주묻는질문']}
                 data={faqData['공공디자인']}
+                tableRowClick={handleRowClick}
               />
             </div>
             {/* 현수막디자인 FAQ */}
@@ -211,6 +299,7 @@ export default function CustomerService() {
               <CommonTable
                 columns={columnsByTab['자주묻는질문']}
                 data={faqData['현수막디자인']}
+                tableRowClick={handleRowClick}
               />
             </div>
           </div>
@@ -219,8 +308,18 @@ export default function CustomerService() {
             <CommonTable
               columns={columnsByTab[tab]}
               data={tab === '상담' ? 상담데이터 : 공지데이터}
+              tableRowClick={handleRowClick}
             />
           </div>
+        )}
+        {/* 팝업 모달 */}
+        {modalOpen && (
+          <Modal
+            title={tab === '자주묻는질문' ? '질문/답변 상세' : ''}
+            onClose={() => setModalOpen(false)}
+          >
+            {renderPopupContent()}
+          </Modal>
         )}
       </div>
     </div>
