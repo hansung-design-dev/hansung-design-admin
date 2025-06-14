@@ -210,6 +210,7 @@ export default function LedDisplayDetail() {
               columns={districtColumns}
               onAddItem={handleModal}
               searchInput
+              searchTitle="LED전자게시대조회"
               data={districtData}
               tableRowClick={handleListRowClick}
             />

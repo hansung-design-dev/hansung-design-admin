@@ -1,7 +1,7 @@
 import Button from '@/components/ui/button';
 
 interface SearchInputProps {
-  title: string;
+  title: string | undefined;
   className?: string;
 }
 

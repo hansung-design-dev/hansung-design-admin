@@ -92,7 +92,7 @@ export default function BannerDisplayDetail() {
 
   const handleListRowClick = (row: DistrictRow) => {
     setSelectedRow(row);
-    setModalType('code');
+    setModalType('popup');
     setIsModalOpen(true);
   };
 
@@ -162,6 +162,7 @@ export default function BannerDisplayDetail() {
               columns={districtColumns}
               onAddItem={handleModal}
               searchInput
+              searchTitle="팝업조회"
               data={districtData}
               tableRowClick={handleListRowClick}
             />

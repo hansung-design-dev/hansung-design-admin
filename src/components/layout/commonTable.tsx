@@ -8,6 +8,9 @@ export interface TableColumn<T> {
   header: React.ReactNode;
   render?: (row: T, rowIndex: number) => React.ReactNode;
   className?: string;
+  minWidth?: string;
+  width?: string;
+  maxWidth?: string;
 }
 
 export interface CommonTableProps<T> {
@@ -22,6 +25,7 @@ export interface CommonTableProps<T> {
   tableRowClick?: (row: T, rowIndex: number) => void;
   onAddItem?: () => void;
   searchInput?: boolean;
+  searchTitle?: string;
 }
 
 function getValue<T>(row: T, key: string): unknown {
@@ -40,19 +44,26 @@ export function CommonTable<T>({
   tableRowClick,
   onAddItem,
   searchInput,
+  searchTitle,
 }: CommonTableProps<T>) {
   return (
-    <div className={` ${className}`} style={style}>
-      {searchInput && <SearchInput title="위치조회" className="pb-4" />}
-      <table className="border-separate border-spacing-0 w-full table-fixed">
+    <div className={` ${className}`} style={{ ...style, overflowX: 'auto' }}>
+      {searchInput && <SearchInput title={searchTitle} className="pb-4" />}
+      <table className="border-separate border-spacing-0 w-full table-auto py-[0.875rem]">
         <thead style={theadStyle}>
           <tr>
             {(columns || []).map((col) => (
               <th
                 key={col.key}
-                className={`text-center align-middle px-2  py-2 text-0-75-500 text-gray-1 bg-white  ${headerClassName} ${
+                className={`text-center align-middle text-0-75-500 text-gray-1 bg-white  ${headerClassName} ${
                   col.className ?? ''
                 }`}
+                style={{
+                  minWidth: col.minWidth,
+                  width: col.width,
+                  maxWidth: col.maxWidth,
+                  whiteSpace: 'nowrap',
+                }}
               >
                 {col.header}
               </th>
@@ -74,9 +85,15 @@ export function CommonTable<T>({
                 {(columns || []).map((col) => (
                   <td
                     key={col.key}
-                    className={`text-center align-middle px-2 md:px-4 py-[0.75rem] md:py-[0.87rem] border-b border-gray-2 ${
+                    className={`text-center align-middle px-[0.5rem] py-[0.87rem]  border-b border-gray-2 ${
                       col.className ?? ''
                     }`}
+                    style={{
+                      minWidth: col.minWidth,
+                      width: col.width,
+                      maxWidth: col.maxWidth,
+                      whiteSpace: 'nowrap',
+                    }}
                   >
                     {col.render ? (
                       col.render(row, rowIndex)
