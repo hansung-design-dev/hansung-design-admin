@@ -12,7 +12,7 @@ const menuItems: { id: number; name: string; href: string }[] = [
   { id: 2, name: 'LED전자게시대', href: '/led-display' },
   { id: 3, name: '디지털사이니지', href: '/digital-signage' },
   { id: 4, name: '공공디자인', href: '/public-design' },
-  { id: 5, name: '신청현황', href: '/application-status' },
+  { id: 5, name: '신청현황', href: '/order-status' },
   { id: 6, name: '온라인회원관리', href: '/manage-members' },
   { id: 7, name: '홈페이지관리', href: '/manage-hompage' },
   { id: 8, name: '상담관리', href: '/customer-service' },

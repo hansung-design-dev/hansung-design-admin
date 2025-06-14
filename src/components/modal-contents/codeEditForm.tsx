@@ -307,7 +307,7 @@ function FlexibleForm({
                   onChange={(e) =>
                     setFormState({ ...formState, [opt.key]: e.target.value })
                   }
-                  labelWidth="w-12"
+                  labelClassName="w-12"
                   containerClassName="text-end gap-2"
                   className="placeholder:text-center w-[70%]"
                 />

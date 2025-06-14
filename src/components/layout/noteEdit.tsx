@@ -27,7 +27,7 @@ export default function NoteEdit() {
           {/* 접수기간 */}
           <LabelInput
             label="접수기간"
-            labelWidth="text-0-75-500 text-gray-1 mt-2 sm:w-12"
+            labelClassName="text-0-75-500 text-gray-1 mt-2 sm:w-12"
             containerClassName="flex gap-2 sm:gap-8"
             className="border-b-[0.1rem] border-b-gray-2  w-full md:w-[25.6875rem] resize-none text-0-875-500 placeholder:text-center"
             maxLength={80}
@@ -38,7 +38,7 @@ export default function NoteEdit() {
           {/* 접수방법 */}
           <LabelInput
             label="접수방법"
-            labelWidth="text-0-75-500 text-gray-1 mt-2 sm:w-12"
+            labelClassName="text-0-75-500 text-gray-1 mt-2 sm:w-12"
             containerClassName="flex gap-2 sm:gap-8"
             className="border-b-[0.1rem] border-b-gray-2  w-full md:w-[25.6875rem] resize-none text-0-875-500 placeholder:text-center"
             maxLength={80}
@@ -49,7 +49,7 @@ export default function NoteEdit() {
           {/* 계좌번호 */}
           <LabelInput
             label="계좌번호"
-            labelWidth="text-0-75-500 text-gray-1 mt-2 sm:w-12"
+            labelClassName="text-0-75-500 text-gray-1 mt-2 sm:w-12"
             containerClassName="flex gap-2 sm:gap-8"
             className="border-b-[0.1rem] border-b-gray-2 w-full md:w-[25.6875rem] resize-none text-0-875-500 placeholder:text-center"
             maxLength={80}

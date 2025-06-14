@@ -6,153 +6,247 @@ import Image from 'next/image';
 import Checkbox from '@/components/ui/checkbox';
 import { useState } from 'react';
 import Modal from '@/components/layout/modal';
-import PopupAddForm from '@/components/modal-contents/popupAddForm';
 import OrderEditForm from '@/components/modal-contents/orderEditForm';
-import CodeEditForm from '@/components/modal-contents/codeEditForm';
 
 interface DistrictRow {
   id: string;
-  order_number: string;
   applicant_name: string;
   birthdate: string;
-  phone: string;
+  phone_no: string;
   company_name: string;
-  quantity: number;
-  total_amount: number;
-  depositor_id: string;
+  buying_amount: string;
+  total_amount: string;
+  applicant_id: string;
   depositor_name: string;
-  deposit_date: string;
+  depositor_date: string;
   is_paid: boolean;
-  is_checked: boolean;
+  is_confirmed: boolean;
   invoice_issued_at: string;
+  is_invoice_ordered: boolean;
+  payment_method: string;
+  district_name: string;
+  order_at: string;
+  is_sample: boolean;
+  is_approved: boolean;
+  is_instock: boolean;
+  is_selected: boolean;
+  display_address: string;
 }
 
 const statusColumns = [
   {
-    key: 'order_number',
+    key: 'id',
     header: '신청번호',
+    minWidth: '5rem',
   },
   {
     key: 'applicant_name',
     header: '성명',
+    minWidth: '2rem',
   },
   {
     key: 'birthdate',
     header: '생년월일',
+    minWidth: '3rem',
   },
   {
-    key: 'phone',
+    key: 'phone_no',
     header: '전화번호',
+    minWidth: '3rem',
   },
   {
     key: 'company_name',
     header: '업체명',
+    minWidth: '6rem',
   },
+
   {
-    key: 'quantity',
-    header: '신청수량',
+    key: 'buying_amount',
+    header: '수량',
+    minWidth: '2rem',
   },
   {
     key: 'total_amount',
     header: '총금액',
+    minWidth: '2rem',
   },
   {
-    key: 'depositor_id',
-    header: '신청자 ID',
+    key: 'applicant_id',
+    header: '신청자ID',
+    minWidth: '2rem',
   },
   {
     key: 'depositor_name',
     header: '입금자',
+    minWidth: '6rem',
   },
   {
-    key: 'deposit_date',
+    key: 'depositor_date',
     header: '입금일자',
+    minWidth: '2rem',
   },
   {
     key: 'is_paid',
-    header: '입금',
+    header: '입금여부',
+    minWidth: '2rem',
   },
   {
-    key: 'is_checked',
-    header: '확인',
+    key: 'is_confirmed',
+    header: '확인여부',
+    minWidth: '2rem',
   },
   {
     key: 'invoice_issued_at',
     header: '계산서발행',
+    minWidth: '2rem',
   },
   {
-    key: 'invoice',
-    header: '계산서',
+    key: 'is_invoice_ordered',
+    header: '계산서주문',
+    minWidth: '2rem',
   },
   {
     key: 'payment_method',
-    header: '결제구분',
-  },
-  {
-    key: 'email',
-    header: '이메일',
+    header: '결제방법',
+    minWidth: '2rem',
   },
   {
     key: 'district_name',
-    header: '구역명',
+    header: '게시구역',
+    minWidth: '2rem',
   },
   {
-    key: 'created_at',
+    key: 'order_at',
     header: '접수시각',
+    minWidth: '2rem',
   },
   {
-    key: 'is_design_sent',
-    header: '시안여부',
+    key: 'is_sample',
+    header: '시안',
+    minWidth: '2rem',
   },
   {
-    key: 'is_confirmed',
+    key: 'is_approved',
     header: '검수',
+    minWidth: '2rem',
   },
   {
-    key: 'is_received',
+    key: 'is_instock',
     header: '입고',
+    minWidth: '2rem',
   },
   {
-    key: 'is_printed',
-    header: '출력',
-  },
-  {
-    key: 'is_file_checked',
-    header: '파일',
+    key: 'is_selected',
+    header: '선택',
+    minWidth: '2rem',
   },
   {
     key: 'display_address',
     header: '송출주소',
+    minWidth: '2rem',
   },
 ];
 
 const statusData = [
   {
-    id: '1',
-    order_number: '1234567890',
+    id: '0000000000001',
+    code: '01',
     applicant_name: '홍길동',
-    birthdate: '1990-01-01',
-    phone: '010-1234-5678',
+    birthdate: '90-01-01',
+    phone_no: '010-1234-5678',
     company_name: '홍길동',
-    quantity: 1,
-    total_amount: 100000,
-    depositor_id: '1234567890',
+    buying_amount: '10',
+    total_amount: '100000',
+    applicant_id: 'smart1',
     depositor_name: '홍길동',
-    deposit_date: '2021-01-01',
+    depositor_date: '2021-01-01',
     is_paid: true,
-    is_checked: true,
-    invoice_issued_at: '2021-01-01',
-    invoice: '1234567890',
-    payment_method: '1234567890',
-    email: 'test@test.com',
-    district_name: '서울',
-    created_at: '2021-01-01',
-    is_design_sent: true,
     is_confirmed: true,
-    is_received: true,
-    is_printed: true,
-    is_file_checked: true,
-    display_address: '서울',
+    invoice_issued_at: '2021-01-01',
+    is_invoice_ordered: true,
+    payment_method: '신용카드',
+    district_name: '서울',
+    order_at: '2021-01-01',
+    is_sample: true,
+    is_approved: true,
+    is_instock: true,
+    is_selected: true,
+    display_address: '서울특별시 강남구 역삼동 123-123',
+  },
+  {
+    id: '0000000000002',
+    code: '02',
+    applicant_name: '홍길동',
+    birthdate: '90-01-01',
+    phone_no: '010-1234-5678',
+    company_name: '홍길동',
+    buying_amount: '10',
+    total_amount: '100000',
+    applicant_id: 'smart2',
+    depositor_name: '홍길동',
+    depositor_date: '2021-01-01',
+    is_paid: true,
+    is_confirmed: true,
+    invoice_issued_at: '2021-01-01',
+    is_invoice_ordered: true,
+    payment_method: '신용카드',
+    district_name: '서울',
+    order_at: '2021-01-01',
+    is_sample: true,
+    is_approved: true,
+    is_instock: true,
+    is_selected: true,
+    display_address: '서울특별시 강남구 역삼동 123-123',
+  },
+  {
+    id: '0000000000003',
+    code: '03',
+    applicant_name: '홍길동',
+    birthdate: '90-01-01',
+    phone_no: '010-1234-5678',
+    company_name: '홍길동',
+    buying_amount: '10',
+    total_amount: '100000',
+    applicant_id: 'smart3',
+    depositor_name: '홍길동',
+    depositor_date: '2021-01-01',
+    is_paid: true,
+    is_confirmed: true,
+    invoice_issued_at: '2021-01-01',
+    is_invoice_ordered: true,
+    payment_method: '신용카드',
+    district_name: '서울',
+    order_at: '2021-01-01',
+    is_sample: true,
+    is_approved: true,
+    is_instock: true,
+    is_selected: true,
+    display_address: '서울특별시 강남구 역삼동 123-123',
+  },
+  {
+    id: '0000000000004',
+    code: '04',
+    applicant_name: '홍길동',
+    birthdate: '90-01-01',
+    phone_no: '010-1234-5678',
+    company_name: '홍길동',
+    buying_amount: '10',
+    total_amount: '100000',
+    applicant_id: 'smart4',
+    depositor_name: '홍길동',
+    depositor_date: '2021-01-01',
+    is_paid: true,
+    is_confirmed: true,
+    invoice_issued_at: '2021-01-01',
+    is_invoice_ordered: true,
+    payment_method: '신용카드',
+    district_name: '서울',
+    order_at: '2021-01-01',
+    is_sample: true,
+    is_approved: true,
+    is_instock: true,
+    is_selected: true,
+    display_address: '서울특별시 강남구 역삼동 123-123',
   },
 ];
 
@@ -167,7 +261,7 @@ export default function OrderStatus() {
 
   const handleListRowClick = (row: DistrictRow) => {
     setSelectedRow(row);
-    setModalType('popup');
+    setModalType('order');
     setIsModalOpen(true);
   };
 
@@ -193,6 +287,7 @@ export default function OrderStatus() {
         columns={statusColumns}
         data={statusData}
         tableRowClick={handleListRowClick}
+        searchInput
       />
       {isModalOpen && (
         <Modal
@@ -210,29 +305,38 @@ export default function OrderStatus() {
             </Button>
           }
         >
-          {modalType === 'popup' && <PopupAddForm />}
           {modalType === 'order' && selectedRow && (
             <OrderEditForm
               fields={[
-                { key: 'id', label: 'NO' },
+                { key: 'order_at', label: '신청일자' },
                 { key: 'order_number', label: '신청번호' },
+                { key: 'company_info', label: '사업자정보' },
                 { key: 'applicant_name', label: '성명' },
-                { key: 'birthdate', label: '생년월일' },
+                { key: 'birthdate', label: '사업자 생년월일' },
+                { key: 'fax_no', label: '팩스번호' },
                 { key: 'phone', label: '전화번호' },
-                { key: 'company_name', label: '업체명' },
-                { key: 'quantity', label: '신청수량' },
-                { key: 'total_amount', label: '총금액' },
-                { key: 'depositor_id', label: '신청자 ID' },
-                { key: 'depositor_name', label: '입금자' },
-                { key: 'deposit_date', label: '입금일자' },
-                { key: 'is_paid', label: '입금' },
-                { key: 'is_checked', label: '확인' },
-                { key: 'invoice_issued_at', label: '계산서발행' },
+                { key: 'company_name', label: '부서 업체명' },
+                { key: 'address', label: '주소' },
+                { key: 'email', label: '이메일' },
+                { key: 'mobile_no', label: '휴대폰번호' },
+                { key: '??', label: '게시시설공업소' },
+                { key: 'representative', label: '대표자' },
+                { key: 'business_no', label: '사업자번호' },
+                { key: 'phone_no', label: '전화번호' },
+                { key: 'display_contents', label: '광고내용' },
+                { key: 'note', label: '특이사항' },
+                { key: 'is_keep_banner', label: '철거시현수막보관' },
+                { key: 'is_order_requested', label: '제작(설치)의뢰' },
+                { key: 'is_approved', label: '검수완료' },
+                { key: 'is_instock', label: '현수막입고(전체)' },
+                { key: 'order_at', label: '신청일자' },
+                { key: 'depositor_name', label: '입금자명' },
+                { key: 'depositor_date', label: '입금일자' },
+                { key: 'deposit_amount', label: '입금금액' },
+                { key: 'applicant_id', label: '신청자ID' },
+                { key: 'reserved_date', label: '예약년월' },
               ]}
             />
-          )}
-          {modalType === 'code' && (
-            <CodeEditForm columns={statusColumns} data={statusData} />
           )}
         </Modal>
       )}
