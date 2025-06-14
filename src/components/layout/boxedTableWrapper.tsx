@@ -23,7 +23,7 @@ export function BoxedTableWrapper<T>({
   className = '',
 }: BoxedTableWrapperProps<T>) {
   return (
-    <div className={`bg-white rounded-lg shadow p-4 ${className}`}>
+    <div className={`bg-white rounded-lg border border-gray-2 ${className}`}>
       {title && <div className="text-lg font-bold mb-4">{title}</div>}
       <div className="flex items-center gap-2 mb-4">
         {onAddItem && (

@@ -30,18 +30,22 @@ interface PopupEditProps<T> {
   handleListRowClick: (row: T) => void;
   columns: TableColumn<T>[];
   data: T[];
+  boxedTableTitle?: string;
+  title?: string;
 }
 
 export default function PopupEdit<T>({
   handleListRowClick,
   columns,
   data,
+  boxedTableTitle,
+  title,
 }: PopupEditProps<T>) {
   const [isPosted, setIsPosted] = useState(true);
   return (
     <div className="w-full md:w-1/2 p-2 md:p-4">
       {/* 제목 */}
-      <div className="text-1-700 mb-4">안내팝업</div>
+      <div className="text-1-700 mb-4">{title}</div>
       {/* 상단 버튼 영역 */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 text-0-75-500 text-gray-1 gap-2 md:gap-0">
         <div className="flex gap-2">
@@ -98,7 +102,7 @@ export default function PopupEdit<T>({
         columns={columns}
         data={data}
         onRowClick={handleListRowClick}
-        title="현수막 게시대 목록"
+        title={boxedTableTitle}
       />
       {/* 하단 안내 */}
       <div className="mt-8">

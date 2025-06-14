@@ -1,29 +1,142 @@
-import React from 'react';
-//import Button from '@/components/ui/button';
-// import Checkbox from '@/components/ui/checkbox';
+import React, { useState } from 'react';
+import Button from '@/components/ui/button';
+import Checkbox from '@/components/ui/checkbox';
 import LabelInput from '@/components/layout/LabelInput';
+import { BoxedTableWrapper } from '../layout/boxedTableWrapper';
+import { TableColumn } from '../layout/commonTable';
 
-interface OrderEditFormProps<T> {
-  row: T;
-  fields: { key: keyof T; label: string }[];
+// 폼 필드 정의
+const formFields = [
+  { key: 'location', label: '위치명' },
+  { key: 'photo', label: '사진' },
+  { key: 'address', label: '위치' },
+  { key: 'map', label: '지도' },
+  { key: 'note', label: '비고' },
+] as const;
+
+type FormFieldKey = (typeof formFields)[number]['key'];
+
+// 테이블 row 타입 정의
+interface TableRow {
+  count: string;
+  usageType: string;
+  attachDate: string;
+  attachPrice: string;
+  fee: string;
+  usage: string;
+  done: string;
+  companyName: string;
 }
 
-function OrderEditForm<T>({ row, fields }: OrderEditFormProps<T>) {
+// 테이블 컬럼 정의
+const tableColumns: TableColumn<TableRow>[] = [
+  { key: 'count', header: '면수' },
+  { key: 'usageType', header: '사용구분' },
+  { key: 'attachDate', header: '부착일' },
+  { key: 'attachPrice', header: '부착단가' },
+  { key: 'fee', header: '수수료' },
+  { key: 'usage', header: '사용' },
+  { key: 'done', header: '마감' },
+  { key: 'companyName', header: '사업자명' },
+];
+
+// 테이블 데이터 예시
+const tableData: TableRow[] = [
+  {
+    count: '01',
+    usageType: '사용구분',
+    attachDate: '부착일',
+    attachPrice: '부착단가',
+    fee: '수수료',
+    usage: '가능',
+    done: '-',
+    companyName: '-',
+  },
+  {
+    count: '02',
+    usageType: '사용구분',
+    attachDate: '부착일',
+    attachPrice: '부착단가',
+    fee: '수수료',
+    usage: '가능',
+    done: '마감',
+    companyName: '회사이름',
+  },
+  {
+    count: '03',
+    usageType: '사용구분',
+    attachDate: '부착일',
+    attachPrice: '부착단가',
+    fee: '수수료',
+    usage: '가능',
+    done: '마감',
+    companyName: '회사이름',
+  },
+  {
+    count: '04',
+    usageType: '사용구분',
+    attachDate: '부착일',
+    attachPrice: '부착단가',
+    fee: '수수료',
+    usage: '가능',
+    done: '-',
+    companyName: '-',
+  },
+  {
+    count: '0',
+    usageType: '사용구분',
+    attachDate: '부착일',
+    attachPrice: '부착단가',
+    fee: '수수료',
+    usage: '불가능',
+    done: '-',
+    companyName: '홍길동',
+  },
+];
+
+function OrderEditForm() {
+  // 폼 상태 관리
+  const [formState, setFormState] = useState<Record<FormFieldKey, string>>({
+    location: '',
+    photo: '',
+    address: '',
+    map: '',
+    note: '',
+  });
+  const [checked, setChecked] = useState(false);
+
   return (
-    <div className="flex flex-col gap-4 mb-6">
-      {fields.map(({ key, label }) => (
-        <div className="flex gap-4" key={String(key)}>
+    <>
+      {/* 위쪽 폼 필드 */}
+      <div className="flex flex-col gap-4 mb-6">
+        {formFields.map(({ key, label }) => (
           <LabelInput
+            key={key}
             label={label}
-            placeholder="입력해주세요."
-            value={row[key] as string}
-            onChange={() => {}}
-            // 실제 사용 시 onChange 핸들러를 props로 추가해 확장 가능
+            placeholder={label + '를 입력해주세요.'}
+            value={formState[key]}
+            onChange={(e) =>
+              setFormState({ ...formState, [key]: e.target.value })
+            }
           />
+        ))}
+        <div className="flex items-center gap-2 mt-2">
+          <Checkbox
+            checked={checked}
+            onChange={(e) => setChecked(e.target.checked)}
+          />
+          <span>행정용</span>
         </div>
-      ))}
-      {/* 예시: 체크박스는 별도 처리 필요시 props로 추가 */}
-    </div>
+      </div>
+      {/* 아래쪽 테이블 */}
+      <div className="mt-8">
+        <div className="flex gap-2 mb-4">
+          <Button size="S">+ 추가</Button>
+          <Button size="S">삭제</Button>
+        </div>
+        <BoxedTableWrapper columns={tableColumns} data={tableData} />
+      </div>
+    </>
   );
 }
 

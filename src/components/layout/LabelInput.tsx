@@ -9,15 +9,15 @@ interface LabelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const LabelInput: React.FC<LabelInputProps> = ({
   label,
   labelWidth = 'w-20',
-  containerClassName = '',
+  containerClassName = 'items-center, gap-2',
   className = '',
   ...props
 }) => (
-  <div className={`flex items-center gap-2 pb-2 ${containerClassName}`}>
+  <div className={`flex  pb-2 ${containerClassName}`}>
     <span className={labelWidth}>{label}</span>
     <input
       {...props}
-      className={`flex-1 outline-none bg-transparent border-b border-gray-2 ${className}`}
+      className={`outline-none border-b border-gray-2 ${className}`}
     />
   </div>
 );
