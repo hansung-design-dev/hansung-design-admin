@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface LabelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   labelClassName?: string; // ex: 'w-20'
   containerClassName?: string;
   type?: string;
