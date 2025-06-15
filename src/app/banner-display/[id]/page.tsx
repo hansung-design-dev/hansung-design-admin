@@ -17,11 +17,70 @@ import OrderEditForm from '@/components/modal-contents/orderEditForm';
 import CodeEditForm from '@/components/modal-contents/codeEditForm';
 import Button from '@/components/ui/button';
 
-interface DistrictRow {
-  isUsing: string;
-  title: string;
-  period: string;
+export interface BannerPannelRow {
+  post_code: string;
+  region_gu: string;
+  region_dong: string;
+  address: string;
+  max_banners: number;
+  post_height: number;
+  post_width: number;
+  installation_date: string;
+  status: string;
+  maintenance_notes?: string;
 }
+
+export const bannerPannelColumns = [
+  { key: 'post_code', header: '게시대코드' },
+  { key: 'region_gu', header: '구' },
+  { key: 'region_dong', header: '동' },
+  { key: 'address', header: '상세주소' },
+  { key: 'max_banners', header: '최대수용' },
+  { key: 'post_height', header: '높이(m)' },
+  { key: 'post_width', header: '너비(m)' },
+  { key: 'installation_date', header: '설치일' },
+  { key: 'status', header: '상태' },
+  { key: 'maintenance_notes', header: '유지보수메모' },
+];
+
+export const bannerPannelData: BannerPannelRow[] = [
+  {
+    post_code: 'BP001',
+    region_gu: '서대문구',
+    region_dong: '연희동',
+    address: '서울시 서대문구 연희동 123-45',
+    max_banners: 5,
+    post_height: 3.5,
+    post_width: 2.0,
+    installation_date: '2023-01-15',
+    status: 'active',
+    maintenance_notes: '2024-05-01 점검 완료',
+  },
+  {
+    post_code: 'BP002',
+    region_gu: '서대문구',
+    region_dong: '홍제동',
+    address: '서울시 서대문구 홍제동 67-89',
+    max_banners: 4,
+    post_height: 3.0,
+    post_width: 1.8,
+    installation_date: '2022-11-10',
+    status: 'maintenance',
+    maintenance_notes: '2024-04-10 보수 필요',
+  },
+  {
+    post_code: 'BP003',
+    region_gu: '마포구',
+    region_dong: '합정동',
+    address: '서울시 마포구 합정동 12-34',
+    max_banners: 6,
+    post_height: 4.0,
+    post_width: 2.2,
+    installation_date: '2021-09-05',
+    status: 'inactive',
+    maintenance_notes: '',
+  },
+];
 
 const districtColumns = [
   {
@@ -31,6 +90,12 @@ const districtColumns = [
   {
     key: 'title',
     header: '타이틀',
+
+    render: (row: { title: string }) => (
+      <div className="text-center align-middle whitespace-pre-line break-words line-clamp-5">
+        {row.title}
+      </div>
+    ),
   },
   {
     key: 'period',
@@ -59,7 +124,8 @@ const districtData: DistrictRow[] = [
   },
   {
     isUsing: N,
-    title: '내용이 길어질 경우 최대 두 줄까지 가능합니다.',
+    title:
+      '내용이 길어질 경우 최대 두 줄까지 가능합니다.내용이 길어질 경우 최대 두 줄까지 가능합니다.내용이 길어질 경우 최대 두 줄까지 가능합니다.',
     period: '2025/01/01 ~ 2025/01/01',
   },
   {
@@ -92,7 +158,7 @@ export default function BannerDisplayDetail() {
 
   const handleListRowClick = (row: DistrictRow) => {
     setSelectedRow(row);
-    setModalType('popup');
+    setModalType('code');
     setIsModalOpen(true);
   };
 
@@ -160,11 +226,11 @@ export default function BannerDisplayDetail() {
           </svg>
           <div className="ml-[5rem] pt-8 relative">
             <CommonTable
-              columns={districtColumns}
+              columns={bannerPannelColumns}
               onAddItem={handleModal}
               searchInput
-              searchTitle="팝업조회"
-              data={districtData}
+              searchTitle="조회"
+              data={bannerPannelData}
               tableRowClick={handleListRowClick}
             />
           </div>
@@ -262,7 +328,10 @@ export default function BannerDisplayDetail() {
             />
           )}
           {modalType === 'code' && (
-            <CodeEditForm columns={districtColumns} data={districtData} />
+            <CodeEditForm
+              columns={bannerPannelColumns}
+              data={bannerPannelData}
+            />
           )}
         </Modal>
       )}

@@ -26,6 +26,7 @@ export interface CommonTableProps<T> {
   onAddItem?: () => void;
   searchInput?: boolean;
   searchTitle?: string;
+  tableClassName?: string;
 }
 
 function getValue<T>(row: T, key: string): unknown {
@@ -36,7 +37,7 @@ export function CommonTable<T>({
   columns = [],
   data,
   className = '',
-  headerClassName = '',
+  headerClassName = 'py-3',
   rowClassName = '',
   style = {},
   theadStyle = {},
@@ -45,11 +46,14 @@ export function CommonTable<T>({
   onAddItem,
   searchInput,
   searchTitle,
+  tableClassName = '',
 }: CommonTableProps<T>) {
   return (
     <div className={` ${className}`} style={{ ...style, overflowX: 'auto' }}>
       {searchInput && <SearchInput title={searchTitle} className="pb-4" />}
-      <table className="border-separate border-spacing-0 w-full table-auto py-[0.875rem]">
+      <table
+        className={`border-separate border-spacing-0 w-full table-auto py-[0.875rem] ${tableClassName}`}
+      >
         <thead style={theadStyle}>
           <tr>
             {(columns || []).map((col) => (

@@ -17,46 +17,16 @@ interface FormField {
   buttons?: FieldButton[];
 }
 const formFields: FormField[] = [
-  {
-    key: 'location',
-    label: '위치명',
-    placeholder: '입력해주세요.',
-  },
-  {
-    key: 'photo',
-    label: '사진',
-    placeholder: '첨부해주세요.',
-    buttons: [
-      { label: '사진 보기', key: 'photoView' },
-      { label: '수정', key: 'photoEdit' },
-      { label: '삭제', key: 'photoDelete' },
-    ],
-  },
-  {
-    key: 'address',
-    label: '위치',
-    placeholder: '입력해주세요.',
-    buttons: [
-      { label: '위치 보기', key: 'addressView' },
-      { label: '수정', key: 'addressEdit' },
-      { label: '삭제', key: 'addressDelete' },
-    ],
-  },
-  {
-    key: 'map',
-    label: '지도',
-    placeholder: '입력해주세요.',
-    buttons: [
-      { label: '지도 보기', key: 'mapView' },
-      { label: '수정', key: 'mapEdit' },
-      { label: '삭제', key: 'mapDelete' },
-    ],
-  },
-  {
-    key: 'note',
-    label: '비고',
-    placeholder: '비고내용',
-  },
+  { key: 'post_code', label: '게시대코드', placeholder: '코드를 입력하세요' },
+  { key: 'region_gu', label: '구', placeholder: '구를 입력하세요' },
+  { key: 'region_dong', label: '동', placeholder: '동을 입력하세요' },
+  { key: 'address', label: '상세주소', placeholder: '상세주소를 입력하세요' },
+  { key: 'max_banners', label: '최대수용', placeholder: '최대 현수막 수' },
+  { key: 'post_height', label: '높이(m)', placeholder: '높이(m)' },
+  { key: 'post_width', label: '너비(m)', placeholder: '너비(m)' },
+  { key: 'installation_date', label: '설치일', placeholder: 'YYYY-MM-DD' },
+  { key: 'status', label: '상태', placeholder: '상태 입력' },
+  { key: 'maintenance_notes', label: '유지보수메모', placeholder: '메모 입력' },
 ];
 
 // 오른쪽 옵션 정의
