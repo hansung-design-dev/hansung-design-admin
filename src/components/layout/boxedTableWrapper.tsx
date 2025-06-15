@@ -33,7 +33,12 @@ export function BoxedTableWrapper<T>({
         )}
         {children}
       </div>
-      <CommonTable columns={columns} data={data} tableRowClick={onRowClick} />
+      <CommonTable
+        columns={columns}
+        data={data}
+        tableRowClick={onRowClick}
+        tableClassName="px-3"
+      />
     </div>
   );
 }

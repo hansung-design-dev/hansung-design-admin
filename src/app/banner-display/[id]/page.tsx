@@ -1,6 +1,6 @@
 'use client';
 import Header from '@/components/layout/header';
-import { CommonTable } from '@/components/layout/commonTable';
+import { CommonTable, TableColumn } from '@/components/layout/commonTable';
 import { useParams } from 'next/navigation';
 import { useMemo, useState, useRef } from 'react';
 import { mockData, columns } from '@/mockdata/banner-display';
@@ -17,11 +17,70 @@ import OrderEditForm from '@/components/modal-contents/orderEditForm';
 import CodeEditForm from '@/components/modal-contents/codeEditForm';
 import Button from '@/components/ui/button';
 
-interface DistrictRow {
-  isUsing: string;
-  title: string;
-  period: string;
+interface BannerPannelRow {
+  post_code: string;
+  region_gu: string;
+  region_dong: string;
+  address: string;
+  max_banners: number;
+  post_height: number;
+  post_width: number;
+  installation_date: string;
+  status: string;
+  maintenance_notes?: string;
 }
+
+const bannerPannelColumns = [
+  { key: 'post_code', header: '게시대코드' },
+  { key: 'region_gu', header: '구' },
+  { key: 'region_dong', header: '동' },
+  { key: 'address', header: '상세주소' },
+  { key: 'max_banners', header: '최대수용' },
+  { key: 'post_height', header: '높이(m)' },
+  { key: 'post_width', header: '너비(m)' },
+  { key: 'installation_date', header: '설치일' },
+  { key: 'status', header: '상태' },
+  { key: 'maintenance_notes', header: '유지보수메모' },
+];
+
+const bannerPannelData: BannerPannelRow[] = [
+  {
+    post_code: 'BP001',
+    region_gu: '서대문구',
+    region_dong: '연희동',
+    address: '서울시 서대문구 연희동 123-45',
+    max_banners: 5,
+    post_height: 3.5,
+    post_width: 2.0,
+    installation_date: '2023-01-15',
+    status: 'active',
+    maintenance_notes: '2024-05-01 점검 완료',
+  },
+  {
+    post_code: 'BP002',
+    region_gu: '서대문구',
+    region_dong: '홍제동',
+    address: '서울시 서대문구 홍제동 67-89',
+    max_banners: 4,
+    post_height: 3.0,
+    post_width: 1.8,
+    installation_date: '2022-11-10',
+    status: 'maintenance',
+    maintenance_notes: '2024-04-10 보수 필요',
+  },
+  {
+    post_code: 'BP003',
+    region_gu: '마포구',
+    region_dong: '합정동',
+    address: '서울시 마포구 합정동 12-34',
+    max_banners: 6,
+    post_height: 4.0,
+    post_width: 2.2,
+    installation_date: '2021-09-05',
+    status: 'inactive',
+    maintenance_notes: '',
+  },
+];
 
 const districtColumns = [
   {
@@ -31,6 +90,12 @@ const districtColumns = [
   {
     key: 'title',
     header: '타이틀',
+
+    render: (row: { title: string }) => (
+      <div className="text-center align-middle whitespace-pre-line break-words line-clamp-5">
+        {row.title}
+      </div>
+    ),
   },
   {
     key: 'period',
@@ -59,13 +124,97 @@ const districtData: DistrictRow[] = [
   },
   {
     isUsing: N,
-    title: '내용이 길어질 경우 최대 두 줄까지 가능합니다.',
+    title:
+      '내용이 길어질 경우 최대 두 줄까지 가능합니다.내용이 길어질 경우 최대 두 줄까지 가능합니다.내용이 길어질 경우 최대 두 줄까지 가능합니다.',
     period: '2025/01/01 ~ 2025/01/01',
   },
   {
     isUsing: N,
     title: '공지사항 안내',
     period: '2025/01/01 ~ 2025/01/01',
+  },
+];
+
+interface PanelFaceUsageRow {
+  face_number: number;
+  usage_type: string;
+  attach_date_from: string;
+  unit_price: number;
+  tax_price: number;
+  is_active: boolean;
+  is_closed: boolean;
+  company_name: string;
+}
+// 면수관리 테이블 컬럼 및 목데이터 (pannel_face_usage 기준)
+const panelFaceUsageColumns: TableColumn<PanelFaceUsageRow>[] = [
+  { key: 'face_number', header: '면수' },
+  { key: 'usage_type', header: '사용구분' },
+  { key: 'attach_date_from', header: '부착일' },
+  { key: 'unit_price', header: '부착단가' },
+  { key: 'tax_price', header: '수수료' },
+  {
+    key: 'is_active',
+    header: '사용',
+    render: (row: PanelFaceUsageRow) => (row.is_active ? '가능' : '불가능'),
+  },
+  {
+    key: 'is_closed',
+    header: '마감',
+    render: (row: PanelFaceUsageRow) => (row.is_closed ? '마감' : '-'),
+  },
+  { key: 'company_name', header: '사업자명' },
+];
+
+const panelFaceUsageData: PanelFaceUsageRow[] = [
+  {
+    face_number: 1,
+    usage_type: '소형게시대',
+    attach_date_from: '2025-06-01',
+    unit_price: 10000,
+    tax_price: 1000,
+    is_active: true,
+    is_closed: false,
+    company_name: '-',
+  },
+  {
+    face_number: 2,
+    usage_type: '대형게시대',
+    attach_date_from: '2025-06-01',
+    unit_price: 12000,
+    tax_price: 1200,
+    is_active: true,
+    is_closed: true,
+    company_name: '회사이름',
+  },
+  {
+    face_number: 3,
+    usage_type: '소형게시대',
+    attach_date_from: '2025-06-01',
+    unit_price: 10000,
+    tax_price: 1000,
+    is_active: true,
+    is_closed: true,
+    company_name: '회사이름',
+  },
+  {
+    face_number: 4,
+    usage_type: '소형게시대',
+    attach_date_from: '2025-06-01',
+    unit_price: 10000,
+    tax_price: 1000,
+    is_active: true,
+    is_closed: false,
+    company_name: '-',
+  },
+  {
+    face_number: 0,
+    usage_type: '소형게시대',
+    attach_date_from: '2025-06-01',
+    unit_price: 10000,
+    tax_price: 1000,
+    is_active: false,
+    is_closed: false,
+    company_name: '홍길동',
   },
 ];
 
@@ -90,7 +239,12 @@ export default function BannerDisplayDetail() {
     //console.log('modalType', modalType);
   };
 
-  const handleListRowClick = (row: DistrictRow) => {
+  const handleListRowClick = () => {
+    setModalType('code');
+    setIsModalOpen(true);
+  };
+
+  const handlePopupListRowClick = (row: DistrictRow) => {
     setSelectedRow(row);
     setModalType('popup');
     setIsModalOpen(true);
@@ -141,7 +295,7 @@ export default function BannerDisplayDetail() {
             </svg>
           </div>
           <PopupEdit
-            handleListRowClick={handleListRowClick}
+            handleListRowClick={handlePopupListRowClick}
             columns={districtColumns}
             data={districtData}
             title="안내팝업"
@@ -159,12 +313,12 @@ export default function BannerDisplayDetail() {
             <path d="M0 1L1688 1" stroke="#D9D9D9" />
           </svg>
           <div className="ml-[5rem] pt-8 relative">
-            <CommonTable
-              columns={districtColumns}
+            <CommonTable<BannerPannelRow>
+              columns={bannerPannelColumns}
+              data={bannerPannelData}
               onAddItem={handleModal}
               searchInput
-              searchTitle="팝업조회"
-              data={districtData}
+              searchTitle="조회"
               tableRowClick={handleListRowClick}
             />
           </div>
@@ -231,7 +385,7 @@ export default function BannerDisplayDetail() {
               ? '팝업 추가하기'
               : modalType === 'order'
               ? '(행정용) 대림아파트... 수정화면'
-              : '게시대코드등록 및 수정화면'
+              : `수정화면`
           }
           onClose={handleClose}
           footer={
@@ -262,7 +416,10 @@ export default function BannerDisplayDetail() {
             />
           )}
           {modalType === 'code' && (
-            <CodeEditForm columns={districtColumns} data={districtData} />
+            <CodeEditForm
+              columns={panelFaceUsageColumns}
+              data={panelFaceUsageData}
+            />
           )}
         </Modal>
       )}

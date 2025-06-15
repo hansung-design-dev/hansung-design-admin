@@ -73,38 +73,13 @@ export default function PopupEdit<T>({
         </Button>
       </div>
       {/* 표 */}
-      {/* <div className="rounded-[0.375rem] border-[0.07rem] border-gray-2 overflow-hidden text-gray-1">
-        <div className="grid grid-cols-3  text-center text-0-75-500 md:text-0-875-500  border-b-[0.07rem] border-gray-2">
-          <div className="py-2 px-1 md:px-2">사용여부</div>
-          <div className="py-2 px-1 md:px-2">타이틀</div>
-          <div className="py-2 px-1 md:px-2">팝업기간</div>
-        </div>
-        <div className="max-h-[10rem] md:max-h-[13rem] overflow-y-auto">
-          {rows.map((row) => (
-            <div
-              key={row.id}
-              className={`grid grid-cols-3 text-center text-0-75-500 md:text-0-875-500 border-b border-gray-100 cursor-pointer hover:bg-gray-50 `}
-              style={{ minHeight: '2.5rem' }}
-              onClick={() => handleListRowClick(row as unknown as T)}
-            >
-              <div className="flex items-center justify-center py-2 px-1 md:px-2">
-                {row.use}
-              </div>
-              <div className="flex items-center justify-center py-2 px-1 md:px-2 whitespace-pre-line">
-                {row.title}
-              </div>
-              <div className="flex items-center justify-center py-2 px-1 md:px-2">
-                {row.period}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div> */}
+
       <BoxedTableWrapper
         columns={columns}
         data={data}
         onRowClick={handleListRowClick}
         title={boxedTableTitle}
+        className="px-0"
       />
       {/* 하단 안내 */}
       {additionalContent && (
