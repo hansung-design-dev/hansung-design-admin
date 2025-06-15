@@ -1,6 +1,6 @@
 'use client';
 import Header from '@/components/layout/header';
-import { CommonTable } from '@/components/layout/commonTable';
+import { CommonTable, TableColumn } from '@/components/layout/commonTable';
 import { useParams } from 'next/navigation';
 import { useMemo, useState, useRef } from 'react';
 import { mockData, columns } from '@/mockdata/banner-display';
@@ -135,6 +135,89 @@ const districtData: DistrictRow[] = [
   },
 ];
 
+export interface PanelFaceUsageRow {
+  face_number: number;
+  usage_type: string;
+  attach_date_from: string;
+  unit_price: number;
+  tax_price: number;
+  is_active: boolean;
+  is_closed: boolean;
+  company_name: string;
+}
+// 면수관리 테이블 컬럼 및 목데이터 (pannel_face_usage 기준)
+export const panelFaceUsageColumns: TableColumn<PanelFaceUsageRow>[] = [
+  { key: 'face_number', header: '면수' },
+  { key: 'usage_type', header: '사용구분' },
+  { key: 'attach_date_from', header: '부착일' },
+  { key: 'unit_price', header: '부착단가' },
+  { key: 'tax_price', header: '수수료' },
+  {
+    key: 'is_active',
+    header: '사용',
+    render: (row: PanelFaceUsageRow) => (row.is_active ? '가능' : '불가능'),
+  },
+  {
+    key: 'is_closed',
+    header: '마감',
+    render: (row: PanelFaceUsageRow) => (row.is_closed ? '마감' : '-'),
+  },
+  { key: 'company_name', header: '사업자명' },
+];
+
+export const panelFaceUsageData: PanelFaceUsageRow[] = [
+  {
+    face_number: 1,
+    usage_type: '소형게시대',
+    attach_date_from: '2025-06-01',
+    unit_price: 10000,
+    tax_price: 1000,
+    is_active: true,
+    is_closed: false,
+    company_name: '-',
+  },
+  {
+    face_number: 2,
+    usage_type: '대형게시대',
+    attach_date_from: '2025-06-01',
+    unit_price: 12000,
+    tax_price: 1200,
+    is_active: true,
+    is_closed: true,
+    company_name: '회사이름',
+  },
+  {
+    face_number: 3,
+    usage_type: '소형게시대',
+    attach_date_from: '2025-06-01',
+    unit_price: 10000,
+    tax_price: 1000,
+    is_active: true,
+    is_closed: true,
+    company_name: '회사이름',
+  },
+  {
+    face_number: 4,
+    usage_type: '소형게시대',
+    attach_date_from: '2025-06-01',
+    unit_price: 10000,
+    tax_price: 1000,
+    is_active: true,
+    is_closed: false,
+    company_name: '-',
+  },
+  {
+    face_number: 0,
+    usage_type: '소형게시대',
+    attach_date_from: '2025-06-01',
+    unit_price: 10000,
+    tax_price: 1000,
+    is_active: false,
+    is_closed: false,
+    company_name: '홍길동',
+  },
+];
+
 export default function BannerDisplayDetail() {
   const params = useParams();
   const id = params.id as string;
@@ -156,9 +239,15 @@ export default function BannerDisplayDetail() {
     //console.log('modalType', modalType);
   };
 
-  const handleListRowClick = (row: DistrictRow) => {
+  const handleListRowClick = (row: BannerPannelRow) => {
     setSelectedRow(row);
     setModalType('code');
+    setIsModalOpen(true);
+  };
+
+  const handlePopupListRowClick = (row: DistrictRow) => {
+    setSelectedRow(row);
+    setModalType('popup');
     setIsModalOpen(true);
   };
 
@@ -207,7 +296,7 @@ export default function BannerDisplayDetail() {
             </svg>
           </div>
           <PopupEdit
-            handleListRowClick={handleListRowClick}
+            handleListRowClick={handlePopupListRowClick}
             columns={districtColumns}
             data={districtData}
             title="안내팝업"
@@ -225,12 +314,12 @@ export default function BannerDisplayDetail() {
             <path d="M0 1L1688 1" stroke="#D9D9D9" />
           </svg>
           <div className="ml-[5rem] pt-8 relative">
-            <CommonTable
+            <CommonTable<BannerPannelRow>
               columns={bannerPannelColumns}
+              data={bannerPannelData}
               onAddItem={handleModal}
               searchInput
               searchTitle="조회"
-              data={bannerPannelData}
               tableRowClick={handleListRowClick}
             />
           </div>
@@ -297,7 +386,7 @@ export default function BannerDisplayDetail() {
               ? '팝업 추가하기'
               : modalType === 'order'
               ? '(행정용) 대림아파트... 수정화면'
-              : '게시대코드등록 및 수정화면'
+              : `${bannerPannelData?.address} 수정화면`
           }
           onClose={handleClose}
           footer={
@@ -329,8 +418,8 @@ export default function BannerDisplayDetail() {
           )}
           {modalType === 'code' && (
             <CodeEditForm
-              columns={bannerPannelColumns}
-              data={bannerPannelData}
+              columns={panelFaceUsageColumns}
+              data={panelFaceUsageData}
             />
           )}
         </Modal>
