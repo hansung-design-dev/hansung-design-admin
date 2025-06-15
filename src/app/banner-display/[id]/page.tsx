@@ -17,7 +17,7 @@ import OrderEditForm from '@/components/modal-contents/orderEditForm';
 import CodeEditForm from '@/components/modal-contents/codeEditForm';
 import Button from '@/components/ui/button';
 
-export interface BannerPannelRow {
+interface BannerPannelRow {
   post_code: string;
   region_gu: string;
   region_dong: string;
@@ -30,7 +30,7 @@ export interface BannerPannelRow {
   maintenance_notes?: string;
 }
 
-export const bannerPannelColumns = [
+const bannerPannelColumns = [
   { key: 'post_code', header: '게시대코드' },
   { key: 'region_gu', header: '구' },
   { key: 'region_dong', header: '동' },
@@ -43,7 +43,7 @@ export const bannerPannelColumns = [
   { key: 'maintenance_notes', header: '유지보수메모' },
 ];
 
-export const bannerPannelData: BannerPannelRow[] = [
+const bannerPannelData: BannerPannelRow[] = [
   {
     post_code: 'BP001',
     region_gu: '서대문구',
@@ -135,7 +135,7 @@ const districtData: DistrictRow[] = [
   },
 ];
 
-export interface PanelFaceUsageRow {
+interface PanelFaceUsageRow {
   face_number: number;
   usage_type: string;
   attach_date_from: string;
@@ -146,7 +146,7 @@ export interface PanelFaceUsageRow {
   company_name: string;
 }
 // 면수관리 테이블 컬럼 및 목데이터 (pannel_face_usage 기준)
-export const panelFaceUsageColumns: TableColumn<PanelFaceUsageRow>[] = [
+const panelFaceUsageColumns: TableColumn<PanelFaceUsageRow>[] = [
   { key: 'face_number', header: '면수' },
   { key: 'usage_type', header: '사용구분' },
   { key: 'attach_date_from', header: '부착일' },
@@ -165,7 +165,7 @@ export const panelFaceUsageColumns: TableColumn<PanelFaceUsageRow>[] = [
   { key: 'company_name', header: '사업자명' },
 ];
 
-export const panelFaceUsageData: PanelFaceUsageRow[] = [
+const panelFaceUsageData: PanelFaceUsageRow[] = [
   {
     face_number: 1,
     usage_type: '소형게시대',
@@ -239,8 +239,7 @@ export default function BannerDisplayDetail() {
     //console.log('modalType', modalType);
   };
 
-  const handleListRowClick = (row: BannerPannelRow) => {
-    setSelectedRow(row);
+  const handleListRowClick = () => {
     setModalType('code');
     setIsModalOpen(true);
   };
@@ -386,7 +385,7 @@ export default function BannerDisplayDetail() {
               ? '팝업 추가하기'
               : modalType === 'order'
               ? '(행정용) 대림아파트... 수정화면'
-              : `${bannerPannelData?.address} 수정화면`
+              : `수정화면`
           }
           onClose={handleClose}
           footer={
