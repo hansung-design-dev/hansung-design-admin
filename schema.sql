@@ -1,4 +1,3 @@
-
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -32,7 +31,7 @@ name TEXT enum('대현동','','','','',)
 
 
 -- 3. 현수막 게시대 메타데이터 테이블.
-CREATE TABLE pannel_info (
+CREATE TABLE panel_info (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     display_category_id UUID REFERENCES display_categories(id),
     post_code TEXT UNIQUE NOT NULL, -- 게시대 고유 코드 (예: BP001, BP002)
@@ -80,9 +79,9 @@ CREATE TABLE region_gu_display_periods (
 
 
 -- 6. 현수막 자리(층) 각 면 하나하나에 대한 메타데이터 테이블
-CREATE TABLE pannel_face_info (
+CREATE TABLE panel_face_info (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    pannel_info_id UUID NOT NULL REFERENCES pannel_info(id) ON DELETE CASCADE,
+    panel_info_id UUID NOT NULL REFERENCES panel_info(id) ON DELETE CASCADE,
     face_number INTEGER NOT NULL CHECK (face_number BETWEEN 1 AND 5), -- 1(최상단) ~ 5(최하단)
     face_name TEXT, -- 자리 이름 (예: "상단", "중단", "하단" 등)
     max_width DECIMAL(5, 2), -- 해당 자리 최대 너비 (미터)
@@ -98,14 +97,14 @@ CREATE TABLE pannel_face_info (
     updated_at TIMESTAMP DEFAULT now(),
    
     -- 같은 게시대에서 슬롯 번호는 유일해야 함
-    UNIQUE(pannel_post_id, slot_number)
+    UNIQUE(panel_post_id, slot_number)
 );
 
 
--- 7. Pannel Face Usage (면 사용 내역)
+-- 7. Panel Face Usage (면 사용 내역)
 -- 현수막 게시대, LED 전자 게시대의 한 면 (e.g. 5층 중 1층 면)
 -- orders 로부터 trigger 필요
-CREATE TABLE pannel_face_usage (
+CREATE TABLE panel_face_usage (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 product_id UUID REFERENCES products(id) ON DELETE CASCADE,
 order_id UUID REFERENCES orders(id),
@@ -195,8 +194,8 @@ CREATE TABLE orders (
   order_name TEXT,
   user_id UUID REFERENCES users(id), 
   company_id UUID REFERENCES companies(id), 
-  pannel_face_info_id UUID REFERENCES products(id), --게시대 정보
-  pannel_face_usage_id UUID REFERENCES pannel_face_usage(id), --게시대
+  panel_face_info_id UUID REFERENCES products(id), --게시대 정보
+  panel_face_usage_id UUID REFERENCES panel_face_usage(id), --게시대
   total_price NUMERIC, -- 총 금액
   depositor_name TEXT, -- 입금자명
   deposit_date DATE, -- 입금일 
@@ -206,7 +205,7 @@ CREATE TABLE orders (
   invoice_file TEXT, -- 계산서 파일 이미지? 
   payment_method TEXT, -- 결제 구분 
   email TEXT, -- 누구의 이메일?
-  pannel_posts_id UUID ,        -- 게시대 상세 참조 (banner/led 모두)
+  panel_posts_id UUID ,        -- 게시대 상세 참조 (banner/led 모두)
   is_draft_uploaded BOOLEAN --  + 시안 여부 boolean
   received_at TIMESTAMP,
   is_verified BOOLEAN DEFAULT FALSE,-- 검수 
@@ -235,10 +234,10 @@ updated_at TIMESTAMP DEFAULT now()
 );
 
 - 10. Customer Service ()
-CREATE TABLE pannel_infocustomer-service (
+CREATE TABLE panel_infocustomer-service (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 user_id UUID REFERENCES users(id),
-pannel_category_id REFERENCES pannel_categories
+panel_category_id REFERENCES panel_categories
 cs_category TEXT -- enum personal_cs , frequant_questions
 question_title TEXT,
 question_content TEXT,
@@ -278,7 +277,7 @@ updated_at TIMESTAMP DEFAULT now()
 
 
 - 4. Product Notice (구 별 안내 팝업)
-CREATE TABLE pannel_popup_notices (
+CREATE TABLE panel_popup_notices (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 display_category_id UUID REFERENCES display_categories(id),
 title TEXT, -- 팝업 타이틀
@@ -294,7 +293,7 @@ updated_at TIMESTAMP DEFAULT now()
 
 
 - 5. Product Guidelines ( 구 별 유의사항 및 안내사항)
-CREATE TABLE pannel_guideline (
+CREATE TABLE panel_guideline (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 display_category_id UUID REFERENCES display_categories(id),
 notes TEXT,
