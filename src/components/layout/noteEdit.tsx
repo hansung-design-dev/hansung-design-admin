@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Button from '@/components/ui/button';
-import LabelInput from './LabelInput';
+import LabelInput from './labelInput';
 
 export default function NoteEdit() {
   const [period, setPeriod] = useState('');

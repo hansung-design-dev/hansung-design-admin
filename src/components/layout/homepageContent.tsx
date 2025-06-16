@@ -1,4 +1,4 @@
-import LabelInput from './LabelInput';
+import LabelInput from './labelInput';
 import Checkbox from '@/components/ui/checkbox';
 import React, { useState } from 'react';
 import Image from 'next/image';
