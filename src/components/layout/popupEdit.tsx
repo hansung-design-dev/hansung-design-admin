@@ -3,28 +3,8 @@ import Image from 'next/image';
 import Button from '@/components/ui/button';
 import { useState } from 'react';
 import Checkbox from '@/components/ui/checkbox';
-import { BoxedTableWrapper } from './boxedTableWrapper';
+import { BoxedTableWrapper } from '../table/boxedTableWrapper';
 import { TableColumn } from './commonTable';
-
-// interface PopupRow {
-//   id: number;
-//   use: string;
-//   title: string;
-//   period: string;
-// }
-
-// const mockRows: PopupRow[] = [
-//   { id: 1, use: '사용', title: '이전 안내', period: '25/06/16 ~ 25/06/30' },
-//   { id: 2, use: '-', title: '공지사항 안내', period: '25/06/16 ~ 25/06/30' },
-//   {
-//     id: 3,
-//     use: '-',
-//     title: '내용이 길어질 경우 최대 두줄까지 가능합니다.',
-//     period: '25/06/16 ~ 25/06/30',
-//   },
-//   { id: 4, use: '-', title: '추가 안내', period: '25/06/16 ~ 25/06/30' },
-//   { id: 5, use: '-', title: '5번째 안내', period: '25/06/16 ~ 25/06/30' },
-// ];
 
 interface PopupEditProps<T> {
   handleListRowClick: (row: T) => void;
@@ -45,7 +25,7 @@ export default function PopupEdit<T>({
 }: PopupEditProps<T>) {
   const [isPosted, setIsPosted] = useState(true);
   return (
-    <div className="w-full md:w-1/2 p-2 md:p-4">
+    <div className="w-full p-2 md:p-4">
       {/* 제목 */}
       <div className="text-1-700 mb-4">{title}</div>
       {/* 상단 버튼 영역 */}

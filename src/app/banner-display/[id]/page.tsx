@@ -11,7 +11,7 @@ import PopupEdit from '@/components/layout/popupEdit';
 import NoteEdit from '@/components/layout/noteEdit';
 import AddItem from '@/components/layout/addItem';
 import TextUpdate from '@/components/layout/textUpdate';
-import Modal from '@/components/layout/modal';
+import Modal from '@/components/modal-contents/modal';
 import PopupAddForm from '@/components/modal-contents/popupAddForm';
 import OrderEditForm from '@/components/modal-contents/orderEditForm';
 import CodeEditForm from '@/components/modal-contents/codeEditForm';

@@ -4,6 +4,7 @@ import { useRef } from 'react';
 interface AddItemProps {
   title?: string;
   className?: string;
+  containerclassName?: string;
   onClick?: () => void;
   onUpload?: (file?: File) => void;
   onAddItem?: () => void;
@@ -12,6 +13,7 @@ interface AddItemProps {
 export default function AddItem({
   title,
   className,
+  containerclassName = 'h-[4rem]',
   onClick,
   onUpload,
   onAddItem,
@@ -39,7 +41,9 @@ export default function AddItem({
       onClick={onAddItem}
     >
       <div className="text-0-875-700 md:text-1-700 mb-2 w-full">{title}</div>
-      <div className="flex items-center justify-center gap-2 border border-gray-2 rounded-[0.375rem] p-2 h-[4rem]">
+      <div
+        className={`flex items-center justify-center gap-2 border border-gray-2 rounded-[0.375rem] p-2 ${containerclassName}`}
+      >
         <button
           className="flex gap-2 text-0-75-500 items-center text-gray-1"
           onClick={handleButtonClick}

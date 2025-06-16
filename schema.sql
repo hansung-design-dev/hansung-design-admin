@@ -265,6 +265,18 @@ updated_at TIMESTAMP DEFAULT now()
 --홈페이지의 지역별 콘텐츠, 페이지별 콘텐츠로 테이블 나누기 
 -- 메인랜딩페이지 구분을 어떻게 해야할지...테이블을 나누는게 좋을지.
 
+CREATE TABLE homepage_contents_region (
+id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+region_gu_id REFERENCES region_gu(id)
+panel_info_id REFERENCES panel_info(id),  -- 랜딩페이지 설명
+traffic_info TEXT, -- 유동인구 정보
+memo TEXT, -- 회원 정보
+image_url TEXT, -- 이미지 첨부 
+created_at TIMESTAMP DEFAULT now(),
+updated_at TIMESTAMP DEFAULT now()
+);
+
+
 - 11. Homepage homepage_notices (홈페이지 공지사항)
 CREATE TABLE homepage_notice (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Button from '@/components/ui/button';
 import Checkbox from '@/components/ui/checkbox';
-import LabelInput from '@/components/layout/LabelInput';
-import { BoxedTableWrapper } from '../layout/boxedTableWrapper';
+import LabelInput from '@/components/layout/labelInput';
+import { BoxedTableWrapper } from '../table/boxedTableWrapper';
 import { TableColumn } from '../layout/commonTable';
 
 // 왼쪽 필드+버튼 정의

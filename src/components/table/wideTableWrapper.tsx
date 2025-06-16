@@ -1,5 +1,5 @@
 import React from 'react';
-import { CommonTable, TableColumn } from './commonTable';
+import { CommonTable, TableColumn } from '../layout/commonTable';
 
 // 예시 데이터 타입
 interface WideTableRow {
