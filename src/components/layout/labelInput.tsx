@@ -12,7 +12,7 @@ const LabelInput: React.FC<LabelInputProps> = ({
   label,
   labelClassName = 'w-20',
   containerClassName = 'items-center, gap-2',
-  className = '',
+  className = 'outline-none border-b',
   type = 'text',
   placeholder,
   ...props
@@ -37,7 +37,7 @@ const LabelInput: React.FC<LabelInputProps> = ({
       <input
         {...props}
         type={type}
-        className={`outline-none border-b border-gray-2 ${className}`}
+        className={` border-gray-2 ${className}`}
         placeholder={placeholder}
       />
     </div>

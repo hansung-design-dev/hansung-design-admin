@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@/components/ui/button';
 import Checkbox from '@/components/ui/checkbox';
-import LabelInput from '@/components/layout/LabelInput';
+import LabelInput from '../layout/labelInput';
 
 const PopupAddForm: React.FC = () => {
   const [useYn, setUseYn] = useState(true);

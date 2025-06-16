@@ -1,5 +1,5 @@
 import React from 'react';
-import { CommonTable, TableColumn } from './commonTable';
+import { CommonTable, TableColumn } from '../layout/commonTable';
 import Button from '@/components/ui/button';
 import Image from 'next/image';
 

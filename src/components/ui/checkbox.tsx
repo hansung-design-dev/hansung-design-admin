@@ -13,7 +13,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
   ...props
 }) => {
   return (
-    <div className={`inline-flex items-center cursor-pointer ${className}`}>
+    <label className={`inline-flex items-center cursor-pointer ${className}`}>
       <input
         type="checkbox"
         checked={checked}
@@ -34,7 +34,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
           />
         )}
       </span>
-    </div>
+    </label>
   );
 };
 

@@ -11,13 +11,13 @@ import PopupEdit from '@/components/layout/popupEdit';
 import NoteEdit from '@/components/layout/noteEdit';
 import AddItem from '@/components/layout/addItem';
 import TextUpdate from '@/components/layout/textUpdate';
-import Modal from '@/components/layout/modal';
+import Modal from '@/components/modal-contents/modal';
 import PopupAddForm from '@/components/modal-contents/popupAddForm';
 import OrderEditForm from '@/components/modal-contents/orderEditForm';
 import CodeEditForm from '@/components/modal-contents/codeEditForm';
 import Button from '@/components/ui/button';
 
-interface BannerPannelRow {
+interface BannerPanelRow {
   post_code: string;
   region_gu: string;
   region_dong: string;
@@ -30,7 +30,7 @@ interface BannerPannelRow {
   maintenance_notes?: string;
 }
 
-const bannerPannelColumns = [
+const bannerPanelColumns = [
   { key: 'post_code', header: '게시대코드' },
   { key: 'region_gu', header: '구' },
   { key: 'region_dong', header: '동' },
@@ -43,7 +43,7 @@ const bannerPannelColumns = [
   { key: 'maintenance_notes', header: '유지보수메모' },
 ];
 
-const bannerPannelData: BannerPannelRow[] = [
+const bannerPanelData: BannerPanelRow[] = [
   {
     post_code: 'BP001',
     region_gu: '서대문구',
@@ -145,7 +145,7 @@ interface PanelFaceUsageRow {
   is_closed: boolean;
   company_name: string;
 }
-// 면수관리 테이블 컬럼 및 목데이터 (pannel_face_usage 기준)
+// 면수관리 테이블 컬럼 및 목데이터 (panel_face_usage 기준)
 const panelFaceUsageColumns: TableColumn<PanelFaceUsageRow>[] = [
   { key: 'face_number', header: '면수' },
   { key: 'usage_type', header: '사용구분' },
@@ -313,9 +313,9 @@ export default function BannerDisplayDetail() {
             <path d="M0 1L1688 1" stroke="#D9D9D9" />
           </svg>
           <div className="ml-[5rem] pt-8 relative">
-            <CommonTable<BannerPannelRow>
-              columns={bannerPannelColumns}
-              data={bannerPannelData}
+            <CommonTable<BannerPanelRow>
+              columns={bannerPanelColumns}
+              data={bannerPanelData}
               onAddItem={handleModal}
               searchInput
               searchTitle="조회"

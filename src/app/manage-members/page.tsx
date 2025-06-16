@@ -5,7 +5,7 @@ import Button from '@/components/ui/button';
 import Image from 'next/image';
 import Checkbox from '@/components/ui/checkbox';
 import { useState } from 'react';
-import Modal from '@/components/layout/modal';
+import Modal from '@/components/modal-contents/modal';
 import OrderEditForm from '@/components/modal-contents/orderEditForm';
 
 interface DistrictRow {

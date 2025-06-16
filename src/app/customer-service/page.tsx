@@ -3,7 +3,7 @@ import Header from '@/components/layout/header';
 import { CommonTable } from '@/components/layout/commonTable';
 import { useState } from 'react';
 import Image from 'next/image';
-import Modal from '@/components/layout/modal';
+import Modal from '@/components/modal-contents/modal';
 import Button from '@/components/ui/button';
 
 // 컬럼 정의

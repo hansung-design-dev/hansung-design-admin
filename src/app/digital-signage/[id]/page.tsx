@@ -2,14 +2,14 @@
 import Header from '@/components/layout/header';
 import Title from '@/components/layout/title';
 import TextUpdate from '@/components/layout/textUpdate';
-import LabelInput from '@/components/layout/LabelInput';
+import LabelInput from '@/components/layout/labelInput';
 import Button from '@/components/ui/button';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
 import Image from 'next/image';
 import PopupEdit from '@/components/layout/popupEdit';
 
-const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'];
+const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png'];
 function isImageFile(file: File) {
   const ext = file.name.split('.').pop()?.toLowerCase();
   return ext && IMAGE_EXTENSIONS.includes(ext);
