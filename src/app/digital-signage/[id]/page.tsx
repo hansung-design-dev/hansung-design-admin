@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import PopupEdit from '@/components/layout/popupEdit';
 
-const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'];
+const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png'];
 function isImageFile(file: File) {
   const ext = file.name.split('.').pop()?.toLowerCase();
   return ext && IMAGE_EXTENSIONS.includes(ext);
