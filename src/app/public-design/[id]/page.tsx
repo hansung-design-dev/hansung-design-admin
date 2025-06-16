@@ -2,7 +2,7 @@
 import Header from '@/components/layout/header';
 import Title from '@/components/layout/title';
 import TextUpdate from '@/components/layout/textUpdate';
-import LabelInput from '@/components/layout/labelInput';
+import LabelInput from '@/components/layout/LabelInput';
 import Button from '@/components/ui/button';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react';

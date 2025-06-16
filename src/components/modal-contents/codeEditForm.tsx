@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@/components/ui/button';
 import Checkbox from '@/components/ui/checkbox';
-import LabelInput from '../layout/labelInput';
+import LabelInput from '../layout/LabelInput';
 import { BoxedTableWrapper } from '../table/boxedTableWrapper';
 import { TableColumn } from '../layout/commonTable';
 
