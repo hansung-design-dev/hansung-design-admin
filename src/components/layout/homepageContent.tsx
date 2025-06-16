@@ -7,8 +7,8 @@ function HomepageContent({ title }: { title: string }) {
   const [image, setImage] = useState<string | null>(null);
   const [mainTitle, setMainTitle] = useState('');
   const [subTitle1, setSubTitle1] = useState('');
-  const [subTitle2, setSubTitle2] = useState('');
-  const [description, setDescription] = useState('');
+  // const [subTitle2, setSubTitle2] = useState('');
+  // const [description, setDescription] = useState('');
   const [description1, setDescription1] = useState('');
   const [showUrl, setShowUrl] = useState(false);
   const [url, setUrl] = useState('');
