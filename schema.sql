@@ -79,11 +79,11 @@ CREATE TABLE region_gu_display_periods (
 
 
 -- 6. 현수막 자리(층) 각 면 하나하나에 대한 메타데이터 테이블
-CREATE TABLE panel_face_info (
+CREATE TABLE panel_slot_info (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     panel_info_id UUID NOT NULL REFERENCES panel_info(id) ON DELETE CASCADE,
-    face_number INTEGER NOT NULL CHECK (face_number BETWEEN 1 AND 5), -- 1(최상단) ~ 5(최하단)
-    face_name TEXT, -- 자리 이름 (예: "상단", "중단", "하단" 등)
+    slot_number INTEGER NOT NULL CHECK (slot_number BETWEEN 1 AND 5), -- 1(최상단) ~ 5(최하단)
+    slot_name TEXT, -- 자리 이름 (예: "상단", "중단", "하단" 등)
     max_width DECIMAL(5, 2), -- 해당 자리 최대 너비 (미터)
     max_height DECIMAL(5, 2), -- 해당 자리 최대 높이 (미터)
     base_price DECIMAL(10, 2), -- 기본 요금. 부착 단가 (일당 또는 월당)
@@ -101,14 +101,14 @@ CREATE TABLE panel_face_info (
 );
 
 
--- 7. Panel Face Usage (면 사용 내역)
+-- 7. Panel slot Usage (면 사용 내역)
 -- 현수막 게시대, LED 전자 게시대의 한 면 (e.g. 5층 중 1층 면)
 -- orders 로부터 trigger 필요
-CREATE TABLE panel_face_usage (
+CREATE TABLE panel_slot_usage (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 product_id UUID REFERENCES products(id) ON DELETE CASCADE,
 order_id UUID REFERENCES orders(id),
-face_number INT,
+slot_number INT,
 usage_type TEXT, -- 분류 : 소형게시대, 등.. 확인 필요
 attach_date_from DATE, -- 부착일 =게시일
 unit_price NUMERIC, -- 부착 단가
@@ -194,8 +194,8 @@ CREATE TABLE orders (
   order_name TEXT,
   user_id UUID REFERENCES users(id), 
   company_id UUID REFERENCES companies(id), 
-  panel_face_info_id UUID REFERENCES products(id), --게시대 정보
-  panel_face_usage_id UUID REFERENCES panel_face_usage(id), --게시대
+  panel_slot_info_id UUID REFERENCES products(id), --게시대 정보
+  panel_slot_usage_id UUID REFERENCES panel_slot_usage(id), --게시대
   total_price NUMERIC, -- 총 금액
   depositor_name TEXT, -- 입금자명
   deposit_date DATE, -- 입금일 
@@ -225,7 +225,7 @@ CREATE TABLE orders (
 CREATE TABLE order_details (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 order_id UUID REFERENCES orders(id),
-face_order_quantity INT, --면 구매 수량
+slot_order_quantity INT, --면 구매 수량
 display_start_date DATE, --송출 시작일
 display_end_date DATE, --송출 종료일
 created_at TIMESTAMP DEFAULT now(),

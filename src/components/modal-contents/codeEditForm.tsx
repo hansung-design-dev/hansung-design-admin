@@ -66,7 +66,8 @@ function FlexibleForm({
                   onChange={(e) =>
                     setFormState({ ...formState, [field.key]: e.target.value })
                   }
-                  className="w-[12rem]"
+                  labelClassName="w-[3rem] text-sm"
+                  className="w-[8rem] placeholder:text-sm border-b"
                 />
                 {field.buttons.map((btn) => (
                   <Button key={btn.key} size="S" className="text-0-75-500">
@@ -91,17 +92,17 @@ function FlexibleForm({
               onChange={(e) =>
                 setFormState({ ...formState, [field.key]: e.target.value })
               }
-              className="w-[16rem]"
+              className="w-[10rem] border-b"
             />
           );
         })}
       </div>
       {/* 오른쪽 영역 */}
-      <div className="w-[350px] flex flex-col gap-4 text-0-75-500 text-gray-1">
+      <div className="w-[350px] flex flex-col gap-2 text-0-75-500 text-gray-1">
         {rightFields.map((field, i) => {
           if (field.type === 'checkbox') {
             return (
-              <div key={field.key} className="flex items-center gap-2">
+              <div key={field.key} className="flex items-center gap-2 mb-2">
                 <Checkbox
                   checked={!!formState[field.key]}
                   onChange={(e) =>
@@ -130,7 +131,7 @@ function FlexibleForm({
               onChange={(e) =>
                 setFormState({ ...formState, [field.key]: e.target.value })
               }
-              className="w-[16rem]"
+              className="w-[10rem] border-b"
             />
           );
         })}
@@ -149,14 +150,40 @@ function CodeEditForm<T>({ columns, data }: CodeEditFormProps<T>) {
   return (
     <>
       <div className="text-1-700 text-xl mb-8"></div>
+      <div className="flex items-center gap-8 mb-4">
+        <LabelInput
+          label="위치명"
+          placeholder="입력해주세요."
+          value={(formState['location'] as string) || ''}
+          onChange={(e) =>
+            setFormState({ ...formState, location: e.target.value })
+          }
+          labelClassName="text-sm"
+          className="w-[10rem] border-b placeholder:text-sm"
+        />
+        <LabelInput
+          label="넘버"
+          placeholder="입력해주세요."
+          value={(formState['post_code'] as string) || ''}
+          onChange={(e) =>
+            setFormState({ ...formState, post_code: e.target.value })
+          }
+          labelClassName="text-sm"
+          className="w-[10rem] border-b placeholder:text-sm"
+        />
+        <LabelInput
+          label="행정동"
+          placeholder="입력해주세요."
+          value={(formState['region_dong'] as string) || ''}
+          onChange={(e) =>
+            setFormState({ ...formState, region_dong: e.target.value })
+          }
+          labelClassName="text-sm"
+          className="w-[10rem] border-b placeholder:text-sm"
+        />
+      </div>
       <FlexibleForm
         leftFields={[
-          {
-            type: 'input',
-            key: 'location',
-            label: '위치명',
-            placeholder: '입력해주세요.',
-          },
           {
             type: 'inputWithButtons',
             key: 'photo',
@@ -194,46 +221,83 @@ function CodeEditForm<T>({ columns, data }: CodeEditFormProps<T>) {
         rightFields={[
           {
             type: 'input',
-            key: 'post_code',
-            label: '넘버',
-            placeholder: '코드를 입력하세요',
-          },
-          {
-            type: 'input',
-            key: 'region_dong',
-            label: '행정동',
-            placeholder: '동을 입력하세요',
-          },
-          {
-            type: 'input',
             key: 'installation_date',
-            label: '게시일',
-            placeholder: 'YYYY-MM-DD',
+            label: '게시',
+            placeholder: '입력해주세요.',
           },
           {
             type: 'custom',
             render: () => (
-              <LabelInput
-                label="규격"
-                value={`${formState['post_width'] || ''} px x ${
-                  formState['post_height'] || ''
-                } px`}
-                readOnly
-                className="w-[16rem]"
-              />
+              <div className="flex items-center gap-2">
+                <span className="w-[7rem]">규격(가로 x 세로)</span>
+                <div className="flex items-center gap-1">
+                  <input
+                    type="text"
+                    value={(formState['post_width'] as string) || ''}
+                    onChange={(e) =>
+                      setFormState({ ...formState, post_width: e.target.value })
+                    }
+                    className="w-[3rem] border-b border-gray-2 bg-transparent text-right px-1"
+                  />
+                  <span>px x</span>
+                  <input
+                    type="text"
+                    value={(formState['post_height'] as string) || ''}
+                    onChange={(e) =>
+                      setFormState({
+                        ...formState,
+                        post_height: e.target.value,
+                      })
+                    }
+                    className="w-[3rem] border-b border-gray-2 bg-transparent text-right px-1"
+                  />
+                  <span>px</span>
+                </div>
+              </div>
             ),
           },
           {
             type: 'input',
             key: 'price',
             label: '금액',
-            placeholder: '코드를 입력해주세요.',
+            placeholder: '입력해주세요.',
           },
-          { type: 'checkbox', key: 'is_for_admin', label: '행정용' },
+          {
+            type: 'custom',
+            render: () => (
+              <div className="flex items-center gap-4 py-2">
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    checked={!!formState['is_bulk_close']}
+                    onChange={(e) =>
+                      setFormState({
+                        ...formState,
+                        is_bulk_close: e.target.checked,
+                      })
+                    }
+                  />
+                  <span>일괄마감</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    checked={!!formState['is_for_admin']}
+                    onChange={(e) =>
+                      setFormState({
+                        ...formState,
+                        is_for_admin: e.target.checked,
+                      })
+                    }
+                  />
+                  <span>행정용</span>
+                </div>
+              </div>
+            ),
+          },
         ]}
         formState={formState}
         setFormState={setFormState}
       />
+      <div className="mb-8"></div>
       <BoxedTableWrapper columns={columns} data={data} />
     </>
   );

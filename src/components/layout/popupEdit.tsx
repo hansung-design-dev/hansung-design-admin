@@ -25,7 +25,7 @@ export default function PopupEdit<T>({
 }: PopupEditProps<T>) {
   const [isPosted, setIsPosted] = useState(true);
   return (
-    <div className="w-full p-2 md:p-4">
+    <div className="min-w-[23rem] max-w-[40rem] p-2 md:p-4">
       {/* 제목 */}
       <div className="text-1-700 mb-4">{title}</div>
       {/* 상단 버튼 영역 */}
