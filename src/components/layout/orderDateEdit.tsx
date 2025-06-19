@@ -120,7 +120,7 @@ export default function OrderDateEdit({
           </div>
         </div>
         {/* 체크박스+버튼 */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mt-2 w-full">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mt-2 min-w-[17rem] max-w-[50rem]">
           <div className="flex items-center gap-2">
             <Checkbox
               checked={applyThisMonth}
@@ -141,7 +141,7 @@ export default function OrderDateEdit({
         </div>
       </div>
       {/* 표: 이번달, 다음달 */}
-      <div className="flex flex-col md:flex-row gap-2 md:gap-4 w-full">
+      <div className="flex flex-col md:flex-row gap-2 md:gap-4 min-w-[28rem] max-w-[44rem]">
         <OrderDate
           location={location}
           month="5월"

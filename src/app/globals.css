@@ -44,6 +44,7 @@ html {
   --text-1-875: 1.875rem;
   --text-2: 2rem;
   --text-2-25: 2.25rem;
+  --text-2-265: 2.265rem;
   --text-2-5: 2.5rem;
   --text-3: 3rem;
   --text-3-7: 3.7rem;
@@ -222,6 +223,10 @@ body {
   .text-2-5-900 {
     font-size: var(--text-2-5);
     font-weight: 900;
+  }
+  .text-2-265-600 {
+    font-size: var(--text-2-265);
+    font-weight: 600;
   }
   .text-3-700 {
     font-size: var(--text-3);

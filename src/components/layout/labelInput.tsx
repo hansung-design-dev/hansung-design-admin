@@ -11,7 +11,7 @@ interface LabelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const LabelInput: React.FC<LabelInputProps> = ({
   label,
   labelClassName = 'w-20',
-  containerClassName = 'items-center, gap-2',
+  containerClassName = 'items-center gap-2',
   className = 'outline-none border-b',
   type = 'text',
   placeholder,

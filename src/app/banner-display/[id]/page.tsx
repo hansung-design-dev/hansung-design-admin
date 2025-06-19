@@ -268,7 +268,7 @@ export default function BannerDisplayDetail() {
   // console.log(rowData[0]);
 
   return (
-    <div className="pt-8 md:pt-16">
+    <div className="py-16 md:pt-16">
       <Header breadcrumbs={['현수막게시대', location]} />
       <div>
         <Title title={location} />
