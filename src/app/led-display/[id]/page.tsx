@@ -13,7 +13,7 @@ import AddItem from '@/components/layout/addItem';
 import TextUpdate from '@/components/layout/textUpdate';
 import Modal from '@/components/modal-contents/modal';
 // import PopupAddForm from '@/components/modal-contents/popupAddForm';
-import OrderEditForm from '@/components/modal-contents/orderEditForm';
+import LedEditForm from '@/components/modal-contents/LedEditForm';
 import CodeEditForm from '@/components/modal-contents/codeEditForm';
 import Button from '@/components/ui/button';
 import { TableColumn } from '@/components/layout/commonTable';
@@ -296,24 +296,7 @@ export default function LedDisplayDetail() {
             />
           )}
           {modalType === 'order' && selectedRow && (
-            <OrderEditForm
-              fields={[
-                { key: 'id', label: 'NO' },
-                { key: 'location', label: '위치' },
-                { key: 'isPhoto', label: '사진' },
-                { key: 'isLocation', label: '위치' },
-                { key: 'isMap', label: '지도' },
-                { key: 'disrtict_name', label: '행정동' },
-                { key: 'display', label: '게시' },
-                { key: 'amount', label: '금액' },
-                { key: 'size', label: '크기' },
-                { key: 'announcement', label: '안내사항' },
-                { key: 'CountArea', label: '면수' },
-                { key: 'done', label: '마감' },
-                { key: 'isForAdmin', label: '행정용' },
-                { key: 'note', label: '비고' },
-              ]}
-            />
+            <LedEditForm selectedRow={selectedRow} />
           )}
           {modalType === 'code' && (
             <CodeEditForm columns={districtColumns} data={districtData} />

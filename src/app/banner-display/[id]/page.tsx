@@ -13,7 +13,7 @@ import AddItem from '@/components/layout/addItem';
 import TextUpdate from '@/components/layout/textUpdate';
 import Modal from '@/components/modal-contents/modal';
 import PopupAddForm from '@/components/modal-contents/popupAddForm';
-import OrderEditForm from '@/components/modal-contents/orderEditForm';
+import BannerEditForm from '@/components/modal-contents/BannerEditForm';
 import CodeEditForm from '@/components/modal-contents/codeEditForm';
 import Button from '@/components/ui/button';
 
@@ -53,7 +53,7 @@ const bannerPanelData: BannerPanelRow[] = [
     post_height: 3.5,
     post_width: 2.0,
     installation_date: '2023-01-15',
-    status: 'active',
+    status: '사용',
     maintenance_notes: '2024-05-01 점검 완료',
   },
   {
@@ -65,7 +65,7 @@ const bannerPanelData: BannerPanelRow[] = [
     post_height: 3.0,
     post_width: 1.8,
     installation_date: '2022-11-10',
-    status: 'maintenance',
+    status: '유지보수',
     maintenance_notes: '2024-04-10 보수 필요',
   },
   {
@@ -77,7 +77,7 @@ const bannerPanelData: BannerPanelRow[] = [
     post_height: 4.0,
     post_width: 2.2,
     installation_date: '2021-09-05',
-    status: 'inactive',
+    status: '비활성',
     maintenance_notes: '',
   },
 ];
@@ -396,23 +396,10 @@ export default function BannerDisplayDetail() {
         >
           {modalType === 'popup' && <PopupAddForm />}
           {modalType === 'order' && selectedRow && (
-            <OrderEditForm
-              fields={[
-                { key: 'id', label: 'NO' },
-                { key: 'location', label: '위치' },
-                { key: 'isPhoto', label: '사진' },
-                { key: 'isLocation', label: '위치' },
-                { key: 'isMap', label: '지도' },
-                { key: 'disrtict_name', label: '행정동' },
-                { key: 'display', label: '게시' },
-                { key: 'amount', label: '금액' },
-                { key: 'size', label: '크기' },
-                { key: 'announcement', label: '안내사항' },
-                { key: 'CountArea', label: '면수' },
-                { key: 'done', label: '마감' },
-                { key: 'isForAdmin', label: '행정용' },
-                { key: 'note', label: '비고' },
-              ]}
+            <BannerEditForm
+              columns={panelFaceUsageColumns}
+              data={panelFaceUsageData}
+              selectedRow={selectedRow}
             />
           )}
           {modalType === 'code' && (

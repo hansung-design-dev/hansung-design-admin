@@ -1,13 +1,14 @@
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  size?: 'xL' | 'L' | 'M' | 'S' | 'XS';
+  size?: 'XL' | 'L' | 'M' | 'ML' | 'S' | 'XS';
   colorStyles?: string;
 }
 
 const sizeStyles: Record<string, string> = {
   XL: 'w-[15rem] h-[1rem]',
   L: 'w-[26rem] h-[3.2rem]',
+  ML: ' h-[2rem]',
   M: 'w-[7rem] h-[1.5rem]',
   S: 'w-[4rem] h-[1.7rem] px-[0.375rem] py-[0.625rem]',
   XS: 'w-[3.5rem] h-[1.3rem] py-[0.8rem] px-[0.375rem]',
