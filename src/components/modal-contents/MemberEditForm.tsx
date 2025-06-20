@@ -33,36 +33,41 @@ function MemberEditForm({ selectedRow }: MemberEditFormProps) {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const renderInput = (name: keyof MemberFormState, label: string) => (
-    <div key={name}>
-      <label className="text-sm font-medium text-gray-700">{label}</label>
-      <input
-        type="text"
-        name={name}
-        value={formState[name] || ''}
-        onChange={handleInputChange}
-        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border-b"
-      />
-    </div>
-  );
+  const fields: { key: keyof MemberFormState; label: string }[] = [
+    { key: 'id', label: 'NO' },
+    { key: 'order_number', label: '신청번호' },
+    { key: 'applicant_name', label: '성명' },
+    { key: 'birthdate', label: '생년월일' },
+    { key: 'phone', label: '전화번호' },
+    { key: 'company_name', label: '업체명' },
+    { key: 'quantity', label: '신청수량' },
+    { key: 'total_amount', label: '총금액' },
+    { key: 'depositor_id', label: '신청자 ID' },
+    { key: 'depositor_name', label: '입금자' },
+    { key: 'deposit_date', label: '입금일자' },
+    { key: 'is_paid', label: '입금' },
+    { key: 'is_checked', label: '확인' },
+    { key: 'invoice_issued_at', label: '계산서발행' },
+  ];
 
   return (
     <div className="max-h-[80vh] overflow-y-auto pr-4">
-      <div className="grid grid-cols-2 gap-x-6 gap-y-4 p-4">
-        {renderInput('id', 'NO')}
-        {renderInput('order_number', '신청번호')}
-        {renderInput('applicant_name', '성명')}
-        {renderInput('birthdate', '생년월일')}
-        {renderInput('phone', '전화번호')}
-        {renderInput('company_name', '업체명')}
-        {renderInput('quantity', '신청수량')}
-        {renderInput('total_amount', '총금액')}
-        {renderInput('depositor_id', '신청자 ID')}
-        {renderInput('depositor_name', '입금자')}
-        {renderInput('deposit_date', '입금일자')}
-        {renderInput('is_paid', '입금')}
-        {renderInput('is_checked', '확인')}
-        {renderInput('invoice_issued_at', '계산서발행')}
+      <div className="grid grid-cols-2 gap-x-8 gap-y-2 p-4">
+        {fields.map(({ key, label }) => (
+          <label key={key} className="flex items-center gap-2 pb-2">
+            <span className="w-24 shrink-0 text-sm font-medium text-gray-700">
+              {label}
+            </span>
+            <input
+              type="text"
+              placeholder="내용을 입력해주세요."
+              name={key}
+              value={formState[key] || ''}
+              onChange={handleInputChange}
+              className="w-full border-b bg-transparent outline-none placeholder:text-xs value:text-xs border-gray-2"
+            />
+          </label>
+        ))}
       </div>
     </div>
   );
