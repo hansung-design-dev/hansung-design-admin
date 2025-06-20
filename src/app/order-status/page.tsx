@@ -8,7 +8,7 @@ import { useState } from 'react';
 import Modal from '@/components/modal-contents/modal';
 import OrderEditForm from '@/components/modal-contents/orderEditForm';
 
-interface DistrictRow {
+export interface DistrictRow {
   id: string;
   applicant_name: string;
   birthdate: string;
@@ -307,35 +307,9 @@ export default function OrderStatus() {
         >
           {modalType === 'order' && selectedRow && (
             <OrderEditForm
-              fields={[
-                { key: 'order_at', label: '신청일자' },
-                { key: 'order_number', label: '신청번호' },
-                { key: 'company_info', label: '사업자정보' },
-                { key: 'applicant_name', label: '성명' },
-                { key: 'birthdate', label: '사업자 생년월일' },
-                { key: 'fax_no', label: '팩스번호' },
-                { key: 'phone', label: '전화번호' },
-                { key: 'company_name', label: '부서 업체명' },
-                { key: 'address', label: '주소' },
-                { key: 'email', label: '이메일' },
-                { key: 'mobile_no', label: '휴대폰번호' },
-                { key: '??', label: '게시시설공업소' },
-                { key: 'representative', label: '대표자' },
-                { key: 'business_no', label: '사업자번호' },
-                { key: 'phone_no', label: '전화번호' },
-                { key: 'display_contents', label: '광고내용' },
-                { key: 'note', label: '특이사항' },
-                { key: 'is_keep_banner', label: '철거시현수막보관' },
-                { key: 'is_order_requested', label: '제작(설치)의뢰' },
-                { key: 'is_approved', label: '검수완료' },
-                { key: 'is_instock', label: '현수막입고(전체)' },
-                { key: 'order_at', label: '신청일자' },
-                { key: 'depositor_name', label: '입금자명' },
-                { key: 'depositor_date', label: '입금일자' },
-                { key: 'deposit_amount', label: '입금금액' },
-                { key: 'applicant_id', label: '신청자ID' },
-                { key: 'reserved_date', label: '예약년월' },
-              ]}
+              columns={statusColumns}
+              data={[selectedRow]}
+              selectedRow={selectedRow}
             />
           )}
         </Modal>

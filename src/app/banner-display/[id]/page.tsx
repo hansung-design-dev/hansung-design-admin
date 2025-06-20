@@ -53,7 +53,7 @@ const bannerPanelData: BannerPanelRow[] = [
     post_height: 3.5,
     post_width: 2.0,
     installation_date: '2023-01-15',
-    status: 'active',
+    status: '사용',
     maintenance_notes: '2024-05-01 점검 완료',
   },
   {
@@ -65,7 +65,7 @@ const bannerPanelData: BannerPanelRow[] = [
     post_height: 3.0,
     post_width: 1.8,
     installation_date: '2022-11-10',
-    status: 'maintenance',
+    status: '유지보수',
     maintenance_notes: '2024-04-10 보수 필요',
   },
   {
@@ -77,7 +77,7 @@ const bannerPanelData: BannerPanelRow[] = [
     post_height: 4.0,
     post_width: 2.2,
     installation_date: '2021-09-05',
-    status: 'inactive',
+    status: '비활성',
     maintenance_notes: '',
   },
 ];

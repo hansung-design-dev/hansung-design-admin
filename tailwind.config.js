@@ -7,7 +7,14 @@ const config = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontSize: {
+        '0-75-500': '0.75rem',
+      },
+      fontWeight: {
+        500: '500',
+      },
+    },
   },
   plugins: [lineClamp],
 };

@@ -1,191 +1,457 @@
 import React, { useState } from 'react';
 import Button from '@/components/ui/button';
 import Checkbox from '@/components/ui/checkbox';
-import LabelInput from '../layout/labelInput';
 import { BoxedTableWrapper } from '../table/boxedTableWrapper';
 import { TableColumn } from '../layout/commonTable';
+import { DistrictRow } from '@/app/order-status/page';
 
-interface OrderEditFormProps {
-  fields: { key: string; label: string }[];
+type OrderFormState = Partial<
+  DistrictRow & {
+    company_info: string;
+    fax_no: string;
+    phone: string;
+    mobile_no: string;
+    email: string;
+    industrial_complex: string;
+    representative: string;
+    business_no: string;
+    display_contents: string;
+    note: string;
+    is_keep_banner: boolean;
+    is_order_requested: boolean;
+    is_print_except_draft: boolean;
+    deposit_amount: string;
+    reserved_date: string;
+    confirmed_date: string;
+    transaction_id: string;
+  }
+>;
+
+interface OrderEditFormProps<T> {
+  columns: TableColumn<T>[];
+  data: T[];
+  selectedRow: DistrictRow | null;
 }
 
-interface TableRow {
-  count: string;
-  usageType: string;
-  attachDate: string;
-  attachPrice: string;
-  fee: string;
-  usage: string;
-  done: string;
-  companyName: string;
-}
-
-// 테이블 컬럼 정의
-const tableColumns: TableColumn<TableRow>[] = [
-  { key: 'count', header: '면수' },
-  { key: 'usageType', header: '사용구분' },
-  { key: 'attachDate', header: '부착일' },
-  { key: 'attachPrice', header: '부착단가' },
-  { key: 'fee', header: '수수료' },
-  { key: 'usage', header: '사용' },
-  { key: 'done', header: '마감' },
-  { key: 'companyName', header: '사업자명' },
-];
-// 테이블 데이터 예시
-const tableData: TableRow[] = [
-  {
-    count: '01',
-    usageType: '사용구분',
-    attachDate: '부착일',
-    attachPrice: '부착단가',
-    fee: '수수료',
-    usage: '가능',
-    done: '-',
-    companyName: '-',
-  },
-  {
-    count: '02',
-    usageType: '사용구분',
-    attachDate: '부착일',
-    attachPrice: '부착단가',
-    fee: '수수료',
-    usage: '가능',
-    done: '마감',
-    companyName: '회사이름',
-  },
-  {
-    count: '03',
-    usageType: '사용구분',
-    attachDate: '부착일',
-    attachPrice: '부착단가',
-    fee: '수수료',
-    usage: '가능',
-    done: '마감',
-    companyName: '회사이름',
-  },
-  {
-    count: '04',
-    usageType: '사용구분',
-    attachDate: '부착일',
-    attachPrice: '부착단가',
-    fee: '수수료',
-    usage: '가능',
-    done: '-',
-    companyName: '-',
-  },
-  {
-    count: '0',
-    usageType: '사용구분',
-    attachDate: '부착일',
-    attachPrice: '부착단가',
-    fee: '수수료',
-    usage: '불가능',
-    done: '-',
-    companyName: '홍길동',
-  },
-];
-
-function OrderEditForm({ fields }: OrderEditFormProps) {
-  const [formState, setFormState] = useState<Record<string, string>>({});
-  const [checked, setChecked] = useState<Record<string, boolean>>({});
-
-  // 필드 분류: textarea, checkbox, 일반 input 등
-  const textAreaFields = ['note', 'display_contents'];
-  const checkboxFields = [
-    { key: 'is_keep_banner', label: '철거시 현수막보관' },
-    { key: 'is_order_requested', label: '제작(설치)의뢰' },
-    { key: 'is_approved', label: '검수완료' },
-    { key: 'is_instock', label: '현수막입고(전체)' },
-  ];
-  const buttonFields = [
-    { key: 'view_design', label: '시안보기' },
-    { key: 'register_design', label: '시안등록' },
-    { key: 'delete_design', label: '시안삭제' },
-    { key: 'register_attachment', label: '첨부등록' },
-  ];
+function OrderEditForm<T>({
+  columns,
+  data,
+  selectedRow,
+}: OrderEditFormProps<T>) {
+  const [formState, setFormState] = useState<OrderFormState>(selectedRow || {});
+  const handleCheckboxChange = (
+    key: keyof OrderFormState,
+    checked: boolean
+  ) => {
+    setFormState((prev) => ({ ...prev, [key]: checked }));
+  };
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormState((prev) => ({ ...prev, [name]: value }));
+  };
 
   return (
-    <form className="flex flex-col gap-6">
-      {/* 상단 버튼 */}
-
-      <div className="flex gap-2 mb-2">
-        <Button size="S" className="text-0-75-500">
-          수정
-        </Button>
-        <Button size="S" className="text-0-75-500">
-          삭제
-        </Button>
-      </div>
-
-      {/* 2단 그리드 입력 */}
-      <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-        {fields.map(({ key, label }) => {
-          if (textAreaFields.includes(key)) {
-            return (
-              <div className="col-span-2" key={key}>
-                <label className="block mb-1 text-0-75-500 text-gray-1">
-                  {label}
-                </label>
-                <textarea
-                  className="w-full border border-gray-2 rounded px-2 py-1 resize-none text-0-75-500"
-                  placeholder={label + '을(를) 입력해주세요.'}
-                  value={formState[key] || ''}
-                  onChange={(e) =>
-                    setFormState({ ...formState, [key]: e.target.value })
-                  }
-                  rows={3}
-                />
-              </div>
-            );
-          }
-          return (
-            <LabelInput
-              key={key}
-              label={label}
-              placeholder={'내용을 입력해주세요'}
-              value={formState[key] || ''}
-              onChange={(e) =>
-                setFormState({ ...formState, [key]: e.target.value })
-              }
-              labelClassName="w-[4rem] text-0-75-500"
-              className="text-0-75-500 placeholder:text-0-75-500"
-            />
-          );
-        })}
-      </div>
-
-      {/* 체크박스 그룹 */}
-      <div className="flex flex-wrap gap-6 items-center mt-2">
-        {checkboxFields.map(({ key, label }) => (
-          <label key={key} className="flex items-center gap-2">
-            <Checkbox
-              checked={!!checked[key]}
-              onChange={(e) =>
-                setChecked({ ...checked, [key]: e.target.checked })
-              }
-            />
-            <span className="text-0-75-500">{label}</span>
-          </label>
-        ))}
-      </div>
-
-      {/* 버튼 그룹 */}
-      <div className="flex flex-wrap gap-2 mt-2">
-        {buttonFields.map(({ key, label }) => (
-          <Button key={key} size="S" className="text-0-75-500">
-            {label}
-          </Button>
-        ))}
-      </div>
-      <div className="mt-8">
-        <div className="flex gap-2 mb-4">
-          <Button size="S">+ 추가</Button>
-          <Button size="S">삭제</Button>
+    <div className="max-h-[80vh] overflow-y-auto pr-4">
+      {/* 1. 기본 정보 */}
+      <div className="grid grid-cols-3 gap-x-8 gap-y-4 mb-4">
+        {/* 신청일자 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">신청일자</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="order_at"
+            value={formState['order_at']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 신청번호 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">신청번호</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="id"
+            value={formState['id']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 사업자정보 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">사업자정보</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="company_info"
+            value={formState['company_info']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 성명 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">성명</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="applicant_name"
+            value={formState['applicant_name']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 사업자 생년월일 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">사업자 생년월일</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="birthdate"
+            value={formState['birthdate']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 팩스번호 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">팩스번호</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="fax_no"
+            value={formState['fax_no']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 전화번호 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">전화번호</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="phone"
+            value={formState['phone']}
+            onChange={handleInputChange}
+            className="w-[8rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 부서 업체명 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">부서 업체명</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="company_name"
+            value={formState['company_name']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 체크박스 영역 */}
+        <div className="col-span-1">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="is_keep_banner"
+                checked={!!formState['is_keep_banner']}
+                onChange={(e) =>
+                  handleCheckboxChange('is_keep_banner', e.target.checked)
+                }
+              />
+              <label htmlFor="is_keep_banner" className="text-0-75-500">
+                철거시 현수막보관
+              </label>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="is_order_requested"
+                checked={!!formState['is_order_requested']}
+                onChange={(e) =>
+                  handleCheckboxChange('is_order_requested', e.target.checked)
+                }
+              />
+              <label htmlFor="is_order_requested" className="text-0-75-500">
+                제작(설치)의뢰
+              </label>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="is_approved"
+                checked={!!formState['is_approved']}
+                onChange={(e) =>
+                  handleCheckboxChange('is_approved', e.target.checked)
+                }
+              />
+              <label htmlFor="is_approved" className="text-0-75-500">
+                검수완료
+              </label>
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="is_instock"
+                checked={!!formState['is_instock']}
+                onChange={(e) =>
+                  handleCheckboxChange('is_instock', e.target.checked)
+                }
+              />
+              <label htmlFor="is_instock" className="text-0-75-500">
+                현수막입고(전체)
+              </label>
+            </div>
+          </div>
         </div>
-        <BoxedTableWrapper columns={tableColumns} data={tableData} />
+        {/* 주소 */}
+        <label className="flex pb-2 items-center gap-2 col-span-3">
+          <span className="text-0-75-500 w-20">주소</span>
+          <input
+            type="text"
+            name="display_address"
+            value={formState['display_address']}
+            onChange={handleInputChange}
+            className="w-full placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 이메일 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">이메일</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="email"
+            value={formState['email']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 핸드폰 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">핸드폰</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="mobile_no"
+            value={formState['mobile_no']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        <div />
+        {/* 게시시설공업소 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">게시시설공업소</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="industrial_complex"
+            value={formState['industrial_complex']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 대표자 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">대표자</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="representative"
+            value={formState['representative']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        <div />
+        {/* 등록번호 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">등록번호</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="business_no"
+            value={formState['business_no']}
+            onChange={handleInputChange}
+            className="w-[7rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 전화번호 */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500 w-20">전화번호</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="phone_no"
+            value={formState['phone_no']}
+            onChange={handleInputChange}
+            className="w-[8rem] placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
       </div>
-    </form>
+      {/* 2. 광고 내용, 특이사항 */}
+      <div className="grid grid-cols-2 gap-x-8 mb-4">
+        {/* 광고내용 */}
+        <label className="flex pb-2 items-center gap-2 col-span-1">
+          <span className="text-0-75-500 w-20">광고내용</span>
+          <input
+            type="text"
+            placeholder="명칭(위치명)을 입력해주세요."
+            name="display_contents"
+            value={formState['display_contents']}
+            onChange={handleInputChange}
+            className="w-full placeholder:text-0-75-500 border-b outline-none bg-transparent border-gray-2"
+          />
+        </label>
+
+        <div className="flex gap-2">
+          <Button size="S" className="text-0-75-500">
+            시안보기
+          </Button>
+          <Button size="S" className="text-0-75-500">
+            시안등록
+          </Button>
+          <Button size="S" className="text-0-75-500">
+            시안삭제
+          </Button>
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id="is_print_except_draft"
+              checked={!!formState['is_print_except_draft']}
+              onChange={(e) =>
+                handleCheckboxChange('is_print_except_draft', e.target.checked)
+              }
+            />
+            <label htmlFor="is_print_except_draft" className="text-0-75-500">
+              시안제외 인쇄
+            </label>
+          </div>
+        </div>
+        <div className="col-span-2">
+          <label
+            htmlFor="note"
+            className="block mb-1 text-sm font-medium text-gray-700"
+          >
+            특이사항
+          </label>
+          <textarea
+            id="note"
+            name="note"
+            rows={3}
+            className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm placeholder:text-0-75-500"
+            placeholder="명칭(위치명)을 입력해주세요."
+            value={formState['note']}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="col-span-2">
+          <Button size="S" className="text-0-75-500">
+            첨부등록
+          </Button>
+        </div>
+      </div>
+      {/* 3. 입금 정보 */}
+      <div className="grid grid-cols-4 gap-x-8 gap-y-4 mb-4">
+        {/* 신청일자 (ReadOnly) */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500">신청일자</span>
+          <input
+            type="text"
+            value={formState['order_at'] || '2025-03-17'}
+            readOnly
+            className="w-[5rem] border-b text-0-75-500 outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 입금자명 (ReadOnly) */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500">입금자명</span>
+          <input
+            type="text"
+            value={formState['depositor_name'] || '홍길동'}
+            readOnly
+            className="w-[5rem] border-b text-0-75-500 outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 입금일자 (ReadOnly) */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500">입금일자</span>
+          <input
+            type="text"
+            value={formState['depositor_date'] || '2025-03-17'}
+            readOnly
+            className="w-[5rem] border-b text-0-75-500 outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 입금금액 (ReadOnly) */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500">입금금액</span>
+          <input
+            type="text"
+            value={formState['deposit_amount'] || '279,600원'}
+            readOnly
+            className="w-[5rem] border-b text-0-75-500 outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 신청자ID (ReadOnly) */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500">신청자ID</span>
+          <input
+            type="text"
+            value={formState['applicant_id'] || '2025-03-17'}
+            readOnly
+            className="w-[5rem] border-b text-0-75-500 outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 예약년월 (ReadOnly) */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500">예약년월</span>
+          <input
+            type="text"
+            value={formState['reserved_date'] || '홍길동홍길동'}
+            readOnly
+            className="w-[5rem] border-b text-0-75-500 outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        {/* 확인일자 (ReadOnly) */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500">확인일자</span>
+          <input
+            type="text"
+            value={formState['confirmed_date'] || '2025-03-17'}
+            readOnly
+            className="w-[5rem] border-b text-0-75-500 outline-none bg-transparent border-gray-2"
+          />
+        </label>
+      </div>
+      <div className="flex gap-2 mb-4">
+        <Button size="M" className="text-0-75-500">
+          증빙정보수정
+        </Button>
+        <Button size="M" className="text-0-75-500">
+          입금취소관리
+        </Button>
+      </div>
+      {/* 4. 결제방법, 거래번호 */}
+      <div className="grid grid-cols-3 gap-x-8 gap-y-4 mb-8">
+        {/* 결제방법 (ReadOnly) */}
+        <label className="flex pb-2 items-center gap-2">
+          <span className="text-0-75-500">결제방법</span>
+          <input
+            type="text"
+            value={formState['payment_method'] || '무통장입금'}
+            readOnly
+            className="w-[5rem] border-b text-0-75-500 outline-none bg-transparent border-gray-2"
+          />
+        </label>
+        <Button size="M" className="text-0-75-500">
+          유휴연수복사
+        </Button>
+      </div>
+
+      <BoxedTableWrapper columns={columns} data={data} />
+    </div>
   );
 }
-
 export default OrderEditForm;
