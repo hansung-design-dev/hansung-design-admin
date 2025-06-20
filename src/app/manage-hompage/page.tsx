@@ -61,6 +61,7 @@ export default function ManageHomepage() {
       <div className="mt-8 text-gray-1 ml-14">
         <div className="grid grid-cols-3 gap-8">
           <HomepageContent title="메인" />
+          <div></div>
           <div className="p-0 w-full h-full">
             <AddItem
               onClick={onAddItem}
@@ -68,9 +69,8 @@ export default function ManageHomepage() {
               containerclassName="h-full w-full"
             />
           </div>
-          <div></div>
         </div>
-        <div className="border-b-[0.1rem] border-gray-2 w-[70%] mx-auto py-4"></div>
+        <div className="border-b-[0.1rem] border-gray-2 w-[95%] mx-auto py-4"></div>
         <div className="grid grid-cols-3 gap-8">
           <HomepageContent title="메인" />
           <HomepageContent title="Part 1" />
