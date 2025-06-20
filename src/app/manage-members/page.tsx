@@ -251,7 +251,7 @@ export default function OrderStatus() {
       />
       {isModalOpen && (
         <Modal
-          title={modalType === 'order' && '게시대코드등록 및 수정화면'}
+          title={modalType === 'order' && '회원추가/수정'}
           onClose={handleClose}
           footer={
             <Button size="L" colorStyles="black" className="w-[20rem]">
