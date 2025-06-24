@@ -88,7 +88,7 @@ const statusColumns = [
   {
     key: 'is_paid',
     header: '입금여부',
-    minWidth: '2rem',
+    minWidth: '2.5rem',
   },
   {
     key: 'is_confirmed',
