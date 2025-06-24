@@ -5,6 +5,9 @@ import Button from '@/components/ui/button';
 import Image from 'next/image';
 import Checkbox from '@/components/ui/checkbox';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import Modal from '@/components/modal-contents/modal';
+import OrderDateEdit from '@/components/layout/orderDateEdit';
 
 // 1. 구 코드-이름 매핑 (실제 DB에서는 code만 저장, name은 프론트에서 매핑)
 // const districts = [
@@ -176,6 +179,41 @@ const columns: TableColumn<BoardSchedule>[] = [
 
 export default function LedDisplay() {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalLocation, setModalLocation] = useState('');
+  const [tableData, setTableData] = useState(mockData);
+
+  const handleAdd = () => {
+    setModalLocation('');
+    setIsModalOpen(true);
+  };
+
+  const handleSave = () => {
+    // 예시: location만 추가, 실제로는 더 많은 필드 필요
+    setTableData([
+      ...tableData,
+      {
+        id: (tableData.length + 1).toString(),
+        district_name: modalLocation,
+        category: 'banner',
+        first_half_start: new Date(),
+        first_half_end: new Date(),
+        second_half_start: new Date(),
+        second_half_end: new Date(),
+        first_half_deadline_count: 0,
+        second_half_deadline_count: 0,
+        next_first_half_start: new Date(),
+        next_first_half_end: new Date(),
+        next_second_half_start: new Date(),
+        next_second_half_end: new Date(),
+        next_first_half_deadline_count: 0,
+        next_second_half_deadline_count: 0,
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+    ]);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="pt-16 px-8 ml-[5rem]">
@@ -189,7 +227,7 @@ export default function LedDisplay() {
           />
           사용 안하는 게시대 제외
         </div>
-        <Button size="S" className="text-0-75-500">
+        <Button size="S" className="text-0-75-500" onClick={handleAdd}>
           <Image src="/svg/plus.svg" alt="logo" width={20} height={20} />
           추가
         </Button>
@@ -197,11 +235,29 @@ export default function LedDisplay() {
 
       <CommonTable
         columns={columns}
-        data={mockData}
+        data={tableData}
         tableRowClick={(row) => {
           router.push(`/banner-display/${row.id}`);
         }}
       />
+      {isModalOpen && (
+        <Modal
+          title="게시대 추가"
+          onClose={() => setIsModalOpen(false)}
+          footer={
+            <Button
+              size="L"
+              colorStyles="black"
+              className="w-[20rem]"
+              onClick={handleSave}
+            >
+              저장
+            </Button>
+          }
+        >
+          <OrderDateEdit location={modalLocation} />
+        </Modal>
+      )}
     </div>
   );
 }
