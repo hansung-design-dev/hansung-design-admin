@@ -225,6 +225,12 @@ export default function OrderStatus() {
     setIsModalOpen(true);
   };
 
+  const handleAddClick = () => {
+    setSelectedRow(null);
+    setModalType('order');
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="pt-16 px-8 ml-[5rem]">
       <Header breadcrumbs={['온라인회원관리']} />
@@ -237,7 +243,7 @@ export default function OrderStatus() {
           />
           사용 안하는 게시대 제외
         </div>
-        <Button size="S" className="text-0-75-500">
+        <Button size="S" className="text-0-75-500" onClick={handleAddClick}>
           <Image src="/svg/plus.svg" alt="logo" width={20} height={20} />
           추가
         </Button>
@@ -259,8 +265,8 @@ export default function OrderStatus() {
             </Button>
           }
         >
-          {modalType === 'order' && selectedRow && (
-            <MemberEditForm selectedRow={selectedRow} />
+          {modalType === 'order' && (
+            <MemberEditForm selectedRow={selectedRow || {}} />
           )}
         </Modal>
       )}

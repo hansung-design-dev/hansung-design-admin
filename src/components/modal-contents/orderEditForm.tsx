@@ -65,7 +65,7 @@ function OrderEditForm<T>({
             name="order_at"
             value={formState['order_at']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 신청번호 */}
@@ -77,7 +77,7 @@ function OrderEditForm<T>({
             name="id"
             value={formState['id']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 사업자정보 */}
@@ -89,7 +89,7 @@ function OrderEditForm<T>({
             name="company_info"
             value={formState['company_info']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 성명 */}
@@ -101,7 +101,7 @@ function OrderEditForm<T>({
             name="applicant_name"
             value={formState['applicant_name']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 사업자 생년월일 */}
@@ -113,7 +113,7 @@ function OrderEditForm<T>({
             name="birthdate"
             value={formState['birthdate']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 팩스번호 */}
@@ -125,7 +125,7 @@ function OrderEditForm<T>({
             name="fax_no"
             value={formState['fax_no']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 전화번호 */}
@@ -137,7 +137,7 @@ function OrderEditForm<T>({
             name="phone"
             value={formState['phone']}
             onChange={handleInputChange}
-            className="w-[8rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[8rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 부서 업체명 */}
@@ -149,7 +149,7 @@ function OrderEditForm<T>({
             name="company_name"
             value={formState['company_name']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 체크박스 영역 */}
@@ -213,7 +213,7 @@ function OrderEditForm<T>({
             name="display_address"
             value={formState['display_address']}
             onChange={handleInputChange}
-            className="placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2 w-[50%]"
+            className="placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2 w-[50%]"
           />
         </label>
         {/* 이메일 */}
@@ -225,7 +225,7 @@ function OrderEditForm<T>({
             name="email"
             value={formState['email']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 핸드폰 */}
@@ -237,7 +237,7 @@ function OrderEditForm<T>({
             name="mobile_no"
             value={formState['mobile_no']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         <div />
@@ -250,7 +250,7 @@ function OrderEditForm<T>({
             name="industrial_complex"
             value={formState['industrial_complex']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 대표자 */}
@@ -262,7 +262,7 @@ function OrderEditForm<T>({
             name="representative"
             value={formState['representative']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         <div />
@@ -275,7 +275,7 @@ function OrderEditForm<T>({
             name="business_no"
             value={formState['business_no']}
             onChange={handleInputChange}
-            className="w-[7rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[7rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 전화번호 */}
@@ -287,7 +287,7 @@ function OrderEditForm<T>({
             name="phone_no"
             value={formState['phone_no']}
             onChange={handleInputChange}
-            className="w-[8rem] placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+            className="w-[8rem] placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
           />
         </label>
       </div>
@@ -303,7 +303,7 @@ function OrderEditForm<T>({
               name="display_contents"
               value={formState['display_contents']}
               onChange={handleInputChange}
-              className="w-full placeholder:text-xs value:text-xs border-b outline-none bg-transparent border-gray-2"
+              className="w-full placeholder:text-xs text-xs border-b outline-none bg-transparent border-gray-2"
             />
           </label>
           <div className="flex gap-2 shrink-0">
@@ -327,7 +327,7 @@ function OrderEditForm<T>({
               id="note"
               name="note"
               rows={3}
-              className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm placeholder:text-xs value:text-xs"
+              className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm placeholder:text-xs text-xs"
               placeholder="명칭(위치명)을 입력해주세요."
               value={formState['note']}
               onChange={handleInputChange}
@@ -368,7 +368,7 @@ function OrderEditForm<T>({
             type="text"
             value={formState['order_at'] || '2025-03-17'}
             readOnly
-            className="w-[5rem] border-b text-xs value:text-xs outline-none bg-transparent border-gray-2"
+            className="w-[5rem] border-b text-xs outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 입금자명 (ReadOnly) */}
@@ -378,7 +378,7 @@ function OrderEditForm<T>({
             type="text"
             value={formState['depositor_name'] || '홍길동'}
             readOnly
-            className="w-[5rem] border-b text-xs value:text-xs outline-none bg-transparent border-gray-2 placeholder:text-xs"
+            className="w-[5rem] border-b text-xs outline-none bg-transparent border-gray-2 placeholder:text-xs"
           />
         </label>
         {/* 입금일자 (ReadOnly) */}
@@ -388,7 +388,7 @@ function OrderEditForm<T>({
             type="text"
             value={formState['depositor_date'] || '2025-03-17'}
             readOnly
-            className="w-[5rem] border-b text-xs value:text-xs outline-none bg-transparent border-gray-2"
+            className="w-[5rem] border-b text-xs outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 입금금액 (ReadOnly) */}
@@ -398,7 +398,7 @@ function OrderEditForm<T>({
             type="text"
             value={formState['deposit_amount'] || '279,600원'}
             readOnly
-            className="w-[5rem] border-b text-xs value:text-xs outline-none bg-transparent border-gray-2"
+            className="w-[5rem] border-b text-xs outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 신청자ID (ReadOnly) */}
@@ -408,7 +408,7 @@ function OrderEditForm<T>({
             type="text"
             value={formState['applicant_id'] || '2025-03-17'}
             readOnly
-            className="w-[5rem] border-b text-xs value:text-xs outline-none bg-transparent border-gray-2"
+            className="w-[5rem] border-b text-xs outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 예약년월 (ReadOnly) */}
@@ -418,7 +418,7 @@ function OrderEditForm<T>({
             type="text"
             value={formState['reserved_date'] || '홍길동홍길동'}
             readOnly
-            className="w-[5rem] border-b text-xs value:text-xs outline-none bg-transparent border-gray-2"
+            className="w-[5rem] border-b text-xs outline-none bg-transparent border-gray-2"
           />
         </label>
         {/* 확인일자 (ReadOnly) */}
@@ -428,7 +428,7 @@ function OrderEditForm<T>({
             type="text"
             value={formState['confirmed_date'] || '2025-03-17'}
             readOnly
-            className="w-[5rem] border-b text-xs value:text-xs outline-none bg-transparent border-gray-2"
+            className="w-[5rem] border-b text-xs outline-none bg-transparent border-gray-2"
           />
         </label>
       </div>
@@ -449,7 +449,7 @@ function OrderEditForm<T>({
             type="text"
             value={formState['payment_method'] || '무통장입금'}
             readOnly
-            className="w-[5rem] border-b text-xs value:text-xs outline-none bg-transparent border-gray-2"
+            className="w-[5rem] border-b text-xs outline-none bg-transparent border-gray-2"
           />
         </label>
         <label className="flex pb-2 items-center gap-2">
@@ -458,7 +458,7 @@ function OrderEditForm<T>({
             type="text"
             value={formState['payment_method'] || '무통장입금'}
             readOnly
-            className="w-[5rem] border-b text-xs value:text-xs outline-none bg-transparent border-gray-2"
+            className="w-[5rem] border-b text-xs outline-none bg-transparent border-gray-2"
           />
         </label>
       </div>
