@@ -3,6 +3,11 @@ import Checkbox from '@/components/ui/checkbox';
 import AddItem from '@/components/layout/addItem';
 import SearchInput from '@/components/layout/searchInput';
 
+interface DropdownOption {
+  value: string;
+  label: string;
+}
+
 export interface TableColumn<T> {
   key: string;
   header: React.ReactNode;
@@ -28,6 +33,8 @@ export interface CommonTableProps<T> {
   searchTitle?: string;
   tableClassName?: string;
   selectedRow?: T | null;
+  dropdownOptions?: DropdownOption[];
+  onDropdownChange?: (value: string) => void;
 }
 
 function getValue<T>(row: T, key: string): unknown {
@@ -49,10 +56,19 @@ export function CommonTable<T>({
   searchTitle,
   tableClassName = '',
   selectedRow,
+  dropdownOptions,
+  onDropdownChange,
 }: CommonTableProps<T>) {
   return (
     <div className={` ${className}`} style={{ ...style, overflowX: 'auto' }}>
-      {searchInput && <SearchInput title={searchTitle} className="pb-4" />}
+      {searchInput && (
+        <SearchInput
+          title={searchTitle}
+          className="pb-4"
+          dropdownOptions={dropdownOptions}
+          onDropdownChange={onDropdownChange}
+        />
+      )}
       <table
         className={`border-separate border-spacing-0 w-full table-auto  ${tableClassName}`}
       >

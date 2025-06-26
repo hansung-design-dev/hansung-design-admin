@@ -12,6 +12,7 @@ interface DropdownProps {
   onChange: (value: string) => void;
   placeholder?: string;
   className?: string;
+  customOptions?: DropdownOption[];
 }
 
 export default function Dropdown({
@@ -20,11 +21,15 @@ export default function Dropdown({
   onChange,
   placeholder = '선택하세요',
   className = '',
+  customOptions,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const selectedOption = options.find((option) => option.value === value);
+  const displayOptions = customOptions || options;
+  const selectedOption = displayOptions.find(
+    (option) => option.value === value
+  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -69,7 +74,7 @@ export default function Dropdown({
 
       {isOpen && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-2 rounded-[0.375rem] shadow-lg z-10 max-h-40 overflow-y-auto">
-          {options.map((option) => (
+          {displayOptions.map((option) => (
             <div
               key={option.value}
               className="px-3 py-2 text-0-75-500 cursor-pointer hover:bg-gray-3 transition-colors text-center"

@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { Editor } from '@tinymce/tinymce-react';
 
 interface DistrictRow {
   isUsing: string;
   title: string;
   period: string;
+  content?: string;
 }
 
 interface PopupEditFormProps {
@@ -20,14 +22,18 @@ export default function PopupEditForm({
     isUsing: '',
     title: '',
     period: '',
+    content: '',
   });
 
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [content, setContent] = useState('');
+  const editorRef = useRef<{ getContent: () => string } | null>(null);
 
   useEffect(() => {
     if (selectedRow && isEdit) {
       setFormData(selectedRow);
+      setContent(selectedRow.content || '');
       // 기존 period에서 시작일과 끝일 분리
       const periodParts = selectedRow.period.split(' ~ ');
       if (periodParts.length === 2) {
@@ -39,7 +45,9 @@ export default function PopupEditForm({
         isUsing: '',
         title: '',
         period: '',
+        content: '',
       });
+      setContent('');
       setStartDate('');
       setEndDate('');
     }
@@ -58,6 +66,14 @@ export default function PopupEditForm({
     } else {
       setEndDate(value);
     }
+  };
+
+  const handleContentChange = (content: string) => {
+    setContent(content);
+    setFormData((prev) => ({
+      ...prev,
+      content: content,
+    }));
   };
 
   return (
@@ -122,6 +138,46 @@ export default function PopupEditForm({
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <label className="text-0-875-500 text-gray-1">내용</label>
+          <Editor
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            value={content}
+            onEditorChange={handleContentChange}
+            init={{
+              height: 300,
+              menubar: false,
+              plugins: [
+                'advlist',
+                'autolink',
+                'lists',
+                'link',
+                'image',
+                'charmap',
+                'preview',
+                'anchor',
+                'searchreplace',
+                'visualblocks',
+                'code',
+                'fullscreen',
+                'insertdatetime',
+                'media',
+                'table',
+                'code',
+                'help',
+                'wordcount',
+              ],
+              toolbar:
+                'undo redo | formatselect | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+              content_style:
+                'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            }}
+          />
         </div>
       </div>
     </div>

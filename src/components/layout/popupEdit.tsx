@@ -101,7 +101,7 @@ export default function PopupEdit<T>({
         </Button>
       </div>
       {/* 표 */}
-      <div className="bg-white rounded-lg border border-gray-2 px-0">
+      <div className="bg-white rounded-lg border border-gray-2 px-0 py-4">
         {boxedTableTitle && (
           <div className="text-lg font-bold mb-4">{boxedTableTitle}</div>
         )}
