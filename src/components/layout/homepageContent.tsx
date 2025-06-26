@@ -11,6 +11,8 @@ interface HomepageContentData {
   id: number;
   title: string;
   image: string | null;
+  logoImage: string | null;
+  cardImage: string | null;
   mainTitle: string;
   subTitle1: string;
   subTitle2: string;
@@ -71,6 +73,8 @@ function HomepageContent({
       id,
       title: selectedTitle,
       image,
+      logoImage: null,
+      cardImage: null,
       mainTitle,
       subTitle1: selectedCategory,
       subTitle2,
