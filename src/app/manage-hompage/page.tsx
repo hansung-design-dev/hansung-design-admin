@@ -74,11 +74,7 @@ export default function ManageHomepage() {
         <div className="grid grid-cols-3 gap-8">
           <HomepageContent title="메인" />
           <HomepageContent title="Part 1" />
-          <PopupEdit
-            handleListRowClick={() => {}}
-            columns={regionGuColumns}
-            data={regionGuData}
-          />
+          <PopupEdit columns={regionGuColumns} data={regionGuData} />
         </div>
       </div>
     </div>
