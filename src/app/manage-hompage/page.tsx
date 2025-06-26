@@ -6,6 +6,7 @@ import Header from '@/components/layout/header';
 import HomepageContent from '@/components/layout/homepageContent';
 import PopupEdit from '@/components/layout/popupEdit';
 import { useState } from 'react';
+import Image from 'next/image';
 
 // 모달 폼 컴포넌트
 interface RegionGuData {
@@ -22,6 +23,8 @@ interface HomepageContentData {
   id: number;
   title: string;
   image: string | null;
+  logoImage: string | null;
+  cardImage: string | null;
   mainTitle: string;
   subTitle1: string;
   subTitle2: string;
@@ -37,6 +40,8 @@ const RegionGuForm = ({ data = null }: { data?: RegionGuData | null }) => {
     trend: data?.trend || '',
     url: data?.url || '',
   });
+  const [logoImage, setLogoImage] = useState<string | null>(null);
+  const [cardImage, setCardImage] = useState<string | null>(null);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({
@@ -45,9 +50,77 @@ const RegionGuForm = ({ data = null }: { data?: RegionGuData | null }) => {
     }));
   };
 
+  const handleLogoImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogoImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleCardImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setCardImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-6 p-6">
       <div className="flex flex-col gap-4">
+        {/* 로고 이미지 등록 */}
+        <div className="flex items-center gap-4">
+          <label className="w-20 text-0-875-500 text-gray-1">로고</label>
+          <div className="flex-1">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleLogoImageChange}
+              className="w-full border border-gray-2 rounded px-3 py-2 text-0-875-500"
+            />
+            {logoImage && (
+              <div className="mt-2 w-32 h-16 relative">
+                <Image
+                  src={logoImage}
+                  alt="로고 미리보기"
+                  fill
+                  className="object-contain rounded"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* 구별 카드 이미지 등록 */}
+        <div className="flex items-center gap-4">
+          <label className="w-20 text-0-875-500 text-gray-1">구별카드</label>
+          <div className="flex-1">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleCardImageChange}
+              className="w-full border border-gray-2 rounded px-3 py-2 text-0-875-500"
+            />
+            {cardImage && (
+              <div className="mt-2 relative w-full h-[12rem]">
+                <Image
+                  src={cardImage}
+                  alt="구별 카드 미리보기"
+                  fill
+                  className="object-cover rounded"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
         <div className="flex items-center gap-4">
           <label className="w-20 text-0-875-500 text-gray-1">메인타이틀</label>
           <input
@@ -165,6 +238,8 @@ export default function ManageHomepage() {
       id: newId,
       title: `Part ${newId}`,
       image: null,
+      logoImage: null,
+      cardImage: null,
       mainTitle: '',
       subTitle1: '',
       subTitle2: '',
@@ -182,6 +257,8 @@ export default function ManageHomepage() {
   const handleHomepageContentSave = (data: {
     title: string;
     image: string | null;
+    logoImage: string | null;
+    cardImage: string | null;
     mainTitle: string;
     subTitle1: string;
     subTitle2: string;
