@@ -27,6 +27,7 @@ export interface CommonTableProps<T> {
   searchInput?: boolean;
   searchTitle?: string;
   tableClassName?: string;
+  selectedRow?: T | null;
 }
 
 function getValue<T>(row: T, key: string): unknown {
@@ -47,19 +48,20 @@ export function CommonTable<T>({
   searchInput,
   searchTitle,
   tableClassName = '',
+  selectedRow,
 }: CommonTableProps<T>) {
   return (
     <div className={` ${className}`} style={{ ...style, overflowX: 'auto' }}>
       {searchInput && <SearchInput title={searchTitle} className="pb-4" />}
       <table
-        className={`border-separate border-spacing-0 w-full table-auto py-[0.875rem] ${tableClassName}`}
+        className={`border-separate border-spacing-0 w-full table-auto  ${tableClassName}`}
       >
         <thead style={theadStyle}>
           <tr>
             {(columns || []).map((col) => (
               <th
                 key={col.key}
-                className={`text-center align-middle text-0-75-500 text-gray-1 bg-white  ${headerClassName} ${
+                className={`text-center align-middle text-0-75-500 text-gray-1 bg-white border-b-1 border-gray-2 pb-2  ${headerClassName} ${
                   col.className ?? ''
                 }`}
                 style={{
@@ -79,10 +81,14 @@ export function CommonTable<T>({
             data.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
-                className={`hover:bg-gray-3 text-0-75-500 md:text-0-875-500 ${
+                className={`text-0-75-500 md:text-0-875-500 cursor-pointer ${
                   typeof rowClassName === 'function'
                     ? rowClassName(row, rowIndex)
                     : rowClassName
+                } ${
+                  selectedRow === row
+                    ? 'bg-gray-3 hover:bg-gray-3'
+                    : 'hover:bg-gray-3'
                 }`}
                 onClick={() => tableRowClick?.(row, rowIndex)}
               >

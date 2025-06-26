@@ -4,10 +4,12 @@ export default function TextUpdate({
   title,
   subTitle,
   buttonName,
+  placeholder,
 }: {
   title?: string;
   subTitle: string;
   buttonName: string;
+  placeholder?: string;
 }) {
   return (
     <div className="flex flex-col gap-2">
@@ -19,7 +21,8 @@ export default function TextUpdate({
         <textarea
           name={subTitle}
           id="1"
-          className="w-full h-[8rem] border rounded-[0.375rem] p-2 border-gray-2"
+          placeholder={placeholder}
+          className="w-full h-[8rem] border rounded-[0.375rem] p-2 border-gray-2 placeholder:text-xs text-xs"
         ></textarea>
         <Button size="S" className="text-0-875-700">
           {buttonName}

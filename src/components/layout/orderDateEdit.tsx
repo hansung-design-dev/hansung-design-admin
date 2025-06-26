@@ -68,7 +68,7 @@ export default function OrderDateEdit({
             <select
               value={firstHalfStart}
               onChange={(e) => setFirstHalfStart(e.target.value)}
-              className="border rounded-[0.375rem] w-[6rem] h-[2rem] text-center text-0-75-500"
+              className="border border-gray-2 rounded-[0.375rem] w-[8rem] h-[2rem] text-center text-0-75-500 pr-6"
             >
               {days.map((day) => (
                 <option key={day} value={day}>
@@ -80,7 +80,7 @@ export default function OrderDateEdit({
             <select
               value={firstHalfEnd}
               onChange={(e) => setFirstHalfEnd(e.target.value)}
-              className="border rounded-[0.375rem] w-[6rem] h-[2rem] text-center text-0-75-500"
+              className="border border-gray-2 rounded-[0.375rem] w-[8rem] h-[2rem] text-center text-0-75-500 pr-6"
             >
               {days.map((day) => (
                 <option key={day} value={day}>
@@ -97,7 +97,7 @@ export default function OrderDateEdit({
             <select
               value={secondHalfStart}
               onChange={(e) => setSecondHalfStart(e.target.value)}
-              className="border rounded-[0.375rem] w-[6rem] h-[2rem] text-center text-0-75-500"
+              className="border border-gray-2 rounded-[0.375rem] w-[8rem] h-[2rem] text-center text-0-75-500 pr-6"
             >
               {days.map((day) => (
                 <option key={day} value={day}>
@@ -109,7 +109,7 @@ export default function OrderDateEdit({
             <select
               value={secondHalfEnd}
               onChange={(e) => setSecondHalfEnd(e.target.value)}
-              className="border rounded-[0.375rem] w-[6rem] h-[2rem] text-center text-0-75-500"
+              className="border border-gray-2 rounded-[0.375rem] w-[8rem] h-[2rem] text-center text-0-75-500 pr-6"
             >
               {[...days, ...lastDayOptions].map((day) => (
                 <option key={day} value={day}>

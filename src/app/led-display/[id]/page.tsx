@@ -171,7 +171,7 @@ export default function LedDisplayDetail() {
       <div className="sm:ml-[7rem] lg:ml-[2rem]">
         <div className="pt-8 md:pt-16 px-4 md:px-8 ml-8">
           {/* Horizontal Divider */}
-          <div className="w-full flex justify-center mb-4 bg-gray-3">
+          <div className="w-full flex justify-center mb-4">
             <CommonTable columns={columns} data={rowData} />
           </div>
         </div>
@@ -190,7 +190,7 @@ export default function LedDisplayDetail() {
             </svg>
           </div>
           <PopupEdit
-            handleListRowClick={handleListRowClick}
+            onAddItem={handleModal}
             columns={selectedColumns || districtColumns}
             data={selectedRow ? [selectedRow] : []}
             additionalContent
@@ -290,7 +290,6 @@ export default function LedDisplayDetail() {
         >
           {modalType === 'popup' && (
             <PopupEdit
-              handleListRowClick={handleListRowClick}
               columns={selectedColumns || districtColumns}
               data={selectedRow ? [selectedRow] : []}
             />
