@@ -246,7 +246,13 @@ created_at TIMESTAMP DEFAULT now(),
 updated_at TIMESTAMP DEFAULT now()
 
 );
-
+-- 홈페이지 콘텐츠 타입
+CREATE TABLE homepage_menu_types (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name homepage_menu_enum NOT NULL,
+  description TEXT,
+  created_at TIMESTAMP DEFAULT now()
+);
 
 - 11. Homepage Contents
 CREATE TABLE homepage_contents (
@@ -292,15 +298,15 @@ updated_at TIMESTAMP DEFAULT now()
 CREATE TABLE panel_popup_notices (
 id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 display_category_id UUID REFERENCES display_categories(id),
+region_gu_id UUID REFERENCES region_gu(id), -- 구별 구분 추가
 title TEXT, -- 팝업 타이틀
 hide_oneday BOOLEAN DEFAULT FALSE, --하루 안보기
 content TEXT, -- 내용
 image_url TEXT, -- 이미지로 올리기
 start_date DATE,
 end_date DATE,
-created_at TIMESTAMP DEFAULT now()
+created_at TIMESTAMP DEFAULT now(),
 updated_at TIMESTAMP DEFAULT now()
-
 );
 
 
@@ -327,3 +333,80 @@ CREATE INDEX idx_orders_user ON orders(user_id);
 CREATE INDEX idx_orders_product ON orders(product_id);
 CREATE INDEX idx_business_info_user ON business_info(user_id);
 CREATE INDEX idx_consultations_user ON consultations(user_id);
+
+-- 5. 유의사항 카테고리 테이블
+CREATE TABLE notice_categories (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name VARCHAR(100) NOT NULL, -- '안내사항', '제한사항', '유의사항'
+  sub_name VARCHAR(100) NOT NULL, -- '기본안내', '추가안내'
+  display_order INTEGER DEFAULT 0,
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+-- 6. 유의사항 콘텐츠 테이블
+CREATE TABLE notice_contents (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  category_id UUID REFERENCES notice_categories(id),
+  display_type_id UUID REFERENCES display_types(id), -- 디스플레이 타입 구분
+  homepage_menu_type_id UUID REFERENCES homepage_menu_types(id), -- 홈페이지 메뉴 타입
+  content TEXT, -- TinyMCE HTML 내용
+  content_json JSONB, -- 스타일 정보 등 추가 메타데이터
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
+);
+
+-- 유의사항 카테고리 초기 데이터 삽입
+INSERT INTO notice_categories (name, sub_name, display_order) VALUES
+('안내사항', '기본안내', 1),
+('안내사항', '추가안내', 2),
+('제한사항', '기본안내', 3),
+('제한사항', '추가안내', 4),
+('유의사항', '기본안내', 5);
+
+-- banner-display 카테고리에 대한 예시 데이터 삽입
+-- (display_types에서 'banner_display' 타입 ID를 가져와서 사용)
+INSERT INTO notice_contents (
+  category_id,
+  display_type_id,
+  homepage_menu_type_id,
+  content,
+  content_json,
+  is_active
+) 
+SELECT 
+  nc.id as category_id,
+  dt.id as display_type_id,
+  hmt.id as homepage_menu_type_id,
+  CASE 
+    WHEN nc.name = '안내사항' AND nc.sub_name = '기본안내' THEN 
+      '<p><strong>문의처</strong> : 송파구 게시대 담당자 02-719-0093 / (주)한성디자인 02-3272-1452</p><p><strong>게첨방법</strong> : (주)한성디자인 기획에서 탈부착 (게시대는 맨위쪽 1면, 아래로 내려오면서 2,3,4입니다.)</p>'
+    WHEN nc.name = '안내사항' AND nc.sub_name = '추가안내' THEN 
+      '<p>게첨사진은 웹하드에서 확인하실 수 있습니다.</p>'
+    WHEN nc.name = '제한사항' AND nc.sub_name = '기본안내' THEN 
+      '<p>현수막 표시내용의 금지 제안, 하상법 위반 등 현수막 표시내용의 금지 제안, 하상법 위반 등</p>'
+    WHEN nc.name = '제한사항' AND nc.sub_name = '추가안내' THEN 
+      '<p>추가 제한사항 내용을 입력하세요.</p>'
+    WHEN nc.name = '유의사항' AND nc.sub_name = '기본안내' THEN 
+      '<p>유의사항 내용을 입력하세요.</p>'
+    ELSE ''
+  END as content,
+  jsonb_build_object(
+    'lastModified', now(),
+    'editor', 'tinymce',
+    'styles', jsonb_build_object()
+  ) as content_json,
+  true as is_active
+FROM notice_categories nc
+CROSS JOIN display_types dt
+CROSS JOIN homepage_menu_types hmt
+WHERE dt.name = 'banner_display'
+  AND hmt.name = 'banner_display';
+
+-- 기존 테이블에 컬럼 추가
+ALTER TABLE panel_popup_notices 
+ADD COLUMN region_gu_id UUID REFERENCES region_gu(id);
+
+ALTER TABLE notice_contents 
+ADD COLUMN display_type_id UUID REFERENCES display_types(id);

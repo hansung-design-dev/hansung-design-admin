@@ -13,6 +13,8 @@ interface BoxedTableWrapperProps<T> {
   title?: string;
   children?: React.ReactNode;
   className?: string;
+  tableClassName?: string;
+  headerClassName?: string;
 }
 
 export function BoxedTableWrapper<T>({
@@ -24,6 +26,8 @@ export function BoxedTableWrapper<T>({
   title,
   children,
   className = '',
+  tableClassName = '',
+  headerClassName = '',
 }: BoxedTableWrapperProps<T>) {
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editRow, setEditRow] = useState<T | null>(null);
@@ -31,12 +35,21 @@ export function BoxedTableWrapper<T>({
 
   // row 클릭 시
   const handleRowClick = (row: T, rowIndex: number) => {
+    // 이전 편집 중인 행이 있으면 먼저 저장
+    if (editingIndex !== null && editRow) {
+      const newData = [...tableData];
+      newData[editingIndex] = editRow;
+      setTableData(newData);
+      if (onSaveAll) onSaveAll(newData);
+    }
+
+    // 새로운 행 편집 시작
     setEditingIndex(rowIndex);
     setEditRow({ ...row });
   };
 
-  // input/select 등 값 변경
-  const handleInputChange = (
+  // input/select 등 값 변경 (자동 저장 포함)
+  const handleInputChangeWithAutoSave = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
@@ -45,23 +58,17 @@ export function BoxedTableWrapper<T>({
       newValue = (e.target as HTMLInputElement).checked;
     }
     setEditRow((prev) => (prev ? { ...prev, [name]: newValue } : prev));
-  };
 
-  // 저장
-  const handleSave = () => {
-    if (editingIndex === null || !editRow) return;
-    const newData = [...tableData];
-    newData[editingIndex] = editRow;
-    setTableData(newData);
-    setEditingIndex(null);
-    setEditRow(null);
-    if (onSaveAll) onSaveAll(newData);
-  };
-
-  // 취소
-  const handleCancel = () => {
-    setEditingIndex(null);
-    setEditRow(null);
+    // 값 변경 후 자동 저장
+    setTimeout(() => {
+      if (editingIndex !== null && editRow) {
+        const updatedRow = { ...editRow, [name]: newValue };
+        const newData = [...tableData];
+        newData[editingIndex] = updatedRow;
+        setTableData(newData);
+        if (onSaveAll) onSaveAll(newData);
+      }
+    }, 100);
   };
 
   // columns 확장: render에서 인라인 수정 지원
@@ -80,7 +87,7 @@ export function BoxedTableWrapper<T>({
               name={col.key}
               type="number"
               value={editRow[col.key as keyof T] as number | string}
-              onChange={handleInputChange}
+              onChange={handleInputChangeWithAutoSave}
               className="w-16 border border-gray-300 rounded px-1 py-2 text-center"
             />
           );
@@ -90,7 +97,7 @@ export function BoxedTableWrapper<T>({
             <select
               name="usage_type"
               value={editRow['usage_type' as keyof T] as string}
-              onChange={handleInputChange}
+              onChange={handleInputChangeWithAutoSave}
               className="border border-gray-300 rounded px-1 py-2"
             >
               <option value="소형게시대">소형게시대</option>
@@ -104,7 +111,7 @@ export function BoxedTableWrapper<T>({
               name="attach_date_from"
               type="date"
               value={editRow['attach_date_from' as keyof T] as string}
-              onChange={handleInputChange}
+              onChange={handleInputChangeWithAutoSave}
               className="border border-gray-300 rounded px-1 py-2"
             />
           );
@@ -114,7 +121,7 @@ export function BoxedTableWrapper<T>({
             <select
               name="is_active"
               value={editRow['is_active' as keyof T] ? 'true' : 'false'}
-              onChange={handleInputChange}
+              onChange={handleInputChangeWithAutoSave}
               className="border border-gray-300 rounded px-1 py-2"
             >
               <option value="true">가능</option>
@@ -127,7 +134,7 @@ export function BoxedTableWrapper<T>({
             <select
               name="is_closed"
               value={editRow['is_closed' as keyof T] ? 'true' : 'false'}
-              onChange={handleInputChange}
+              onChange={handleInputChangeWithAutoSave}
               className="border border-gray-300 rounded px-1 py-2"
             >
               <option value="true">마감</option>
@@ -141,7 +148,7 @@ export function BoxedTableWrapper<T>({
               name="company_name"
               type="text"
               value={editRow['company_name' as keyof T] as string}
-              onChange={handleInputChange}
+              onChange={handleInputChangeWithAutoSave}
               className="border border-gray-300 rounded px-1 py-2"
             />
           );
@@ -154,22 +161,7 @@ export function BoxedTableWrapper<T>({
     },
   }));
 
-  // actions 컬럼 추가
-  editableColumns.push({
-    key: 'actions',
-    header: '',
-    render: (_row: T, rowIndex: number) =>
-      editingIndex === rowIndex ? (
-        <>
-          <button className="text-blue-600 mr-2" onClick={handleSave}>
-            저장
-          </button>
-          <button className="text-gray-500" onClick={handleCancel}>
-            취소
-          </button>
-        </>
-      ) : null,
-  });
+  // actions 컬럼 제거 (자동 저장이므로 버튼 불필요)
 
   return (
     <div className={`bg-white rounded-lg border border-gray-2 ${className}`}>
@@ -186,7 +178,8 @@ export function BoxedTableWrapper<T>({
         columns={editableColumns}
         data={tableData}
         tableRowClick={handleRowClick}
-        tableClassName="px-3"
+        tableClassName={tableClassName}
+        headerClassName={headerClassName}
       />
     </div>
   );

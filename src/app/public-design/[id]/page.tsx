@@ -18,7 +18,6 @@ function isImageFile(file: File) {
 export default function PublicDesignDetail() {
   const params = useParams();
   const id = params.id as string;
-  const handleListRowClick = () => {};
   const [previewUrls, setPreviewUrls] = useState<(string | null)[]>([
     null,
     null,
@@ -129,7 +128,6 @@ export default function PublicDesignDetail() {
             <TextUpdate subTitle="유의사항" buttonName="변경하기" />
           </div>
           <PopupEdit
-            handleListRowClick={handleListRowClick}
             columns={[
               { key: 'id', header: 'no' },
               { key: 'file_name', header: '파일명' },

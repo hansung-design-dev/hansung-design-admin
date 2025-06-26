@@ -257,6 +257,7 @@ export default function OrderStatus() {
       />
       {isModalOpen && (
         <Modal
+          className="w-full"
           title={modalType === 'order' && '회원추가/수정'}
           onClose={handleClose}
           footer={

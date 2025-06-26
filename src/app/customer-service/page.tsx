@@ -513,6 +513,7 @@ export default function CustomerService() {
         {/* 팝업 모달 */}
         {modalOpen && (
           <Modal
+            className="w-full"
             title={tab === '자주묻는질문' ? '질문/답변 상세' : ''}
             onClose={() => setModalOpen(false)}
           >
@@ -522,6 +523,7 @@ export default function CustomerService() {
         {/* FAQ 추가/수정 모달 */}
         {faqModalOpen && (
           <Modal
+            className="w-full"
             title={faqEditMode === 'add' ? 'FAQ 추가' : 'FAQ 수정'}
             onClose={() => setFaqModalOpen(false)}
           >

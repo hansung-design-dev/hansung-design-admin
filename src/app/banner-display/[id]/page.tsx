@@ -10,12 +10,13 @@ import OrderDateEdit from '@/components/layout/orderDateEdit';
 import PopupEdit from '@/components/layout/popupEdit';
 import NoteEdit from '@/components/layout/noteEdit';
 import AddItem from '@/components/layout/addItem';
-import TextUpdate from '@/components/layout/textUpdate';
 import Modal from '@/components/modal-contents/modal';
-import PopupAddForm from '@/components/modal-contents/popupAddForm';
+import PopupEditForm from '@/components/modal-contents/popupEditForm';
+import DeleteConfirmModal from '@/components/modal-contents/deleteConfirmModal';
 import BannerEditForm from '@/components/modal-contents/BannerEditForm';
 import CodeEditForm from '@/components/modal-contents/codeEditForm';
 import Button from '@/components/ui/button';
+import Notice from '@/components/layout/notice';
 
 interface BannerPanelRow {
   post_code: string;
@@ -92,7 +93,7 @@ const districtColumns = [
     header: '타이틀',
 
     render: (row: { title: string }) => (
-      <div className="text-center align-middle whitespace-pre-line break-words line-clamp-5">
+      <div className="text-center align-middle whitespace-pre-line break-words line-clamp-2">
         {row.title}
       </div>
     ),
@@ -224,19 +225,25 @@ export default function BannerDisplayDetail() {
   const rowData = useMemo(() => mockData.filter((row) => row.id === id), [id]);
   const location = rowData[0]?.district_name || '';
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<'popup' | 'order' | 'code'>(
-    'popup'
-  );
+  const [modalType, setModalType] = useState<
+    'popup-add' | 'popup-edit' | 'popup-delete' | 'order' | 'code'
+  >('popup-add');
   const [selectedRow, setSelectedRow] = useState<DistrictRow | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // 드롭다운 옵션 추가
+  const dropdownOptions = [
+    { value: '전체', label: '전체' },
+    { value: '행정용', label: '행정용' },
+    { value: '상업용', label: '상업용' },
+  ];
 
   const handleClose = () => setIsModalOpen(false);
 
   const handleModal = () => {
     setModalType('code');
     setIsModalOpen(true);
-    //console.log('modalType', modalType);
   };
 
   const handleListRowClick = () => {
@@ -244,10 +251,33 @@ export default function BannerDisplayDetail() {
     setIsModalOpen(true);
   };
 
-  const handlePopupListRowClick = (row: DistrictRow) => {
-    setSelectedRow(row);
-    setModalType('popup');
+  const handlePopupAdd = () => {
+    setSelectedRow(null);
+    setModalType('popup-add');
     setIsModalOpen(true);
+  };
+
+  const handlePopupEdit = (row: DistrictRow) => {
+    setSelectedRow(row);
+    setModalType('popup-edit');
+    setIsModalOpen(true);
+  };
+
+  const handlePopupDelete = (row: DistrictRow) => {
+    setSelectedRow(row);
+    setModalType('popup-delete');
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    console.log('삭제할 행:', selectedRow);
+    setIsModalOpen(false);
+    setSelectedRow(null);
+  };
+
+  const handleDeleteCancel = () => {
+    setIsModalOpen(false);
+    setSelectedRow(null);
   };
 
   const handleImageUploadClick = () => {
@@ -265,6 +295,12 @@ export default function BannerDisplayDetail() {
     }
   };
 
+  // 드롭다운 변경 핸들러 추가
+  const handleDropdownChange = (value: string) => {
+    console.log('선택된 옵션:', value);
+    // 여기에 필터링 로직을 추가할 수 있습니다
+  };
+
   // console.log(rowData[0]);
 
   return (
@@ -276,7 +312,7 @@ export default function BannerDisplayDetail() {
       <div className="sm:ml-[7rem] lg:ml-[2rem]">
         <div className="pt-8 md:pt-16 px-4 md:px-8 ml-8">
           {/* Horizontal Divider */}
-          <div className="w-full flex justify-center mb-4 bg-gray-3">
+          <div className="w-full flex justify-center mb-4 ">
             <CommonTable columns={columns} data={rowData} />
           </div>
         </div>
@@ -295,11 +331,12 @@ export default function BannerDisplayDetail() {
             </svg>
           </div>
           <PopupEdit
-            handleListRowClick={handlePopupListRowClick}
             columns={districtColumns}
             data={districtData}
             title="안내팝업"
-            additionalContent
+            onAddItem={handlePopupAdd}
+            onEditItem={handlePopupEdit}
+            onDeleteItem={handlePopupDelete}
           />
         </div>
         <div className="px-4 md:px-8">
@@ -320,81 +357,97 @@ export default function BannerDisplayDetail() {
               searchInput
               searchTitle="조회"
               tableRowClick={handleListRowClick}
+              tableClassName="px-0"
+              dropdownOptions={dropdownOptions}
+              onDropdownChange={handleDropdownChange}
             />
           </div>
         </div>
-        <div className="pt-8 md:pt-16 px-4 md:px-8 ml-0 md:ml-[5rem] lg:w-[50%] sm:w-full">
-          <NoteEdit />
-        </div>
-        <div className="px-4 md:px-8 ml-0 md:ml-[5rem] lg:w-[50%] sm:w-full">
-          {imageUrl ? (
-            <div className="mt-4 flex flex-col items-center">
-              <Image
-                src={imageUrl}
-                alt="미리보기"
-                className="h-24 rounded"
-                width={1000}
-                height={30}
-              />
-              <Button
-                size="M"
-                className="mt-2 text-0-75-500"
-                onClick={handleImageUploadClick}
-              >
-                이미지 변경
-              </Button>
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                style={{ display: 'none' }}
-                onChange={handleImageChange}
-              />
-            </div>
-          ) : (
-            <>
-              <AddItem
-                title="현수막 이미지"
-                className="mt-4"
-                onUpload={handleImageUploadClick}
-              />
-              <input
-                type="file"
-                accept="image/*"
-                ref={fileInputRef}
-                style={{ display: 'none' }}
-                onChange={handleImageChange}
-              />
-            </>
-          )}
-        </div>
+        {/* 유의사항 */}
+        <div>
+          <div className="pt-8 md:pt-16 px-4 md:px-8 ml-0 md:ml-[5rem] lg:w-[50%] sm:w-full">
+            <NoteEdit />
+          </div>
+          <div className="px-4 md:px-8 ml-0 md:ml-[5rem] lg:w-[50%] sm:w-full">
+            {imageUrl ? (
+              <div className="mt-4 flex flex-col items-center">
+                <Image
+                  src={imageUrl}
+                  alt="미리보기"
+                  className="h-24 rounded"
+                  width={1000}
+                  height={30}
+                />
+                <Button
+                  size="M"
+                  className="mt-2 text-0-75-500"
+                  onClick={handleImageUploadClick}
+                >
+                  이미지 변경
+                </Button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                  onChange={handleImageChange}
+                />
+              </div>
+            ) : (
+              <div className="mt-8">
+                <AddItem
+                  title="가이드 업로드"
+                  className="mt-4"
+                  onUpload={handleImageUploadClick}
+                />
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                  onChange={handleImageChange}
+                />
+              </div>
+            )}
+          </div>
 
-        <div className="px-4 md:px-8 ml-0 md:ml-[5rem] w-[50%] mt-4 flex flex-col gap-4">
-          <TextUpdate
-            title="안내사항"
-            subTitle="기본안내"
-            buttonName="변경하기"
-          />
-          <TextUpdate subTitle="추가안내" buttonName="변경하기" />
+          <div className="px-4 md:px-8 ml-0 md:ml-[5rem] w-[72.5%] mt-12">
+            <Notice />
+          </div>
         </div>
       </div>
       {isModalOpen && (
         <Modal
           title={
-            modalType === 'popup'
+            modalType === 'popup-add'
               ? '팝업 추가하기'
+              : modalType === 'popup-edit'
+              ? '팝업 수정하기'
+              : modalType === 'popup-delete'
+              ? '삭제 확인'
               : modalType === 'order'
               ? '(행정용) 대림아파트... 수정화면'
-              : `수정화면`
+              : '수정화면'
           }
           onClose={handleClose}
           footer={
-            <Button size="L" colorStyles="black" className="w-[20rem]">
-              저장
-            </Button>
+            modalType === 'popup-delete' ? null : (
+              <Button size="L" colorStyles="black" className="w-[20rem]">
+                저장
+              </Button>
+            )
           }
         >
-          {modalType === 'popup' && <PopupAddForm />}
+          {modalType === 'popup-add' && <PopupEditForm />}
+          {modalType === 'popup-edit' && selectedRow && (
+            <PopupEditForm selectedRow={selectedRow} isEdit={true} />
+          )}
+          {modalType === 'popup-delete' && (
+            <DeleteConfirmModal
+              onConfirm={handleDeleteConfirm}
+              onCancel={handleDeleteCancel}
+            />
+          )}
           {modalType === 'order' && selectedRow && (
             <BannerEditForm
               columns={panelFaceUsageColumns}

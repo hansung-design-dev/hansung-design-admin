@@ -76,17 +76,6 @@ export default function SignIn() {
         >
           로그인
         </button>
-        {/* 카카오 로그인 버튼 */}
-        <button className="w-full h-[4rem] flex items-center justify-center bg-[#FEE500] text-1-25-500 rounded mb-3">
-          <Image
-            src="/svg/kakao-icon.svg"
-            alt="카카오"
-            width={28}
-            height={26}
-            className="h-[1.625rem] w-[1.76rem] mr-2"
-          />
-          카카오로 로그인
-        </button>
       </div>
     </div>
   );
