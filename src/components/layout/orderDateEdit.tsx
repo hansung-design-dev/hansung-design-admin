@@ -48,7 +48,7 @@ export default function OrderDateEdit({
   };
 
   return (
-    <div className="flex flex-col gap-4 items-start w-full md:w-1/2 px-4 md:px-8">
+    <div className="flex flex-col gap-4 items-start w-full px-4 md:px-8">
       {/* 제목 */}
       <div className="mb-4 md:mb-8 w-full">
         <span className="text-lg md:text-xl font-semibold">
@@ -141,10 +141,10 @@ export default function OrderDateEdit({
         </div>
       </div>
       {/* 표: 이번달, 다음달 */}
-      <div className="flex flex-col md:flex-row gap-2 md:gap-4 min-w-[28rem] max-w-[44rem]">
+      <div className="flex flex-col lg:flex-row gap-2 md:gap-4 w-full">
         <OrderDate
           location={location}
-          month="5월"
+          month="6월"
           firstHalf={tableFirstHalf}
           secondHalf={tableSecondHalf}
           isThisMonth={true}
@@ -152,17 +152,17 @@ export default function OrderDateEdit({
           secondHalfClosed={secondHalfClosed}
           onToggleFirstHalf={(e) => setFirstHalfClosed(e.target.checked)}
           onToggleSecondHalf={(e) => setSecondHalfClosed(e.target.checked)}
-          className="w-1/2"
+          className="w-full lg:w-1/2"
         />
         <OrderDate
           location={location}
-          month="6월"
+          month="7월"
           firstHalf={nextFirstHalf}
           secondHalf={nextSecondHalf}
           showFirstHalfCheckbox={false}
           showSecondHalfCheckbox={false}
           isThisMonth={false}
-          className="w-1/2"
+          className="w-full lg:w-1/2"
         />
       </div>
     </div>
