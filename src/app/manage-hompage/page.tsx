@@ -5,6 +5,109 @@ import AddItem from '@/components/layout/addItem';
 import Header from '@/components/layout/header';
 import HomepageContent from '@/components/layout/homepageContent';
 import PopupEdit from '@/components/layout/popupEdit';
+import { useState } from 'react';
+
+// 모달 폼 컴포넌트
+interface RegionGuData {
+  id: number;
+  no: string;
+  mainTitle: string;
+  size: string;
+  population: string;
+  trend: string;
+  url: string;
+}
+
+interface HomepageContentData {
+  id: number;
+  title: string;
+  image: string | null;
+  mainTitle: string;
+  subTitle1: string;
+  subTitle2: string;
+  description: string;
+  description1: string;
+}
+
+const RegionGuForm = ({ data = null }: { data?: RegionGuData | null }) => {
+  const [formData, setFormData] = useState({
+    mainTitle: data?.mainTitle || '',
+    size: data?.size || '',
+    population: data?.population || '',
+    trend: data?.trend || '',
+    url: data?.url || '',
+  });
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  return (
+    <div className="flex flex-col gap-6 p-6">
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-4">
+          <label className="w-20 text-0-875-500 text-gray-1">메인타이틀</label>
+          <input
+            type="text"
+            value={formData.mainTitle}
+            onChange={(e) => handleInputChange('mainTitle', e.target.value)}
+            placeholder="메인타이틀을 입력하세요"
+            className="flex-1 border border-gray-2 rounded px-3 py-2 text-0-875-500"
+          />
+        </div>
+
+        <div className="flex items-center gap-4">
+          <label className="w-20 text-0-875-500 text-gray-1">송출사이즈</label>
+          <input
+            type="text"
+            value={formData.size}
+            onChange={(e) => handleInputChange('size', e.target.value)}
+            placeholder="송출사이즈를 입력하세요"
+            className="flex-1 border border-gray-2 rounded px-3 py-2 text-0-875-500"
+          />
+        </div>
+
+        <div className="flex items-center gap-4">
+          <label className="w-20 text-0-875-500 text-gray-1">유동인구</label>
+          <input
+            type="text"
+            value={formData.population}
+            onChange={(e) => handleInputChange('population', e.target.value)}
+            placeholder="유동인구를 입력하세요"
+            className="flex-1 border border-gray-2 rounded px-3 py-2 text-0-875-500"
+          />
+        </div>
+
+        <div className="flex items-center gap-4">
+          <label className="w-20 text-0-875-500 text-gray-1">
+            소비자트렌드
+          </label>
+          <input
+            type="text"
+            value={formData.trend}
+            onChange={(e) => handleInputChange('trend', e.target.value)}
+            placeholder="소비자트렌드를 입력하세요"
+            className="flex-1 border border-gray-2 rounded px-3 py-2 text-0-875-500"
+          />
+        </div>
+
+        <div className="flex items-center gap-4">
+          <label className="w-20 text-0-875-500 text-gray-1">URL</label>
+          <input
+            type="text"
+            value={formData.url}
+            onChange={(e) => handleInputChange('url', e.target.value)}
+            placeholder="URL을 입력하세요"
+            className="flex-1 border border-gray-2 rounded px-3 py-2 text-0-875-500"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const regionGuColumns = [
   { key: 'no', header: 'No.', maxWidth: '2rem' },
@@ -52,29 +155,132 @@ const regionGuData = [
 ];
 
 export default function ManageHomepage() {
+  const [homepageContents, setHomepageContents] = useState<
+    HomepageContentData[]
+  >([]);
+
   const onAddItem = () => {
-    console.log('add item');
+    const newId = homepageContents.length + 1;
+    const newContent: HomepageContentData = {
+      id: newId,
+      title: `Part ${newId}`,
+      image: null,
+      mainTitle: '',
+      subTitle1: '',
+      subTitle2: '',
+      description: '',
+      description1: '',
+    };
+    setHomepageContents((prev) => [...prev, newContent]);
   };
+
+  const handleSave = (data: RegionGuData) => {
+    console.log('저장할 데이터:', data);
+    // 여기에 실제 저장 로직을 추가할 수 있습니다
+  };
+
+  const handleHomepageContentSave = (data: {
+    title: string;
+    image: string | null;
+    mainTitle: string;
+    subTitle1: string;
+    subTitle2: string;
+    description: string;
+    description1: string;
+  }) => {
+    console.log('HomepageContent 저장:', data);
+    // 여기에 실제 저장 로직을 추가할 수 있습니다
+  };
+
+  const handleHomepageContentDelete = (id: number) => {
+    setHomepageContents((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  // 상단에 표시될 HomepageContent들 (최대 3개)
+  const topContents = homepageContents.slice(0, 3);
+  // 하단에 표시될 HomepageContent들 (최대 2개)
+  const bottomContents = homepageContents.slice(3, 5);
+
   return (
     <div className="pt-16 px-8">
       <Header />
       <div className="mt-8 text-gray-1 ml-14">
-        <div className="grid grid-cols-3 gap-8">
-          <HomepageContent title="메인" />
-          <div></div>
-          <div className="p-0 w-full h-full">
-            <AddItem
-              onClick={onAddItem}
-              className="h-full w-full"
-              containerclassName="h-full w-full"
-            />
+        {/* 상단 영역 - 최대 3개 + 추가버튼 */}
+        <div className="overflow-x-auto">
+          <div className="grid grid-cols-4 gap-8 min-w-max">
+            {/* 상단 HomepageContent들 */}
+            {topContents.map((content) => (
+              <div key={content.id} className="w-[37rem]">
+                <HomepageContent
+                  id={content.id}
+                  title={content.title}
+                  onSave={handleHomepageContentSave}
+                  onDelete={handleHomepageContentDelete}
+                />
+              </div>
+            ))}
+
+            {/* 추가 버튼 - 총 5개 미만일 때만 표시 */}
+            {homepageContents.length < 5 && (
+              <div
+                className="w-[33rem] h-[40rem] cursor-pointer hover:bg-gray-50 rounded-lg transition-colors overflow-hidden"
+                onClick={onAddItem}
+              >
+                <AddItem
+                  className="h-full w-full pb-7"
+                  containerclassName="h-full w-full"
+                />
+              </div>
+            )}
+
+            {/* 빈 자리들 */}
+            {Array.from({
+              length:
+                4 - topContents.length - (homepageContents.length < 5 ? 1 : 0),
+            }).map((_, index) => (
+              <div
+                key={`empty-top-${index}`}
+                className="w-[37rem] min-h-[400px]"
+              />
+            ))}
           </div>
         </div>
+
         <div className="border-b-[0.1rem] border-gray-2 w-[95%] mx-auto py-4"></div>
-        <div className="grid grid-cols-3 gap-8">
-          <HomepageContent title="메인" />
-          <HomepageContent title="Part 1" />
-          <PopupEdit columns={regionGuColumns} data={regionGuData} />
+
+        {/* 하단 영역 - 최대 2개 + 표 */}
+        <div className="grid grid-cols-3 gap-[10rem] pb-16">
+          {/* 하단 HomepageContent들 */}
+          {bottomContents.map((content) => (
+            <div key={content.id} className="w-[33rem] ">
+              <HomepageContent
+                id={content.id}
+                title={content.title}
+                onSave={handleHomepageContentSave}
+                onDelete={handleHomepageContentDelete}
+              />
+            </div>
+          ))}
+
+          {/* 빈 자리들 */}
+          {Array.from({ length: 2 - bottomContents.length }).map((_, index) => (
+            <div
+              key={`empty-bottom-${index}`}
+              className="w-[33rem] min-h-[400px]"
+            />
+          ))}
+
+          {/* 고정 표 위치 */}
+          <div className="col-span-1 pl-[4rem]">
+            <PopupEdit
+              columns={regionGuColumns}
+              data={regionGuData}
+              showModals={true}
+              addModalContent={<RegionGuForm />}
+              editModalContent={<RegionGuForm />}
+              onSave={handleSave}
+            />
+          </div>
         </div>
       </div>
     </div>

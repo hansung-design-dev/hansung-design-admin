@@ -24,7 +24,7 @@ const LabelInput: React.FC<LabelInputProps> = ({
       <div className={`flex pb-2 ${containerClassName} ${wrapperClassName}`}>
         <span className={labelClassName}>{label}</span>
         <label className="flex-1 cursor-pointer">
-          <span className="block border-b border-gray-2 py-1 text-gray-500">
+          <span className="block border-b border-gray-2 py-1 text-0-75-500 text-gray-400">
             {placeholder || '이미지를 업로드해주세요'}
           </span>
           <input {...props} type="file" className="hidden" />

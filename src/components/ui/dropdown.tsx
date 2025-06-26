@@ -58,7 +58,7 @@ export default function Dropdown({
         className="flex items-center justify-between w-full border border-gray-2 rounded-[0.375rem] h-[2rem] px-3 text-center text-0-75-500 cursor-pointer bg-white  transition-colors"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className={selectedOption ? 'text-gray-1' : 'text-gray-3'}>
+        <span className={'text-gray-1'}>
           {selectedOption ? selectedOption.label : placeholder}
         </span>
         <Image
