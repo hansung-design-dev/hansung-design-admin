@@ -5,6 +5,8 @@ import { useState } from 'react';
 import Checkbox from '@/components/ui/checkbox';
 import { CommonTable } from './commonTable';
 import { TableColumn } from './commonTable';
+import Modal from '@/components/modal-contents/modal';
+import DeleteConfirmModal from '@/components/modal-contents/deleteConfirmModal';
 
 interface PopupEditProps<T> {
   columns: TableColumn<T>[];
@@ -16,6 +18,10 @@ interface PopupEditProps<T> {
   onAddItem?: () => void;
   onEditItem?: (row: T) => void;
   onDeleteItem?: (row: T) => void;
+  showModals?: boolean;
+  addModalContent?: React.ReactNode;
+  editModalContent?: React.ReactNode;
+  onSave?: (data: T) => void;
 }
 
 export default function PopupEdit<T>({
@@ -28,9 +34,15 @@ export default function PopupEdit<T>({
   onAddItem,
   onEditItem,
   onDeleteItem,
+  showModals = false,
+  addModalContent,
+  editModalContent,
+  onSave,
 }: PopupEditProps<T>) {
   const [isPosted, setIsPosted] = useState(true);
   const [selectedRow, setSelectedRow] = useState<T | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<'add' | 'edit' | 'delete'>('add');
 
   // 행 클릭 시 선택된 행 설정
   const handleRowClick = (row: T) => {
@@ -39,24 +51,65 @@ export default function PopupEdit<T>({
 
   // 상단 수정 버튼 클릭
   const handleEditClick = () => {
-    if (selectedRow && onEditItem) {
-      onEditItem(selectedRow);
+    if (selectedRow) {
+      if (showModals) {
+        setModalType('edit');
+        setIsModalOpen(true);
+      } else if (onEditItem) {
+        onEditItem(selectedRow);
+      }
     }
   };
 
   // 상단 삭제 버튼 클릭
   const handleDeleteClick = () => {
-    if (selectedRow && onDeleteItem) {
-      onDeleteItem(selectedRow);
-      setSelectedRow(null);
+    if (selectedRow) {
+      if (showModals) {
+        setModalType('delete');
+        setIsModalOpen(true);
+      } else if (onDeleteItem) {
+        onDeleteItem(selectedRow);
+        setSelectedRow(null);
+      }
     }
   };
 
   // 추가 버튼 클릭
   const handleAddClick = () => {
-    if (onAddItem) {
+    if (showModals) {
+      setModalType('add');
+      setIsModalOpen(true);
+    } else if (onAddItem) {
       onAddItem();
     }
+  };
+
+  // 모달 닫기
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedRow(null);
+  };
+
+  // 삭제 확인
+  const handleDeleteConfirm = () => {
+    if (selectedRow && onDeleteItem) {
+      onDeleteItem(selectedRow);
+    }
+    setIsModalOpen(false);
+    setSelectedRow(null);
+  };
+
+  // 삭제 취소
+  const handleDeleteCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  // 저장
+  const handleSave = () => {
+    if (onSave && selectedRow) {
+      onSave(selectedRow);
+    }
+    setIsModalOpen(false);
   };
 
   return (
@@ -154,6 +207,41 @@ export default function PopupEdit<T>({
             </div>
           </div>
         </div>
+      )}
+
+      {/* 모달 */}
+      {isModalOpen && (
+        <Modal
+          title={
+            modalType === 'add'
+              ? '추가하기'
+              : modalType === 'edit'
+              ? '수정하기'
+              : '삭제 확인'
+          }
+          onClose={handleCloseModal}
+          footer={
+            modalType === 'delete' ? null : (
+              <Button
+                size="L"
+                colorStyles="black"
+                className="w-[20rem]"
+                onClick={handleSave}
+              >
+                저장
+              </Button>
+            )
+          }
+        >
+          {modalType === 'add' && addModalContent}
+          {modalType === 'edit' && editModalContent}
+          {modalType === 'delete' && (
+            <DeleteConfirmModal
+              onConfirm={handleDeleteConfirm}
+              onCancel={handleDeleteCancel}
+            />
+          )}
+        </Modal>
       )}
     </div>
   );
